@@ -27,27 +27,27 @@ export class Tupa05TabContainerComponent {
   tabs: Tupa05TabInterface[] = [
     {
       id: Tupa05TabIdEnum.PARTE_I,
-      name: 'PARTE I: Información  de empresa solicitante',
+      name: 'I - Información  de empresa solicitante',
       active: false,
     },
     {
       id: Tupa05TabIdEnum.PARTE_II,
-      name: 'PARTE II: Del Establecimiento',
+      name: 'II - Establecimiento',
       active: false,
     },
     {
       id: Tupa05TabIdEnum.PARTE_III,
-      name: 'PARTE III: Finalidad',
+      name: 'III - Finalidad',
       active: false,
     },
     {
       id: Tupa05TabIdEnum.PARTE_IV,
-      name: 'PARTE IV: De la mercancia pecuaria',
+      name: 'IV - Mercancia pecuaria',
       active: false,
     },
     {
       id: Tupa05TabIdEnum.PARTE_V,
-      name: 'PARTE V: Datos del pago',
+      name: 'V - Datos del pago',
       active: true,
     },
   ];

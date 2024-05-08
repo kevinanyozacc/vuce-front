@@ -13,6 +13,12 @@ export class Menu {
           children: [{ label: 'Tupa-C5', route: '/dashboard/tupa-05' }],
         },
         {
+          icon: 'assets/icons/heroicons/outline/view-grid.svg',
+          label: 'Requisitos',
+          route: '/dashboard',
+          children: [{ label: 'Requisitos', route: '/dashboard/requisitos' }],
+        },
+        {
           icon: 'assets/icons/heroicons/outline/lock-closed.svg',
           label: 'Auth',
           route: '/auth',
