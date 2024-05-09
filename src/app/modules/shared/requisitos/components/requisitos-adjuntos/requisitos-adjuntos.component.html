@@ -1,31 +1,32 @@
 <form>
     <!-- header -->
     <h6 class="mb-2 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
-        Datos del solicitante
+        Registro de Requisitos
     </h6>
     <!-- form -->
     <div class="pt-5">
         <div class="mb-6 grid gap-6 md:grid-cols-2">
+            <div>
+                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Solicitante <b
+                        class="text-red-600"></b></label>
+                <input type="text" id="first_name"
+                    class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary cursor-not-allowed focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" value="" disabled readonly>
+            </div>
+
             <div>
                 <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">N° Expediente <b
                         class="text-red-600">*</b></label>
                 <input type="text" id="first_name"
                     class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
             </div>
-           
+
+        </div>
+        <div class="mb-6 grid gap-6 md:grid-cols-2">
             <form class="max-w-lg mx-auto">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Archivo Adjunto</label>
                 <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file">
                 <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help"></div>
             </form>
-
-            <!-- <div>
-                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Confidencial <b
-                        class="text-red-600">*</b></label>
-                <input type="text" id="first_name"
-                    class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
-            </div> -->
-          
         </div>
         <app-requisitos-table/>
     </div>
