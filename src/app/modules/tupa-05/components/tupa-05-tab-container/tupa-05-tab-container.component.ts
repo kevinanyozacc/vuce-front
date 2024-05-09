@@ -28,7 +28,7 @@ export class Tupa05TabContainerComponent {
     {
       id: Tupa05TabIdEnum.PARTE_I,
       name: 'I - Información  de empresa solicitante',
-      active: false,
+      active: true,
     },
     {
       id: Tupa05TabIdEnum.PARTE_II,
@@ -48,7 +48,7 @@ export class Tupa05TabContainerComponent {
     {
       id: Tupa05TabIdEnum.PARTE_V,
       name: 'V - Datos del pago',
-      active: true,
+      active: false,
     },
   ];
 

@@ -2,6 +2,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { TupaRequisitosTabInterface, TuparequisitoTabIdEnum } from '../../interfaces/requisitos-tab.interface';
 import { RequisitosTabHeaderComponent } from '../requisitos-tab-header/requisitos-tab-header.component';
+import { RequisitosAdjuntosComponent } from '../requisitos-adjuntos/requisitos-adjuntos.component';
 
 @Component({
   selector: 'app-requisitos-tab-container',
@@ -10,6 +11,7 @@ import { RequisitosTabHeaderComponent } from '../requisitos-tab-header/requisito
     NgFor, 
     NgIf,
     RequisitosTabHeaderComponent,
+    RequisitosAdjuntosComponent,
   ],
   templateUrl: './requisitos-tab-container.component.html',
 })
@@ -19,7 +21,7 @@ export class RequisitosTabContainerComponent {
     {
       id:TuparequisitoTabIdEnum.REQUISITOS,
       name: 'Requisitos Adjuntos',
-      active: false,
+      active: true,
     },
   ]
 
