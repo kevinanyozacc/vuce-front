@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Tupa05TabContainerComponent } from 'src/app/modules/tupa-05/components/tupa-05-tab-container/tupa-05-tab-container.component';
 import { DashboardHeaderComponent } from '../../components/dashboard-header/dashboard-header.component';
 import { RequisitosTabContainerComponent } from 'src/app/modules/shared/requisitos/components/requisitos-tab-container/requisitos-tab-container.component';
 

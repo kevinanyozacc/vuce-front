@@ -4,7 +4,7 @@ import { NgFor } from '@angular/common';
 import { PodcastPlayerComponent } from '../../components/podcast/podcast-player/podcast-player.component';
 import { PodcastCardBannerComponent } from '../../components/podcast/podcast-card-banner/podcast-card-banner.component';
 import { PodcastHeaderComponent } from '../../components/podcast/podcast-header/podcast-header.component';
-import { Tupa05TabHeaderComponent } from 'src/app/modules/tupa-05/components/tupa-05-tab-header/tupa-05-tab-header.component';
+import { Tupa05TabHeaderComponent } from 'src/app/modules/tupas-dev03/tupa-05/components/tupa-05-tab-header/tupa-05-tab-header.component';
 
 @Component({
   selector: 'app-mockup',
