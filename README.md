@@ -89,3 +89,7 @@ Check out our awesome sponsors!
 
 The Tailwind name and logos are trademarks of Tailwind Labs Inc.
 The Angular name and logos are trademarks of Google.
+
+#### Developers
+
+Equipo Vuce
