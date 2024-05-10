@@ -8,15 +8,15 @@ export class Menu {
       items: [
         {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
-          label: 'Dashboard',
+          label: 'Tupas',
           route: '/dashboard',
           children: [{ label: 'Tupa-C5', route: '/dashboard/tupa-05' }],
         },
         {
           icon: 'assets/icons/heroicons/outline/view-grid.svg',
-          label: 'Requisitos',
+          label: 'Generales',
           route: '/dashboard',
-          children: [{ label: 'Requisitos', route: '/dashboard/requisitos' }],
+          children: [{ label: 'Requisitos Andjuntos', route: '/dashboard/requisitos' }],
         },
         {
           icon: 'assets/icons/heroicons/outline/lock-closed.svg',
