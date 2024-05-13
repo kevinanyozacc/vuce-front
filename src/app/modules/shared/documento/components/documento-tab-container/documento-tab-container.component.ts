@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import { TupaDocumentosResolutivosTabInterface, TuparDocumentosResolutivosTabIdEnum } from '../../interfaces/documentos-tab.interface';
 import { DocumentoTabHeaderComponent } from '../documento-tab-header/documento-tab-header.component';
 import { NgFor, NgIf } from '@angular/common';
-import { DocumentoResolutivoComponent } from '../derivacion-documento-resolutivo/documento-resolutivo.component';
+import { InformacionExpedienteComponent } from '../informacion-expediente-i/informacion-expediente/informacion-expediente.component';
+import { ObservacionComponent } from '../observacion-ii/observacion/observacion.component';
+import { DocumentoResolutivoComponent } from '../derivacion-documento-resolutivo-iii/documento-resolutivo/documento-resolutivo.component';
+import { TrazabilidadComponent } from '../trazabilidad-iv/trazabilidad/trazabilidad.component';
 
 @Component({
   selector: 'app-documento-tab-container',
@@ -11,7 +14,11 @@ import { DocumentoResolutivoComponent } from '../derivacion-documento-resolutivo
     NgFor, 
     NgIf,
     DocumentoTabHeaderComponent,
-    DocumentoResolutivoComponent],
+    InformacionExpedienteComponent,
+    ObservacionComponent,
+    TrazabilidadComponent,
+    DocumentoResolutivoComponent
+  ],
   templateUrl: './documento-tab-container.component.html',
 })
 export class DocumentoTabContainerComponent {
@@ -19,8 +26,23 @@ export class DocumentoTabContainerComponent {
   tabs: TupaDocumentosResolutivosTabInterface[]= [
     {
       id:TuparDocumentosResolutivosTabIdEnum.EXPEDIENTE,
-      name: 'Requisitos Adjuntos',
+      name: 'Informacion de Expediente',
       active: true,
+    },
+    {
+      id:TuparDocumentosResolutivosTabIdEnum.OBSERVACIONES,
+      name: 'Observaciones',
+      active: false,
+    },
+    {
+      id:TuparDocumentosResolutivosTabIdEnum.DERIVACION,
+      name: 'Derivacion y Documento Resolutivo',
+      active: false,
+    },
+    {
+      id:TuparDocumentosResolutivosTabIdEnum.TRAZABILIDAD,
+      name: 'Trazabilidad',
+      active: false,
     },
   ]
 

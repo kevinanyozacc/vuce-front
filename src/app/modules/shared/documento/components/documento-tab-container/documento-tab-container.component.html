@@ -1,8 +1,8 @@
 <app-documento-tab-header [tabs]="this.tabs" (eventSelected)="this.onSelect($event)"/>
     <div  class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
-    <app-documento-resolutivo *ngIf="this.currentTabKey === tabs[0].id"/>
-    <!-- <app-documento-resolutivo *ngIf="this.currentTabKey === tabs[1].id"/>
+    <app-informacion-expediente *ngIf="this.currentTabKey === tabs[0].id"/>
+    <app-observacion *ngIf="this.currentTabKey === tabs[1].id"/>
     <app-documento-resolutivo *ngIf="this.currentTabKey === tabs[2].id"/>
-    <app-documento-resolutivo *ngIf="this.currentTabKey === tabs[3].id"/> -->
+    <app-trazabilidad *ngIf="this.currentTabKey === tabs[3].id"/>
     
   </div>

@@ -1,0 +1,96 @@
+<form>
+  <!-- header -->
+  <h6 class="mb-2 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+    Derivacion
+  </h6>
+  <!-- form -->
+  <div class="pt-5">
+    <div class="mb-3 grid gap-6 md:grid-cols-1">
+      <div class="max-w-lg">
+        <div class="flex">
+          <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your
+            Email</label>
+          <div class="relative w-full">
+            <input type="search" id="search-dropdown"
+              class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+              placeholder="Servidor Publico" required />
+            <button type="submit"
+              class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+              </svg>
+              <span class="sr-only">Search</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- level 2 -->
+    <div class="mb-3 grid gap-6 md:grid-cols-1">
+      <div class="mb-3">
+        <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">Comentario <b
+            class="text-red-600">*</b></label>
+        <textarea
+          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
+            </textarea>
+      </div>
+    </div>
+    <!-- level 3 -->
+    <div class="mb-7 grid gap-6 md:grid-cols-1 mb-4">
+      <div>
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Archivo Adjunto <b
+            class="text-red-600">*</b></label>
+        <div class="flex items-center justify-center w-full">
+
+          <label for="dropzone-file"
+            class="h-32 flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+              </svg>
+              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click
+                  to upload</span> or drag and drop</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)
+              </p>
+            </div>
+            <input id="dropzone-file" type="file" class="hidden" />
+          </label>
+        </div>
+      </div>
+    </div>
+    <!-- level 4 -->
+    <div class="mb-6 inline-block space-x-4">
+      <button class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground">
+        Derivar
+      </button>
+    </div>
+    <!-- level 5 -->
+    <div class="mb-6">
+      <label class="col-span-2 mb-4 block text-sm font-medium text-gray-900 dark:text-white">Detalle de
+        Derivaciones</label>
+      <app-detalle-derivacion-table />
+    </div>
+
+  </div>
+  <!-- level 6 -->
+  <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+    Documentos Resolutivos
+  </h6>
+  <!-- level 7-->
+  <div class="mb-6">
+    <app-documento-resolutivo-table />
+  </div>
+  <!-- level 8-->
+  <div class="inline-block space-x-4">
+    <button class="flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground">
+      <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z" clip-rule="evenodd"/>
+      </svg>
+      Firmar y cerrar
+    </button>
+  </div>
+</form>
