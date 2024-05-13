@@ -7,6 +7,7 @@ import { FormsComponent } from './pages/forms/forms.component';
 import { MockupComponent } from './pages/mockup-05/mockup.component';
 import { Tupa05Component } from './pages/tupa-05-page/tupa-05-page.component';
 import { RequisitosComponent } from './pages/requisitos-page/requisitos-page.component';
+import { DocumentoResolutivoComponent } from './pages/documento-resolutivo/documento-resolutivo.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'mockup-05', component: MockupComponent },
       { path: 'tupa-05', component: Tupa05Component },
       { path: 'requisitos', component: RequisitosComponent },
+      { path: 'documentos', component: DocumentoResolutivoComponent },
       { path: '**', redirectTo: 'errors/404' },
     ],
   },

@@ -16,7 +16,10 @@ export class Menu {
           icon: 'assets/icons/heroicons/outline/view-grid.svg',
           label: 'Generales',
           route: '/dashboard',
-          children: [{ label: 'Requisitos Andjuntos', route: '/dashboard/requisitos' }],
+          children: [
+            { label: 'Requisitos Andjuntos', route: '/dashboard/requisitos' },
+            { label: 'Documento Resolutivo', route: '/dashboard/documentos' },
+          ],
         },
         {
           icon: 'assets/icons/heroicons/outline/lock-closed.svg',
