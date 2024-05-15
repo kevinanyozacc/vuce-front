@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SolicitanteModalComponent } from 'src/app/modules/shared/solicitante-search/components/solicitante-modal/solicitante-modal.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 
@@ -11,4 +11,12 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
     SolicitanteModalComponent
   ],
 })
-export class Tup05ParteIComponent {}
+export class Tup05ParteIComponent {
+
+  @ViewChild(SolicitanteModalComponent)
+  myModal: SolicitanteModalComponent = new SolicitanteModalComponent;
+
+  openDialog(): void {
+    this.myModal.open();
+  }
+}
