@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Modal } from 'flowbite';
 import type { ModalOptions, ModalInterface } from 'flowbite';
+import { SolicitanteTableComponent } from '../solicitante-table/solicitante-table.component';
 
 @Component({
   selector: 'app-solicitante-modal',
   standalone: true,
-  imports: [],
+  imports: [SolicitanteTableComponent],
   templateUrl: './solicitante-modal.component.html',
 })
-export class SolicitanteModalComponent implements OnInit {
+export class SolicitanteModalComponent {
   modal!: ModalInterface;
 
   ngOnInit(): void {
+
     const modalElement = document.getElementById('myModal')!;
     const options: ModalOptions = {
       backdrop: 'dynamic',
@@ -20,11 +22,4 @@ export class SolicitanteModalComponent implements OnInit {
     this.modal = new Modal(modalElement, options);
   }
 
-  open(): void {
-    this.modal.show();
-  }
-
-  close(): void {
-    this.modal.hide();
-  }
 }

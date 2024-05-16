@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './solicitante-table.component.html',
-  styleUrl: './solicitante-table.component.scss'
 })
 export class SolicitanteTableComponent {
 

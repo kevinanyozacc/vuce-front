@@ -7,36 +7,24 @@
   <div class="pt-5">
     <div class="mb-6 grid gap-6 md:grid-cols-3">
       <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Tipo Documento <b class="text-red-600">*</b></label
-        >
-        <input
-          type="text"
-          id="first_name"
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Tipo Documento <b
+            class="text-red-600">*</b></label>
+        <input type="text" id="first_name"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >N° Documento <b class="text-red-600">*</b></label
-        >
-        <input
-          type="text"
-          id="first_name"
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">N° Documento <b
+            class="text-red-600">*</b></label>
+        <input type="text" id="first_name"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
-      <div>
-        <!-- <button
-          class="relative w-full rounded-lg border border-primary
-           bg-transparent px-5 py-2.5 text-center text-sm font-medium
-            text-primary text-white ring-primary/50 focus:outline-none
-             focus:ring-4 hover:bg-primary hover:text-white sm:w-auto md:top-7">
+      <div class="justify-end">
+        <button data-modal-target="myModal" data-modal-toggle="myModal"
+          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:mt-0 md:ml-2"
+          type="button">
           Buscar
-        </button> -->
-        
-        <!-- <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-          Toggle modal
-        </button> -->
-        <button (click)="openDialog()">Open Modal</button>
+        </button>
+        <!-- <button (click)="openDialog()">Open Modal</button> -->
         <button
           class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:mt-0 md:ml-2">
           Agregar
@@ -45,19 +33,15 @@
     </div>
     <!-- level 2 -->
     <div class="mb-6">
-      <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-        >Razón social/Nombre <b class="text-red-600">*</b></label
-      >
-      <input
-        type="text"
-        id="first_name"
+      <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">Razón social/Nombre <b
+          class="text-red-600">*</b></label>
+      <input type="text" id="first_name"
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
     </div>
     <!-- level 3 -->
     <div class="mb-6">
-      <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-        >Dirección <b class="text-red-600">*</b></label
-      >
+      <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">Dirección <b
+          class="text-red-600">*</b></label>
       <textarea
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
       </textarea>
@@ -66,20 +50,17 @@
     <div class="mb-6 grid gap-6 md:grid-cols-3">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Departamento</label>
-        <input
-          type="text"
+        <input type="text"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Provincia</label>
-        <input
-          type="text"
+        <input type="text"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Distrito</label>
-        <input
-          type="text"
+        <input type="text"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
     </div>
@@ -87,20 +68,17 @@
     <div class="mb-6 grid gap-6 md:grid-cols-3">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
-        <input
-          type="text"
+        <input type="text"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Teléfono Movil</label>
-        <input
-          type="text"
+        <input type="text"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Correo Electrónico</label>
-        <input
-          type="text"
+        <input type="text"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
     </div>
@@ -111,13 +89,10 @@
   </h6>
   <!-- level 7 -->
   <div class="mb-6">
-    <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-      >Representante Legal<b class="text-red-600">*</b></label
-    >
-    <input
-      type="text"
-      id="first_name"
+    <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">Representante Legal<b
+        class="text-red-600">*</b></label>
+    <input type="text" id="first_name"
       class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
   </div>
-  <app-solicitante-modal/>
+  <app-solicitante-modal />
 </form>
