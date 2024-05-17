@@ -7,6 +7,7 @@ import { Tup05ParteIIComponent } from '../tupa-05-parte-ii/tupa-05-parte-ii.comp
 import { Tup05ParteIIIComponent } from '../tupa-05-parte-iii/tupa-05-parte-iii.component';
 import { Tup05ParteIVComponent } from '../tupa-05-parte-iv/tupa-05-parte-iv.component';
 import { Tup05ParteVComponent } from '../tupa-05-parte-v/tupa-05-parte-v.component';
+import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -52,11 +53,17 @@ export class Tupa05TabContainerComponent {
     },
   ];
 
+  public person?: PersonEntityInterface;
+
   onSelect(item: Tupa05TabInterface) {
     this.tabs = this.tabs.map((tab) => {
       tab.active = item.id === tab.id;
       return tab;
     });
+  }
+
+  selectPerson(person?: PersonEntityInterface) {
+    this.person = person;
   }
 
   get currentTab(): Tupa05TabInterface | undefined {

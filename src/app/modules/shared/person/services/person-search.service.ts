@@ -12,19 +12,27 @@ export class PersonSearchService {
   private loading: boolean = false;
 
   getApiData(params: PersonSearchInterface) {
-    this.loading = true;
-    this.http
-      .get<PersonEntityInterface>(`${environment.api}/people/${params.documentNumber}/search/${params.documentType}`)
-      .subscribe({
-        next: (data) => {
-          this.data = data;
-          this.loading = false;
-        },
-        error: () => {
-          this.data = undefined;
-          this.loading = false;
-        },
-      });
+    return new Promise<PersonEntityInterface>((resolve, reject) => {
+      this.loading = true;
+      this.http
+        .get<PersonEntityInterface>(`${environment.api}/people/${params.documentNumber}/search/${params.documentType}`)
+        .subscribe({
+          next: (data) => {
+            this.data = data;
+            this.loading = false;
+            resolve(data);
+          },
+          error: (err) => {
+            this.data = undefined;
+            this.loading = false;
+            reject(err);
+          },
+        });
+    });
+  }
+
+  setData(data?: PersonEntityInterface) {
+    this.data = data;
   }
 
   getData() {

@@ -1,8 +1,8 @@
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DocumentTypeSelectComponent } from 'src/app/modules/shared/document-type/components/document-type-select.component';
-import { PersonSearchInterface } from 'src/app/modules/shared/person/interfaces/person-search.interface';
+import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
 import { PersonSearchService } from 'src/app/modules/shared/person/services/person-search.service';
 import { SolicitanteAddModalComponent } from 'src/app/modules/shared/solicitante-add/components/solicitante-add-modal/solicitante-add.component';
 import { SolicitanteModalComponent } from 'src/app/modules/shared/solicitante-search/components/solicitante-modal/solicitante-modal.component';
@@ -26,19 +26,39 @@ import { LoadingComponent } from 'src/app/shared/components/loading/loading.comp
   ],
   providers: [PersonSearchService],
 })
-export class Tup05ParteIComponent {
+export class Tup05ParteIComponent implements OnInit {
   constructor(public personSearchService: PersonSearchService) {}
+
+  @Input()
+  public person?: PersonEntityInterface | null;
+
+  @Output()
+  public eventPerson = new EventEmitter<PersonEntityInterface | undefined>();
 
   public searchForm = new FormGroup({
     documentType: new FormControl('01', Validators.required),
     documentNumber: new FormControl('', Validators.required),
   });
 
-  searchPerson() {
-    this.personSearchService.getApiData({
-      documentNumber: this.searchForm.value.documentNumber || '',
-      documentType: this.searchForm.value.documentType || '',
+  ngOnInit(): void {
+    if (!this.person) return;
+    this.searchForm.setValue({
+      documentNumber: this.person.documentNumber,
+      documentType: this.person.documentType,
     });
+  }
+
+  searchPerson() {
+    this.personSearchService
+      .getApiData({
+        documentNumber: this.searchForm.value.documentNumber || '',
+        documentType: this.searchForm.value.documentType || '',
+      })
+      .then((data) => this.eventPerson.emit(data))
+      .catch(() => {
+        this.eventPerson.emit(undefined);
+        alert('No es encontró el registro!!!');
+      });
   }
 
   selectDocumentType(value: string | null) {
@@ -46,7 +66,7 @@ export class Tup05ParteIComponent {
   }
 
   clearPerson() {
-    this.personSearchService.clearData();
+    this.eventPerson.emit(undefined);
     this.searchForm.setControl('documentNumber', new FormControl('', Validators.required));
   }
 }
