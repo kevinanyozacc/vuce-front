@@ -13,13 +13,10 @@ export class SolicitanteModalComponent {
   modal!: ModalInterface;
 
   ngOnInit(): void {
-
     const modalElement = document.getElementById('myModal')!;
     const options: ModalOptions = {
       backdrop: 'dynamic',
-      //keyboard: true,
     };
     this.modal = new Modal(modalElement, options);
   }
-
 }
