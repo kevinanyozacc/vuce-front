@@ -1,16 +1,16 @@
-<form>
+<div>
   <!-- header -->
   <h6 class="mb-2 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
     Datos del solicitante
   </h6>
   <!-- form -->
   <div class="pt-5">
-    <div class="mb-6 grid gap-6 md:grid-cols-3">
+    <form class="mb-6 grid gap-6 md:grid-cols-3" [formGroup]="searchForm" (ngSubmit)="searchPerson()">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
           Tipo Documento <b class="text-red-600">*</b></label
         >
-        <app-document-type-select />
+        <app-document-type-select [value]="searchForm.value.documentType" (eventChange)="selectDocumentType($event)" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -18,94 +18,123 @@
         >
         <input
           type="text"
-          id="first_name"
+          [readonly]="!!personSearchService.getData()"
+          formControlName="documentNumber"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
-      <div class="justify-end">
+      <div class="justify-end" *ngIf="!personSearchService.getData(); else contentSearchPerson">
         <button
-          data-modal-target="myModal2"
-          data-modal-toggle="myModal2"
-          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0"
-          type="button">
+          *ngIf="!personSearchService.getLoading(); else searchLoading"
+          [disabled]="!searchForm.valid"
+          (click)="searchPerson()"
+          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
           Buscar
         </button>
-        <!-- <button (click)="openDialog()">Open Modal</button> -->
+        <ng-template #searchLoading>
+          <app-button-loading title="Búscando..." className="relative mt-2 sm:w-auto md:top-8 md:ml-2 md:mt-0" />
+        </ng-template>
+
         <button
+          type="button"
           data-modal-target="myModal2"
           data-modal-toggle="myModal2"
           class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
           Agregar
         </button>
       </div>
-    </div>
+      <ng-template #contentSearchPerson>
+        <div class="justify-end">
+          <button
+            type="button"
+            (click)="clearPerson()"
+            class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
+            Buscar otro
+          </button>
+        </div>
+      </ng-template>
+    </form>
     <!-- level 2 -->
-    <div class="mb-6">
+    <div class="mb-6" *ngIf="!!personSearchService.getData()">
       <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
         >Razón social/Nombre <b class="text-red-600">*</b></label
       >
       <input
         type="text"
-        id="first_name"
+        readonly
+        [value]="personSearchService.getData()?.nombreRazonSocial"
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
     </div>
     <!-- level 3 -->
-    <div class="mb-6">
+    <div class="mb-6" *ngIf="!!personSearchService.getData()">
       <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
         >Dirección <b class="text-red-600">*</b></label
       >
       <textarea
+        readonly
+        [value]="personSearchService.getData()?.address"
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
       </textarea>
     </div>
     <!-- level 4 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-3">
+    <div class="mb-6 grid gap-6 md:grid-cols-3" *ngIf="!!personSearchService.getData()">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Departamento</label>
         <input
           type="text"
+          readonly
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Provincia</label>
         <input
           type="text"
+          readonly
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Distrito</label>
         <input
           type="text"
+          readonly
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
     </div>
     <!-- level 5 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-3">
+    <div class="mb-6 grid gap-6 md:grid-cols-3" *ngIf="!!personSearchService.getData()">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
         <input
           type="text"
+          readonly
+          [value]="personSearchService.getData()?.phone"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Teléfono Movil</label>
         <input
           type="text"
+          readonly
+          [value]="personSearchService.getData()?.cellphone"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Correo Electrónico</label>
         <input
           type="text"
+          readonly
+          [value]="personSearchService.getData()?.email"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
     </div>
   </div>
   <!-- level 6 -->
-  <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+  <h6
+    class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white"
+    *ngIf="!!personSearchService.getData()">
     Datos del solicitante
   </h6>
   <!-- level 7 -->
-  <div class="mb-6">
+  <div class="mb-6" *ngIf="!!personSearchService.getData()">
     <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Representante Legal<b class="text-red-600">*</b></label
     >
@@ -116,4 +145,4 @@
   </div>
   <app-solicitante-modal />
   <app-solicitante-add-modal />
-</form>
+</div>
