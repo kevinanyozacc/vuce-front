@@ -1,0 +1,258 @@
+<app-modal [isOpen]="isOpen" (eventClose)="onClose()" title="Registrar Persona">
+  <form [formGroup]="createForm" (submit)="onSubmit()">
+    <div class="mb-4 grid grid-cols-2 gap-4">
+      <div>
+        <ul
+          class="w-full items-center rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:flex">
+          <li class="w-full border-b border-gray-200 dark:border-gray-600 sm:border-b-0 sm:border-r">
+            <div class="flex items-center ps-3">
+              <input
+                id="horizontal-list-radio-license"
+                type="radio"
+                name="list-radio"
+                class="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700" />
+              <label
+                for="horizontal-list-radio-license"
+                class="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >DNI
+              </label>
+            </div>
+          </li>
+          <li class="w-full border-b border-gray-200 dark:border-gray-600 sm:border-b-0 sm:border-r">
+            <div class="flex items-center ps-3">
+              <input
+                id="horizontal-list-radio-id"
+                type="radio"
+                name="list-radio"
+                class="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700" />
+              <label
+                for="horizontal-list-radio-id"
+                class="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >RUC</label
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="flex justify-end">
+        <button
+          class="w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:ml-2 md:mt-0">
+          Validar
+        </button>
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label for="category1" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Tipo de Persona <b class="text-red-600">*</b>
+        </label>
+        <select
+          formControlName="type"
+          class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400">
+          <option value="NATURAL">NATURAL</option>
+          <option value="JURIDICA">JURIDICA</option>
+        </select>
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+          {{ createForm.getError('type') }}
+        </p>
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-2 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label for="category2" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Tipo de documento <b class="text-red-600">*</b>
+        </label>
+        <app-document-type-select [value]="createForm.value.documentType" (eventChange)="selectDocumentType($event)" />
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <label for="documentonum" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Numero documento <b class="text-red-600">*</b>
+        </label>
+        <input
+          formControlName="documentNumber"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4" *ngIf="createForm.value.type == 'NATURAL'">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">RUC</label>
+        <input
+          type="text"
+          formControlName="ruc"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4" *ngIf="createForm.value.type == 'JURIDICA'">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Razon Social <b class="text-red-600">*</b>
+        </label>
+        <input
+          formControlName="nombreRazonSocial"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4" *ngIf="createForm.value.type == 'NATURAL'">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Nombres <b class="text-red-600">*</b>
+        </label>
+        {{ createForm.value.nombreRazonSocial }}
+        <input
+          formControlName="names"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-2 gap-4" *ngIf="createForm.value.type == 'NATURAL'">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Apellido Paterno <b class="text-red-600">*</b>
+        </label>
+        <input
+          formControlName="lastName"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Apellido Materno <b class="text-red-600">*</b>
+        </label>
+        <input
+          formControlName="secondaryName"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4" *ngIf="createForm.value.type == 'NATURAL'">
+      <div class="col-span-2 sm:col-span-1">
+        <label for="category1" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Sexo <b class="text-red-600">*</b>
+        </label>
+        <select
+          formControlName="gender"
+          class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400">
+          <option value="0">FEMENINO</option>
+          <option value="1">MASCULINO</option>
+        </select>
+        <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+          {{ createForm.getError('gender') }}
+        </p>
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Departamento <b class="text-red-600">*</b>
+        </label>
+        <input
+          formControlName="departamentoId"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-2 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Provincia <b class="text-red-600">*</b>
+        </label>
+        <input
+          formControlName="provinciaId"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Distrito <b class="text-red-600">*</b>
+        </label>
+        <input
+          formControlName="distritoId"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Centro Poblado</label>
+        <input
+          formControlName="centroPobladoId"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Dirección</label>
+        <textarea
+          formControlName="address"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400">
+        </textarea>
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Referencia</label>
+        <textarea
+          formControlName="referen"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400">
+        </textarea>
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-1 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Correo Electrónico </label>
+        <input
+          formControlName="email"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-2 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Télefono </label>
+        <input
+          formControlName="phone"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Celular </label>
+        <input
+          formControlName="cellphone"
+          type="text"
+          class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+      </div>
+    </div>
+
+    <div class="text-right">
+      <ng-container *ngIf="this.service.getLoading(); else btnLoadingElse">
+        <app-button-loading title="Guardando..." />
+      </ng-container>
+      <ng-template #btnLoadingElse>
+        <button
+          [disabled]="!createForm.valid"
+          type="submit"
+          class="rounded-lg bg-primary px-5 py-3 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4">
+          Guardar
+        </button>
+      </ng-template>
+    </div>
+  </form>
+</app-modal>
