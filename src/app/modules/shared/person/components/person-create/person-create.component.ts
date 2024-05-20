@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { DepartamentoSelectComponent } from '../../../ubigeo/components/departamento-select/departamento-select.component';
 import { ProvinciaSelectComponent } from '../../../ubigeo/components/provincia-select/provincia-select.component';
 import { DistritoSelectComponent } from '../../../ubigeo/components/distrito-select/distrito-select.component';
+import { PobladoSelectComponent } from '../../../ubigeo/components/poblado-select/poblado-select.component';
 
 @Component({
   selector: 'app-person-create',
@@ -26,6 +27,7 @@ import { DistritoSelectComponent } from '../../../ubigeo/components/distrito-sel
     DepartamentoSelectComponent,
     ProvinciaSelectComponent,
     DistritoSelectComponent,
+    PobladoSelectComponent,
   ],
   providers: [PersonCreateService],
 })
@@ -109,15 +111,22 @@ export class PersonCreateComponent implements OnInit {
     this.createForm.controls.departamentoId.setValue(value);
     this.createForm.controls.provinciaId.setValue('01');
     this.createForm.controls.distritoId.setValue('01');
+    this.createForm.controls.centroPobladoId.setValue(null);
   }
 
   selectProvinciaId(value: string | null) {
     this.createForm.controls.provinciaId.setValue(value);
     this.createForm.controls.distritoId.setValue('01');
+    this.createForm.controls.centroPobladoId.setValue(null);
   }
 
   selectDistritoId(value: string | null) {
     this.createForm.controls.distritoId.setValue(value);
+    this.createForm.controls.centroPobladoId.setValue(null);
+  }
+
+  selectPobladoId(value: string | null) {
+    this.createForm.controls.centroPobladoId.setValue(value);
   }
 
   onClose() {

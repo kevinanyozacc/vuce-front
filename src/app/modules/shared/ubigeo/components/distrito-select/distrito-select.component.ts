@@ -29,7 +29,14 @@ export class DistritoSelectComponent implements OnChanges {
   public eventChange = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!this.departamentoId && !!changes['provinciaId']) {
+    if (!!changes['departamentoId'] && !!changes['provinciaId']) {
+      const provinciaId = changes['provinciaId'].currentValue;
+      const departamentoId = changes['departamentoId'].currentValue;
+      this.service.getApiList(departamentoId, provinciaId);
+    } else if (!!changes['departamentoId'] && !!this.provinciaId) {
+      const departamentoId = changes['provinciaId'].currentValue;
+      this.service.getApiList(departamentoId, this.provinciaId);
+    } else if (!!changes['provinciaId'] && !!this.departamentoId) {
       const provinciaId = changes['provinciaId'].currentValue;
       this.service.getApiList(this.departamentoId, provinciaId);
     }
