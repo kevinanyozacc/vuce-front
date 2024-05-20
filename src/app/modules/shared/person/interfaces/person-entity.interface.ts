@@ -1,3 +1,5 @@
+import { UbigeoEntityInterface } from '../../ubigeo/interfaces/ubigeo-entity.interface';
+
 export interface PersonEntityInterface {
   id: string;
   nombreRazonSocial: string;
@@ -20,4 +22,5 @@ export interface PersonEntityInterface {
   referen: string;
   dateOfBirth: string;
   addressReferen: string;
+  ubigeo?: UbigeoEntityInterface;
 }

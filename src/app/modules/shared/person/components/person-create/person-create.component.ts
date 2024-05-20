@@ -8,6 +8,9 @@ import { NgIf } from '@angular/common';
 import { ButtonLoadingComponent } from 'src/app/shared/components/button-loading/button-loading.component';
 import { PersonEntityInterface } from '../../interfaces/person-entity.interface';
 import Swal from 'sweetalert2';
+import { DepartamentoSelectComponent } from '../../../ubigeo/components/departamento-select/departamento-select.component';
+import { ProvinciaSelectComponent } from '../../../ubigeo/components/provincia-select/provincia-select.component';
+import { DistritoSelectComponent } from '../../../ubigeo/components/distrito-select/distrito-select.component';
 
 @Component({
   selector: 'app-person-create',
@@ -20,6 +23,9 @@ import Swal from 'sweetalert2';
     DocumentTypeSelectComponent,
     ReactiveFormsModule,
     HttpClientModule,
+    DepartamentoSelectComponent,
+    ProvinciaSelectComponent,
+    DistritoSelectComponent,
   ],
   providers: [PersonCreateService],
 })
@@ -44,9 +50,9 @@ export class PersonCreateComponent implements OnInit {
     names: new FormControl(''),
     lastName: new FormControl(''),
     secondaryName: new FormControl(''),
-    departamentoId: new FormControl('', Validators.required),
-    provinciaId: new FormControl('', Validators.required),
-    distritoId: new FormControl('', Validators.required),
+    departamentoId: new FormControl('01', Validators.required),
+    provinciaId: new FormControl('01', Validators.required),
+    distritoId: new FormControl('01', Validators.required),
     centroPobladoId: new FormControl(''),
     address: new FormControl(''),
     referen: new FormControl(''),
@@ -85,14 +91,33 @@ export class PersonCreateComponent implements OnInit {
   initCreateForm() {
     this.createForm.controls.type.setValue('NATURAL');
     this.createForm.controls.documentType.setValue('01');
+    this.createForm.controls.gender.setValue('1');
+    this.createForm.controls.departamentoId.setValue('01');
+    this.createForm.controls.provinciaId.setValue('01');
+    this.createForm.controls.distritoId.setValue('01');
   }
 
   selectType(value: string | null) {
-    this.createForm.setControl('type', new FormControl(value, Validators.required));
+    this.createForm.controls.type.setValue(value);
   }
 
   selectDocumentType(value: string | null) {
-    this.createForm.setControl('documentType', new FormControl(value, Validators.required));
+    this.createForm.controls.documentType.setValue(value);
+  }
+
+  selectDepartamentoId(value: string | null) {
+    this.createForm.controls.departamentoId.setValue(value);
+    this.createForm.controls.provinciaId.setValue('01');
+    this.createForm.controls.distritoId.setValue('01');
+  }
+
+  selectProvinciaId(value: string | null) {
+    this.createForm.controls.provinciaId.setValue(value);
+    this.createForm.controls.distritoId.setValue('01');
+  }
+
+  selectDistritoId(value: string | null) {
+    this.createForm.controls.distritoId.setValue(value);
   }
 
   onClose() {
