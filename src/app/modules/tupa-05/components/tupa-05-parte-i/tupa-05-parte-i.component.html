@@ -5,12 +5,12 @@
   </h6>
   <!-- form -->
   <div class="pt-5">
-    <form class="mb-6 grid gap-6 md:grid-cols-3" [formGroup]="searchForm" (ngSubmit)="searchPerson()">
+    <div class="mb-6 grid gap-6 md:grid-cols-3">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
           Tipo Documento <b class="text-red-600">*</b></label
         >
-        <app-document-type-select [value]="searchForm.value.documentType" (eventChange)="selectDocumentType($event)" />
+        <app-document-type-select [value]="person?.documentType" [isDisabled]="true" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -18,21 +18,17 @@
         >
         <input
           type="text"
-          [readonly]="!!person"
           formControlName="documentNumber"
+          readonly
+          [value]="person?.documentNumber"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
-      <div class="justify-end" *ngIf="!person; else contentSearchPerson">
+      <div class="justify-end">
         <button
-          *ngIf="!personSearchService.getLoading(); else searchLoading"
-          [disabled]="!searchForm.valid"
-          (click)="searchPerson()"
+          (click)="personSearchModalOpen()"
           class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
           Buscar
         </button>
-        <ng-template #searchLoading>
-          <app-button-loading title="Búscando..." className="relative mt-2 sm:w-auto md:top-8 md:ml-2 md:mt-0" />
-        </ng-template>
 
         <button
           type="button"
@@ -41,17 +37,7 @@
           Agregar
         </button>
       </div>
-      <ng-template #contentSearchPerson>
-        <div class="justify-end">
-          <button
-            type="button"
-            (click)="clearPerson()"
-            class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
-            Buscar otro
-          </button>
-        </div>
-      </ng-template>
-    </form>
+    </div>
     <!-- level 2 -->
     <div class="mb-6" *ngIf="!!person">
       <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -148,3 +134,9 @@
   [isOpen]="personCreateModal"
   (eventClose)="personCreateModalClose()"
   (eventSave)="onSavePerson($event)" />
+
+<app-person-search
+  title="Buscar solicitante"
+  [isOpen]="personSearchModal"
+  (eventClose)="personSearchModalClose()"
+  (eventSelect)="onSelectPerson($event)" />

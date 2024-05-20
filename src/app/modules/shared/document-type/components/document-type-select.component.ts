@@ -13,7 +13,11 @@ import { FormsModule } from '@angular/forms';
 export class DocumentTypeSelectComponent implements OnInit {
   constructor(public documentTypeList: DocumentTypeListService) {}
 
-  @Input() value?: string | null;
+  @Input()
+  public value?: string | null;
+
+  @Input()
+  public isDisabled?: boolean;
 
   @Output() eventChange = new EventEmitter<string>();
 
