@@ -65,7 +65,9 @@
         <label for="category2" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
           Tipo de documento <b class="text-red-600">*</b>
         </label>
-        <app-document-type-select [value]="createForm.value.documentType" (eventChange)="selectDocumentType($event)" />
+        <app-document-type-select
+          [value]="createForm.value.documentTypeId"
+          (eventChange)="selectDocumentType($event)" />
       </div>
       <div class="col-span-2 sm:col-span-1">
         <label for="documentonum" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">

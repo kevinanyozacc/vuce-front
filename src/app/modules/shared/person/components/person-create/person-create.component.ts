@@ -45,7 +45,7 @@ export class PersonCreateComponent implements OnInit {
 
   public createForm = new FormGroup({
     type: new FormControl('NATURAL', Validators.required),
-    documentType: new FormControl('01', Validators.required),
+    documentTypeId: new FormControl('01', Validators.required),
     documentNumber: new FormControl('', Validators.required),
     nombreRazonSocial: new FormControl('', Validators.required),
     ruc: new FormControl(''),
@@ -92,7 +92,7 @@ export class PersonCreateComponent implements OnInit {
 
   initCreateForm() {
     this.createForm.controls.type.setValue('NATURAL');
-    this.createForm.controls.documentType.setValue('01');
+    this.createForm.controls.documentTypeId.setValue('01');
     this.createForm.controls.gender.setValue('1');
     this.createForm.controls.departamentoId.setValue('01');
     this.createForm.controls.provinciaId.setValue('01');
@@ -104,7 +104,7 @@ export class PersonCreateComponent implements OnInit {
   }
 
   selectDocumentType(value: string | null) {
-    this.createForm.controls.documentType.setValue(value);
+    this.createForm.controls.documentTypeId.setValue(value);
   }
 
   selectDepartamentoId(value: string | null) {

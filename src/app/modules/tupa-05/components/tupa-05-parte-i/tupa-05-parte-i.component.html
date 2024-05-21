@@ -10,7 +10,11 @@
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
           Tipo Documento <b class="text-red-600">*</b></label
         >
-        <app-document-type-select [value]="person?.documentType" [isDisabled]="true" />
+        <input
+          type="text"
+          readonly
+          [value]="person?.documentType?.name"
+          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm uppercase text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -60,7 +64,7 @@
       </textarea>
     </div>
     <!-- level 4 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-3" *ngIf="!!person">
+    <div class="mb-6 grid gap-6 md:grid-cols-2" *ngIf="!!person">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Departamento</label>
         <input
@@ -83,6 +87,14 @@
           type="text"
           readonly
           [value]="person.ubigeo?.distritoName"
+          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+      </div>
+      <div>
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Centro Poblado</label>
+        <input
+          type="text"
+          readonly
+          [value]="person.poblado?.name"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
     </div>

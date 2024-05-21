@@ -32,7 +32,6 @@ export class PobladoSelectComponent implements OnChanges {
   public eventChange = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (!!changes['departamentoId'] && !!changes['provinciaId'] && !!changes['distritoId']) {
       const provinciaId = changes['provinciaId'].currentValue;
       const departamentoId = changes['departamentoId'].currentValue;
@@ -43,7 +42,7 @@ export class PobladoSelectComponent implements OnChanges {
       const departamentoId = changes['departamentoId'].currentValue;
       this.service.getApiList(departamentoId, provinciaId, this.distritoId);
     } else if (!!changes['departamentoId'] && !!this.provinciaId && !!this.distritoId) {
-      const departamentoId = changes['provinciaId'].currentValue;
+      const departamentoId = changes['departamentoId'].currentValue;
       this.service.getApiList(departamentoId, this.provinciaId, this.distritoId);
     } else if (!!changes['provinciaId'] && !!this.departamentoId && !!this.distritoId) {
       const provinciaId = changes['provinciaId'].currentValue;

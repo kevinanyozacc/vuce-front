@@ -1,0 +1,20 @@
+<!-- <p>requisitos-table works!</p> -->
+<div class="relative overflow-x-auto shadow sm:rounded-lg">
+  <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+    <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">Tipo Documento</th>
+        <th scope="col" class="px-6 py-3">Numero Documento</th>
+        <th scope="col" class="px-6 py-3">Razon social/Nombres</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="cursor-pointer hover:bg-slate-100"
+        (click)="eventSelect.emit(item)"
+        *ngFor="let item of data"
+        app-person-table-item
+        [item]="item"></tr>
+    </tbody>
+  </table>
+</div>

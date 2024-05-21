@@ -34,7 +34,7 @@ export class DistritoSelectComponent implements OnChanges {
       const departamentoId = changes['departamentoId'].currentValue;
       this.service.getApiList(departamentoId, provinciaId);
     } else if (!!changes['departamentoId'] && !!this.provinciaId) {
-      const departamentoId = changes['provinciaId'].currentValue;
+      const departamentoId = changes['departamentoId'].currentValue;
       this.service.getApiList(departamentoId, this.provinciaId);
     } else if (!!changes['provinciaId'] && !!this.departamentoId) {
       const provinciaId = changes['provinciaId'].currentValue;

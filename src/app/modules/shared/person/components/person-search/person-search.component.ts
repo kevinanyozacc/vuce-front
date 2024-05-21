@@ -7,12 +7,13 @@ import { PersonSearchService } from '../../services/person-search.service';
 import { PersonSearchNamesService } from '../../services/person-search-names.service';
 import { PersonEntityInterface } from '../../interfaces/person-entity.interface';
 import Swal from 'sweetalert2';
+import { PersonTableComponent } from '../person-table/person-table.component';
 
 @Component({
   selector: 'app-person-search',
   standalone: true,
   templateUrl: './person-search.component.html',
-  imports: [ModalComponent, DocumentTypeSelectComponent, ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, ModalComponent, DocumentTypeSelectComponent, PersonTableComponent],
   providers: [PersonSearchService, PersonSearchNamesService],
 })
 export class PersonSearchComponent implements OnInit {
@@ -33,6 +34,8 @@ export class PersonSearchComponent implements OnInit {
   @Output()
   public eventClose = new EventEmitter();
 
+  public people: PersonEntityInterface[] = [];
+
   public searchForm = new FormGroup({
     type: new FormControl('DOCUMENTO', Validators.required),
     documentType: new FormControl('01', Validators.required),
@@ -43,6 +46,7 @@ export class PersonSearchComponent implements OnInit {
   ngOnInit(): void {
     this.searchForm.controls.type.valueChanges.subscribe((value) => {
       if (value === 'DOCUMENTO') {
+        this.searchForm.controls.documentType.setValue('01');
         this.searchForm.controls.documentType.setValidators(Validators.required);
         this.searchForm.controls.documentNumber.setValidators(Validators.required);
         this.searchForm.setControl('fullname', new FormControl(''));
@@ -71,10 +75,21 @@ export class PersonSearchComponent implements OnInit {
         });
     } else if (this.searchForm.value.type === 'NOMBRE') {
       const fullname = this.searchForm.get('fullname')?.value || '';
-      this.serviceNames.getApiData(fullname).catch((err) => {
-        this.eventNotFound.emit(err);
-        this.messageNotFound();
-      });
+      this.serviceNames
+        .getApiData(fullname)
+        .then((data) => {
+          if (data.length === 0) {
+            throw new Error('No se encontraron registros');
+          } else if (data.length === 1) {
+            this.eventSelect.emit(data[0]);
+          } else {
+            this.people = data;
+          }
+        })
+        .catch((err) => {
+          this.eventNotFound.emit(err);
+          this.messageNotFound();
+        });
     }
   }
 
