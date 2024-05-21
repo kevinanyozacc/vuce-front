@@ -10,7 +10,10 @@ export class Menu {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Tupas',
           route: '/dashboard',
-          children: [{ label: 'Tupa-C5', route: '/dashboard/tupa-05' }],
+          children: [
+            { label: 'Tupa-C4', route: '/dashboard/tupa-04' },
+            { label: 'Tupa-C5', route: '/dashboard/tupa-05' },
+          ],
         },
         {
           icon: 'assets/icons/heroicons/outline/view-grid.svg',
