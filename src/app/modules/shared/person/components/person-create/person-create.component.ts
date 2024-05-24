@@ -12,6 +12,9 @@ import { DepartamentoSelectComponent } from '../../../ubigeo/components/departam
 import { ProvinciaSelectComponent } from '../../../ubigeo/components/provincia-select/provincia-select.component';
 import { DistritoSelectComponent } from '../../../ubigeo/components/distrito-select/distrito-select.component';
 import { PobladoSelectComponent } from '../../../ubigeo/components/poblado-select/poblado-select.component';
+import { ReniecFindPersonByDniService } from '../../../reniec/service/reniect-find-person-by-dni.service';
+import { ReniecFindPersonByRucService } from '../../../reniec/service/reniect-find-person-by-ruc.service';
+import { ReniecPersonEntityInterface } from '../../../reniec/interfaces/reniec-person-entity.interface';
 
 @Component({
   selector: 'app-person-create',
@@ -29,10 +32,14 @@ import { PobladoSelectComponent } from '../../../ubigeo/components/poblado-selec
     DistritoSelectComponent,
     PobladoSelectComponent,
   ],
-  providers: [PersonCreateService],
+  providers: [PersonCreateService, ReniecFindPersonByDniService, ReniecFindPersonByRucService],
 })
 export class PersonCreateComponent implements OnInit {
-  constructor(public service: PersonCreateService) {}
+  constructor(
+    public service: PersonCreateService,
+    public reniecDniService: ReniecFindPersonByDniService,
+    public reniecRucService: ReniecFindPersonByRucService,
+  ) {}
 
   @Input()
   public isOpen: boolean = false;
@@ -42,6 +49,8 @@ export class PersonCreateComponent implements OnInit {
 
   @Output()
   public eventSave = new EventEmitter<PersonEntityInterface>();
+
+  public validateType!: string;
 
   public createForm = new FormGroup({
     type: new FormControl('NATURAL', Validators.required),
@@ -99,6 +108,10 @@ export class PersonCreateComponent implements OnInit {
     this.createForm.controls.distritoId.setValue('01');
   }
 
+  selectValidateType(el: any) {
+    this.validateType = el.target.value || undefined;
+  }
+
   selectType(value: string | null) {
     this.createForm.controls.type.setValue(value);
   }
@@ -129,8 +142,35 @@ export class PersonCreateComponent implements OnInit {
     this.createForm.controls.centroPobladoId.setValue(value);
   }
 
+  settingPerson(data: ReniecPersonEntityInterface) {
+    this.createForm.controls.type.setValue(data.personaTipo || 'NATURAL');
+    this.createForm.controls.lastName.setValue(data.apellidoPaterno);
+    this.createForm.controls.names.setValue(data.nombres);
+    this.createForm.controls.secondaryName.setValue(data.apellidoMaterno);
+    this.createForm.controls.ruc.setValue(data.ruc);
+    this.createForm.controls.email.setValue(data.correoElectronico);
+    this.createForm.controls.address.setValue(data.direccion);
+    this.createForm.controls.documentTypeId.setValue(data.documentoTipo);
+    this.createForm.controls.documentNumber.setValue(data.documentoNumero);
+    this.createForm.controls.nombreRazonSocial.setValue(data.nombreRazonSocial);
+    this.createForm.controls.referen.setValue(data.referenciaDireccion);
+    this.createForm.controls.phone.setValue(data.telefono);
+    this.createForm.controls.cellphone.setValue(data.telefonoMovil);
+  }
+
   onClose() {
     this.eventClose.emit();
+  }
+
+  onValidate() {
+    // validar document number
+    if (!this.createForm.value.documentNumber) return;
+    // validar type
+    if (this.validateType === 'DNI') {
+      this.reniecDniService.execute(this.createForm.value.documentNumber).then((data) => this.settingPerson(data));
+    } else if (this.validateType === 'RUC') {
+      this.reniecRucService.execute(this.createForm.value.documentNumber).then((data) => this.settingPerson(data));
+    }
   }
 
   onSubmit() {
