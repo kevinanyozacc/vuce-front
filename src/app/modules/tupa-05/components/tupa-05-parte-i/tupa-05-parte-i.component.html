@@ -137,10 +137,7 @@
     <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Representante Legal<b class="text-red-600">*</b></label
     >
-    <input
-      type="text"
-      id="first_name"
-      class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+    <app-person-representante-select [personId]="person.id" />
   </div>
 </div>
 

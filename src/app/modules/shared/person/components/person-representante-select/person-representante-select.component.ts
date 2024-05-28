@@ -1,20 +1,20 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProvinciaListService } from '../../services/provincia-list.service';
+import { PersonRepresentanteListService } from '../../services/person-representante-list.service';
 
 @Component({
-  selector: 'app-provincia-select',
+  selector: 'app-person-representante-select',
   standalone: true,
-  templateUrl: './province-select.component.html',
+  templateUrl: './person-representante-select.component.html',
   imports: [NgFor, FormsModule],
-  providers: [ProvinciaListService],
+  providers: [PersonRepresentanteListService],
 })
-export class ProvinciaSelectComponent implements OnChanges {
-  constructor(public service: ProvinciaListService) {}
+export class PersonRepresentanteSelectComponent implements OnChanges {
+  constructor(public service: PersonRepresentanteListService) {}
 
   @Input()
-  public departamentoId?: string | null;
+  public personId?: string | null;
 
   @Input()
   public value?: string | null;
@@ -26,8 +26,8 @@ export class ProvinciaSelectComponent implements OnChanges {
   public eventChange = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes['departamentoId']) {
-      const value = changes['departamentoId'].currentValue;
+    if (!!changes['personId']) {
+      const value = changes['personId'].currentValue;
       this.service.getApiList(value);
     }
   }
