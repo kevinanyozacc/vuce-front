@@ -1,0 +1,7 @@
+<select
+  [(ngModel)]="value"
+  (change)="onChange($event)"
+  [disabled]="isDisabled || false"
+  class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
+  <option *ngFor="let item of this.service.getData()" [value]="item.id">{{ item.cargo }}.- {{ item.fullname }}</option>
+</select>
