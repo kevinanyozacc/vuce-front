@@ -7,18 +7,20 @@
   <!-- level 2 -->
   <div class="mb-6 flex">
     <div class="ml-4">
-      <input type="radio" class="mr-2" [checked]="finalidad.type == 'IMP'" (change)="onType('IMP')" />
-      <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Importación</label>
+      <input type="radio" id="imp" class="mr-2" [checked]="finalidad.type == 'IMP'" (change)="onType('IMP')" />
+      <label for="imp" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Importación</label>
     </div>
 
     <div class="ml-4">
-      <input type="radio" class="mr-2" [checked]="finalidad.type == 'EXP'" (change)="onType('EXP')" />
-      <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Exportación</label>
+      <input type="radio" id="exp" class="mr-2" [checked]="finalidad.type == 'EXP'" (change)="onType('EXP')" />
+      <label for="exp" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Exportación</label>
     </div>
 
     <div class="ml-4">
-      <input type="radio" class="mr-2" [checked]="finalidad.type == 'TIN'" (change)="onType('TIN')" />
-      <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Tránsito Interno</label>
+      <input type="radio" id="tin" class="mr-2" [checked]="finalidad.type == 'TIN'" (change)="onType('TIN')" />
+      <label for="tin" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Tránsito Interno</label
+      >
     </div>
   </div>
 
@@ -83,7 +85,7 @@
     </h6>
 
     <!-- level 6 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-2">
+    <div class="mb-6">
       <div>
         <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
           Lugar <b class="text-red-600">*</b>

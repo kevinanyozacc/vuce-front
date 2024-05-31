@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PaisSelectComponent } from 'src/app/modules/shared/ubigeo/components/pais-select/pais-select.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { TupaFinalidadInterface } from '../../interfaces/tupa-finalidad.interface';
@@ -10,13 +10,9 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [NgIf, ButtonComponent, PaisSelectComponent],
 })
-export class Tup05ParteIIIComponent implements OnInit {
+export class Tup05ParteIIIComponent {
   @Input()
   public finalidad!: TupaFinalidadInterface;
-
-  ngOnInit(): void {
-    this.handleType(this.finalidad.type);
-  }
 
   handleType(type: string) {
     if (type == 'IMP') {
