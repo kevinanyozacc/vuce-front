@@ -6,7 +6,6 @@ import { Tupa04TabInterface } from '../../interfaces/tupa-05-tab.interface';
   standalone: true,
   imports: [],
   templateUrl: './tupa-04-tab-item.component.html',
-  styleUrl: './tupa-04-tab-item.component.scss'
 })
 export class Tupa04TabItemComponent {
   @Input()
