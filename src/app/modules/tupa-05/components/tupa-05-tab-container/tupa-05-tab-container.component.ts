@@ -56,6 +56,7 @@ export class Tupa05TabContainerComponent {
 
   public person?: PersonEntityInterface;
   public establishment?: EstablishmentEntityInterface;
+  public technical?: PersonEntityInterface;
 
   onSelect(item: Tupa05TabInterface) {
     this.tabs = this.tabs.map((tab) => {
@@ -70,6 +71,10 @@ export class Tupa05TabContainerComponent {
 
   selectEstablishment(establishment?: EstablishmentEntityInterface) {
     this.establishment = establishment;
+  }
+
+  selectTechnical(technical?: PersonEntityInterface) {
+    this.technical = technical;
   }
 
   get currentTab(): Tupa05TabInterface | undefined {
