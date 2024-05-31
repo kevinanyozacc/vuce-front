@@ -150,12 +150,15 @@ export class PersonCreateComponent implements OnInit {
     this.createForm.controls.ruc.setValue(data.ruc);
     this.createForm.controls.email.setValue(data.correoElectronico);
     this.createForm.controls.address.setValue(data.direccion);
-    this.createForm.controls.documentTypeId.setValue(data.documentoTipo);
+    this.createForm.controls.documentTypeId.setValue(data.documentoTipo || '01');
     this.createForm.controls.documentNumber.setValue(data.documentoNumero);
     this.createForm.controls.nombreRazonSocial.setValue(data.nombreRazonSocial);
     this.createForm.controls.referen.setValue(data.referenciaDireccion);
     this.createForm.controls.phone.setValue(data.telefono);
     this.createForm.controls.cellphone.setValue(data.telefonoMovil);
+    this.createForm.controls.departamentoId.setValue(data.departamentoId);
+    this.createForm.controls.provinciaId.setValue(data.provinciaId);
+    this.createForm.controls.distritoId.setValue(data.distritoId);
   }
 
   onClose() {

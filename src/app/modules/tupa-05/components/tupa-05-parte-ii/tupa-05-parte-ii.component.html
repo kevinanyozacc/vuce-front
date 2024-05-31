@@ -7,65 +7,48 @@
   <div class="pt-5">
     <div class="mb-6 grid gap-6 md:grid-cols-3">
       <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Tipo de búsqueda <b class="text-red-600">*</b></label
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Tipo de Establecimiento <b class="text-red-600">*</b></label
         >
-        <select
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
-          <option value="NDE">Nombre del Establecimiento</option>
-          <option value="NDE">Nombre del Propietario</option>
-          <option value="NDE">RUC del Propietario</option>
-        </select>
+        <app-establishment-type-select [value]="establishment?.type" [isDisabled]="true" />
       </div>
       <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Valor de Búsqueda <b class="text-red-600">*</b></label
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Nombre del Establecimiento<b class="text-red-600">*</b></label
         >
         <input
           type="text"
+          readonly
+          [value]="establishment?.name"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
-      <div>
+      <div class="justify-end">
         <button
-          class="relative w-full rounded-lg border border-primary bg-transparent px-5 py-2.5 text-center text-sm font-medium text-primary text-white ring-primary/50 focus:outline-none focus:ring-4 hover:bg-primary hover:text-white sm:w-auto md:top-7">
+          type="button"
+          (click)="searchModalOpen()"
+          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
           Buscar
         </button>
+
         <button
-          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:mt-0 md:ml-2">
+          type="button"
+          (click)="createModalOpen()"
+          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
           Agregar
         </button>
       </div>
     </div>
 
     <!-- level 2 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-2">
-      <div>
-        <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Tipo de Establecimiento <b class="text-red-600">*</b></label
-        >
-        <select
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
-          <option value="NDE">.- valor 1</option>
-        </select>
-      </div>
-      <div>
-        <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Nombre del Establecimiento <b class="text-red-600">*</b></label
-        >
-        <input
-          type="text"
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
-      </div>
-    </div>
-
-    <!-- level 3 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-2">
+    <div class="mb-6 grid gap-6 md:grid-cols-2" *ngIf="!!establishment">
       <div>
         <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
           >RUC del propietario <b class="text-red-600">*</b></label
         >
         <input
           type="text"
+          readonly
+          [value]="establishment.ownerRuc"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
@@ -74,28 +57,34 @@
         >
         <input
           type="text"
+          readonly
+          [value]="establishment.ownerName"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
     </div>
 
-    <!-- level 4 -->
-    <div class="mb-6">
+    <!-- level 3 -->
+    <div class="mb-6" *ngIf="!!establishment">
       <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
         >Dirección <b class="text-red-600">*</b></label
       >
       <textarea
+        readonly
+        [value]="establishment.address"
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
       </textarea>
     </div>
 
-    <!-- level 5 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-3">
+    <!-- level 4 -->
+    <div class="mb-6 grid gap-6 md:grid-cols-3" *ngIf="!!establishment">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
           >Nombre Departamento <b class="text-red-600">*</b>
         </label>
         <input
           type="text"
+          readonly
+          [value]="establishment.ubigeo.departamentoName"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
@@ -104,6 +93,8 @@
         >
         <input
           type="text"
+          readonly
+          [value]="establishment.ubigeo.provinciaName"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
@@ -112,40 +103,22 @@
         >
         <input
           type="text"
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
-      </div>
-    </div>
-
-    <!-- level 6 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-3">
-      <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
-        <input
-          type="text"
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
-      </div>
-      <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Teléfono Movil</label>
-        <input
-          type="text"
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
-      </div>
-      <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Correo Electrónico</label>
-        <input
-          type="text"
+          readonly
+          [value]="establishment.ubigeo.distritoName"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
     </div>
   </div>
 
-  <!-- level 7 -->
-  <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+  <!-- level 5 -->
+  <h6
+    *ngIf="!!establishment"
+    class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
     Datos del responsable técnico
   </h6>
 
   <!-- level 8 -->
-  <div class="mb-6 grid gap-6 md:grid-cols-2">
+  <div class="mb-6 grid gap-6 md:grid-cols-2" *ngIf="!!establishment">
     <div>
       <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
         >Nombre del responsable técnico <b class="text-red-600">*</b></label
@@ -164,3 +137,14 @@
     </div>
   </div>
 </form>
+
+<app-establishment-create
+  [isOpen]="isCreateModal"
+  (eventClose)="createModalClose()"
+  (eventSave)="onSaveEstablishment($event)" />
+
+<app-establishment-search
+  title="Buscar Establecimiento"
+  [isOpen]="isSearchModal"
+  (eventClose)="searchModalClose()"
+  (eventSelect)="onSelectEstablishment($event)" />
