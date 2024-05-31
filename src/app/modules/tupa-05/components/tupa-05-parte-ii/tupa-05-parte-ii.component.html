@@ -111,34 +111,52 @@
   </div>
 
   <!-- level 5 -->
-  <h6
-    *ngIf="!!establishment"
-    class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+  <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
     Datos del responsable técnico
   </h6>
 
   <!-- level 8 -->
-  <div class="mb-6 grid gap-6 md:grid-cols-2" *ngIf="!!establishment">
+  <div class="mb-6 grid gap-6 md:grid-cols-3">
     <div>
-      <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-        >Nombre del responsable técnico <b class="text-red-600">*</b></label
-      >
+      <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+        Nombre del responsable técnico <b class="text-red-600">*</b>
+      </label>
       <input
         type="text"
+        readonly
+        [value]="establishment?.name"
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
     </div>
     <div>
-      <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-        >DNI del responsable técnico <b class="text-red-600">*</b></label
-      >
+      <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+        DNI del responsable técnico<b class="text-red-600">*</b>
+      </label>
       <input
         type="text"
+        readonly
+        [value]="establishment?.name"
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+    </div>
+    <div class="justify-end">
+      <button
+        type="button"
+        (click)="searchModalOpen()"
+        class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
+        Buscar
+      </button>
+
+      <button
+        type="button"
+        (click)="createModalOpen()"
+        class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
+        Agregar
+      </button>
     </div>
   </div>
 </form>
 
 <app-establishment-create
+  title="Agregar Establecimiento"
   [isOpen]="isCreateModal"
   (eventClose)="createModalClose()"
   (eventSave)="onSaveEstablishment($event)" />

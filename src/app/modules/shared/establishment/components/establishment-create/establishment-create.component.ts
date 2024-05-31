@@ -34,6 +34,9 @@ export class EstablishmentCreateComponent {
   @Input()
   public isOpen: boolean = false;
 
+  @Input()
+  public title: string = 'Registrar Establecimiento';
+
   @Output()
   public eventClose = new EventEmitter();
 

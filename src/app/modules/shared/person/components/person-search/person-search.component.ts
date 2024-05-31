@@ -68,7 +68,7 @@ export class PersonSearchComponent implements OnInit {
       const documentNumber = this.searchForm.get('documentNumber')?.value || '';
       this.serviceSearch
         .getApiData({ documentType, documentNumber })
-        .then((data) => this.eventSelect.emit(data))
+        .then((data) => this.handleSearch(data))
         .catch((err) => {
           this.eventNotFound.emit(err);
           this.messageNotFound();
@@ -77,19 +77,21 @@ export class PersonSearchComponent implements OnInit {
       const fullname = this.searchForm.get('fullname')?.value || '';
       this.serviceNames
         .getApiData(fullname)
-        .then((data) => {
-          if (data.length === 0) {
-            throw new Error('No se encontraron registros');
-          } else if (data.length === 1) {
-            this.eventSelect.emit(data[0]);
-          } else {
-            this.people = data;
-          }
-        })
+        .then((data) => this.handleSearch(data))
         .catch((err) => {
           this.eventNotFound.emit(err);
           this.messageNotFound();
         });
+    }
+  }
+
+  handleSearch(data: PersonEntityInterface[]) {
+    if (data.length === 0) {
+      throw new Error('No se encontraron registros');
+    } else if (data.length === 1) {
+      this.eventSelect.emit(data[0]);
+    } else {
+      this.people = data;
     }
   }
 

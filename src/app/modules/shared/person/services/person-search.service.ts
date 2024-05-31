@@ -8,14 +8,16 @@ import { PersonSearchInterface } from '../interfaces/person-search.interface';
 export class PersonSearchService {
   constructor(private http: HttpClient) {}
 
-  private data?: PersonEntityInterface;
+  private data?: PersonEntityInterface[];
   private loading: boolean = false;
 
   getApiData(params: PersonSearchInterface) {
-    return new Promise<PersonEntityInterface>((resolve, reject) => {
+    return new Promise<PersonEntityInterface[]>((resolve, reject) => {
       this.loading = true;
       this.http
-        .get<PersonEntityInterface>(`${environment.api}/people/${params.documentNumber}/search/${params.documentType}`)
+        .get<PersonEntityInterface[]>(
+          `${environment.api}/people/${params.documentNumber}/search/${params.documentType}`,
+        )
         .subscribe({
           next: (data) => {
             this.data = data;
@@ -31,7 +33,7 @@ export class PersonSearchService {
     });
   }
 
-  setData(data?: PersonEntityInterface) {
+  setData(data?: PersonEntityInterface[]) {
     this.data = data;
   }
 
