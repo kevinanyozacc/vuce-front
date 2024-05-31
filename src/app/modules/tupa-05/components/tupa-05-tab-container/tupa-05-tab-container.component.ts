@@ -9,6 +9,7 @@ import { Tup05ParteIVComponent } from '../tupa-05-parte-iv/tupa-05-parte-iv.comp
 import { Tup05ParteVComponent } from '../tupa-05-parte-v/tupa-05-parte-v.component';
 import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
 import { EstablishmentEntityInterface } from 'src/app/modules/shared/establishment/interfaces/establishment-entity.interface';
+import { TupaFinalidadInterface } from '../../interfaces/tupa-finalidad.interface';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -35,12 +36,12 @@ export class Tupa05TabContainerComponent {
     {
       id: Tupa05TabIdEnum.PARTE_II,
       name: 'II - Establecimiento',
-      active: true,
+      active: false,
     },
     {
       id: Tupa05TabIdEnum.PARTE_III,
       name: 'III - Finalidad',
-      active: false,
+      active: true,
     },
     {
       id: Tupa05TabIdEnum.PARTE_IV,
@@ -57,6 +58,7 @@ export class Tupa05TabContainerComponent {
   public person?: PersonEntityInterface;
   public establishment?: EstablishmentEntityInterface;
   public technical?: PersonEntityInterface;
+  public finalidad: TupaFinalidadInterface = { type: 'IMP' };
 
   onSelect(item: Tupa05TabInterface) {
     this.tabs = this.tabs.map((tab) => {
