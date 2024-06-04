@@ -9,8 +9,8 @@ import { Tup05ParteIVComponent } from '../tupa-05-parte-iv/tupa-05-parte-iv.comp
 import { Tup05ParteVComponent } from '../tupa-05-parte-v/tupa-05-parte-v.component';
 import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
 import { EstablishmentEntityInterface } from 'src/app/modules/shared/establishment/interfaces/establishment-entity.interface';
-import { TupaFinalidadInterface } from '../../interfaces/tupa-finalidad.interface';
 import { tupaFinalidadData } from '../../data/tupa-finalidad.data';
+import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -42,7 +42,7 @@ export class Tupa05TabContainerComponent {
     {
       id: Tupa05TabIdEnum.PARTE_III,
       name: 'III - Finalidad',
-      active: true,
+      active: false,
     },
     {
       id: Tupa05TabIdEnum.PARTE_IV,
@@ -52,7 +52,7 @@ export class Tupa05TabContainerComponent {
     {
       id: Tupa05TabIdEnum.PARTE_V,
       name: 'V - Datos del pago',
-      active: false,
+      active: true,
     },
   ];
 
@@ -60,6 +60,8 @@ export class Tupa05TabContainerComponent {
   public establishment?: EstablishmentEntityInterface;
   public technical?: PersonEntityInterface;
   public finalidad = tupaFinalidadData;
+  public personPayment?: PersonEntityInterface;
+  public payments: PaymentEntityInterface[] = [];
 
   onSelect(item: Tupa05TabInterface) {
     this.tabs = this.tabs.map((tab) => {
@@ -78,6 +80,10 @@ export class Tupa05TabContainerComponent {
 
   selectTechnical(technical?: PersonEntityInterface) {
     this.technical = technical;
+  }
+
+  selectPersonPayment(personPayment?: PersonEntityInterface) {
+    this.personPayment = personPayment;
   }
 
   get currentTab(): Tupa05TabInterface | undefined {

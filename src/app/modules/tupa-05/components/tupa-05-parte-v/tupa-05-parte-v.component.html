@@ -1,18 +1,16 @@
-<form>
+<div>
   <!-- header -->
   <h6 class="mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
     Datos de pago
   </h6>
 
   <!-- level 1 -->
-  <div class="mb-10 grid gap-6 md:grid-cols-2">
+  <form class="mb-10 grid gap-6 md:grid-cols-2" [formGroup]="createForm" (submit)="onAdd()">
     <div>
       <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Oficina(Sede) <b class="text-red-800">*</b>
       </label>
-      <input
-        type="text"
-        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+      <app-sede-select [value]="createForm.value.sedeId" (eventChange)="onSede($event)" />
     </div>
     <div></div>
 
@@ -20,30 +18,39 @@
     <div>
       <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Area <b class="text-red-800">*</b>
+        <app-area-select [value]="createForm.value.areaId" (eventChange)="onArea($event)" />
       </label>
-      <input
-        type="text"
-        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
     </div>
     <div></div>
 
     <!-- level 3 -->
     <div>
       <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Procedimiento <b class="text-red-800">*</b>
+      </label>
+      <app-procedure-select
+        [value]="createForm.value.procedureId"
+        [areaId]="createForm.value.areaId"
+        (eventChange)="onProcedure($event)" />
+    </div>
+    <div></div>
+
+    <div>
+      <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Servicio por Procedimiento <b class="text-red-800">*</b>
       </label>
-      <select
-        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
-        <option value="NDE">.- valor 1</option>
-      </select>
+      <input
+        type="text"
+        formControlName="service"
+        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
     </div>
     <div>
       <button
-        class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:mt-0 md:ml-2">
+        class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
         Agregar
       </button>
     </div>
-  </div>
+  </form>
 
   <!-- level 4 -->
   <div class="mb-10">
@@ -95,53 +102,74 @@
   <!-- level 6 -->
   <div class="mb-6 grid gap-6 md:grid-cols-3">
     <div>
-      <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
-        Tipo Documento <b class="text-red-800">*</b>
-      </label>
-      <select
-        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
-        <option value="NDE">.- valor 1</option>
-      </select>
-    </div>
-    <div>
-      <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
-        N° Documento <b class="text-red-800">*</b>
-      </label>
+      <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+        Tipo Documento <b class="text-red-600">*</b></label
+      >
       <input
         type="text"
-        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+        readonly
+        [value]="person?.documentType?.name || ''"
+        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm uppercase text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
     </div>
     <div>
+      <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+        >N° Documento <b class="text-red-600">*</b></label
+      >
+      <input
+        type="text"
+        readonly
+        [value]="person?.documentNumber"
+        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+    </div>
+    <div class="justify-end">
       <button
-        class="relative w-full rounded-lg border border-primary bg-transparent px-5 py-2.5 text-center text-sm font-medium text-primary text-white ring-primary/50 focus:outline-none focus:ring-4 hover:bg-primary hover:text-white sm:w-auto md:top-7">
+        (click)="openPerson()"
+        class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
         Buscar
       </button>
     </div>
   </div>
-
-  <!-- level 7 -->
+  <!-- level 2 -->
   <div class="mb-6 grid gap-6 md:grid-cols-2">
-    <div>
-      <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
-        Razón social/Nombre <b class="text-red-800">*</b>
-      </label>
+    <div class="cols-span-2">
+      <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+        >Razón social/Nombre <b class="text-red-600">*</b></label
+      >
       <input
         type="text"
+        readonly
+        [value]="person?.nombreRazonSocial"
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
     </div>
-    <div></div>
   </div>
-
-  <!-- level 8 -->
+  <!-- level 3 -->
   <div class="mb-6 grid gap-6 md:grid-cols-2">
     <div>
-      <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
-        Domicilio Legal <b class="text-red-800">*</b>
-      </label>
-      <input
-        type="text"
-        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+      <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+        >Dirección Legal <b class="text-red-600">*</b></label
+      >
+      <textarea
+        [value]="person?.address"
+        readonly
+        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
+      </textarea>
     </div>
-    <div></div>
   </div>
-</form>
+
+  <!-- datos de pago -->
+  <h6
+    class="relative mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+    Datos del Pago
+    <button (click)="openPayment()" class="absolute right-0 top-0 text-primary">
+      <u>Agregar pago</u>
+    </button>
+  </h6>
+
+  <div class="mt-10">
+    <app-payment-table [data]="payments" />
+  </div>
+</div>
+
+<app-payment-create [isOpen]="isOpenPayment" (eventClose)="closePayment()" (eventSave)="addPayment($event)" />
+
+<app-person-search [isOpen]="isOpenPerson" (eventClose)="closePerson()" (eventSelect)="onPerson($event)" />
