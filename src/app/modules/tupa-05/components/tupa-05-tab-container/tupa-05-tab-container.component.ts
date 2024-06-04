@@ -86,6 +86,10 @@ export class Tupa05TabContainerComponent {
     this.technical = technical;
   }
 
+  selectPersonPayment(person?: PersonEntityInterface) {
+    this.personPayment = person;
+  }
+
   get currentTab(): Tupa05TabInterface | undefined {
     return this.tabs.find((item) => item.active);
   }
