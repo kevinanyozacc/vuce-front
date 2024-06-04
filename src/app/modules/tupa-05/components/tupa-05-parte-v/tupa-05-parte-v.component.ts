@@ -32,9 +32,6 @@ export class Tup05ParteVComponent {
   @Input()
   public payments: PaymentEntityInterface[] = [];
 
-  @Output()
-  public eventPerson = new EventEmitter<PersonEntityInterface | undefined>();
-
   public createForm = new FormGroup({
     sedeId: new FormControl('01', Validators.required),
     areaId: new FormControl('', Validators.required),
@@ -78,7 +75,7 @@ export class Tup05ParteVComponent {
   }
 
   onPerson(person: PersonEntityInterface) {
-    this.eventPerson.emit(person);
+    this.person = person;
     this.closePerson();
   }
 

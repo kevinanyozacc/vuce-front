@@ -11,6 +11,8 @@ import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/
 import { EstablishmentEntityInterface } from 'src/app/modules/shared/establishment/interfaces/establishment-entity.interface';
 import { tupaFinalidadData } from '../../data/tupa-finalidad.data';
 import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
+import { ProductAnimalEntityInterface } from 'src/app/modules/shared/product/interfaces/product-animal-entity.interface';
+import { ProductSubProductEntityInterface } from 'src/app/modules/shared/product/interfaces/product-subproduct-entity.interface';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -47,12 +49,12 @@ export class Tupa05TabContainerComponent {
     {
       id: Tupa05TabIdEnum.PARTE_IV,
       name: 'IV - Mercancia pecuaria',
-      active: false,
+      active: true,
     },
     {
       id: Tupa05TabIdEnum.PARTE_V,
       name: 'V - Datos del pago',
-      active: true,
+      active: false,
     },
   ];
 
@@ -60,6 +62,8 @@ export class Tupa05TabContainerComponent {
   public establishment?: EstablishmentEntityInterface;
   public technical?: PersonEntityInterface;
   public finalidad = tupaFinalidadData;
+  public animals: ProductAnimalEntityInterface[] = [];
+  public subProducts: ProductSubProductEntityInterface[] = [];
   public personPayment?: PersonEntityInterface;
   public payments: PaymentEntityInterface[] = [];
 
@@ -80,10 +84,6 @@ export class Tupa05TabContainerComponent {
 
   selectTechnical(technical?: PersonEntityInterface) {
     this.technical = technical;
-  }
-
-  selectPersonPayment(personPayment?: PersonEntityInterface) {
-    this.personPayment = personPayment;
   }
 
   get currentTab(): Tupa05TabInterface | undefined {
