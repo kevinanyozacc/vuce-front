@@ -1,0 +1,21 @@
+<!-- <p>requisitos-table works!</p> -->
+<div class="relative overflow-x-auto shadow sm:rounded-lg">
+  <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+    <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">Código</th>
+        <th scope="col" class="px-6 py-3">SubPartida Nacional</th>
+        <th scope="col" class="px-6 py-3">Nombre Comercial</th>
+        <th scope="col" class="px-6 py-3">Nombre Propietario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="cursor-pointer hover:bg-slate-100" *ngFor="let item of data" (click)="this.eventSelect.emit(item)">
+        <td scope="col" class="px-6 py-4 uppercase">{{ item.id }}</td>
+        <td scope="col" class="px-6 py-4 uppercase">{{ item.arancelariaId }}</td>
+        <td scope="col" class="px-6 py-4 uppercase">{{ item.name }}</td>
+        <td scope="col" class="px-6 py-4 uppercase">{{ item.scientificName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

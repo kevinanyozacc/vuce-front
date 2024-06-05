@@ -1,44 +1,76 @@
 <form>
   <!-- header -->
-  <h6 class="mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+  <h6
+    class="relative mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
     Animal vivo
+    <button class="absolute right-0 top-0 text-primary" type="button" (click)="openCreateAnimal()">
+      <u>Agregar</u>
+    </button>
   </h6>
 
   <!-- level 1 -->
-  <div class="mb-6">
+  <div class="mb-10">
     <div class="relative overflow-x-auto">
+      <div class="text-right"></div>
       <table class="w-full table-auto">
         <!--Table head-->
-        <thead class="text-xs uppercase text-muted-foreground">
+        <thead class="text-xs uppercase text-slate-500">
           <tr>
             <th class="py-3 text-left">P.A</th>
-            <th class="py-3 text-right">Especia/Categoría</th>
-            <th class="py-3 text-right">Edad</th>
-            <th class="py-3 text-right">Sexo</th>
-            <th class="py-3 text-right">Procedencia</th>
-            <th class="py-3 text-right">Cantidad</th>
+            <th class="py-3 text-left">Especie/Categoría</th>
+            <th class="py-3 text-left">Sexo</th>
+            <th class="py-3 text-left">Edad</th>
+            <th class="py-3 text-left">Procedencia</th>
+            <th class="py-3 text-center">Cantidad</th>
+            <th class="py-3 text-center">Acciones</th>
           </tr>
         </thead>
         <!--Table body-->
         <tbody>
-          <tr class="border-b border-dashed border-border hover:bg-card">
+          <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let item of animals">
             <td class="py-2 pr-2">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+              <span class="text-sm font-semibold">
+                {{ item.productId }}
+              </span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+            <td class="py-2 pl-2 text-left">
+              <span class="text-sm font-semibold">
+                {{ item.productName }}
+              </span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+            <td class="py-2 pl-2 text-left">
+              <span class="text-sm font-semibold">
+                {{ item.gender }}
+              </span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+            <td class="py-2 pl-2 text-left">
+              <span class="text-sm font-semibold">
+                {{ item.age }}
+              </span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+            <td class="py-2 pl-2 text-left">
+              <span class="text-sm font-semibold">
+                {{ item.origin }}
+              </span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+            <td class="py-2 pl-2 text-center">
+              <span class="text-sm font-semibold">
+                {{ item.amount }}
+              </span>
+            </td>
+            <td>
+              <div class="flex justify-center gap-2">
+                <svg-icon
+                  src="assets/icons/heroicons/outline/trash.svg"
+                  (click)="deleteAnimal(item)"
+                  [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+                </svg-icon>
+                <svg-icon
+                  src="assets/icons/heroicons/outline/edit.svg"
+                  (click)="editAnimal(item)"
+                  [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+                </svg-icon>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -47,8 +79,11 @@
   </div>
 
   <!-- level 2 -->
-  <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+  <h6 class="relative border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
     Producto
+    <button class="absolute right-0 top-0 text-primary" type="button" (click)="openCreateSubProduct()">
+      <u>Agregar</u>
+    </button>
   </h6>
 
   <!-- level 2 -->
@@ -56,36 +91,43 @@
     <div class="relative overflow-x-auto">
       <table class="w-full table-auto">
         <!--Table head-->
-        <thead class="text-xs uppercase text-muted-foreground">
+        <thead class="text-xs uppercase text-slate-500">
           <tr>
             <th class="py-3 text-left">P.A</th>
-            <th class="py-3 text-right">Especia/Categoría</th>
-            <th class="py-3 text-right">Edad</th>
-            <th class="py-3 text-right">Sexo</th>
-            <th class="py-3 text-right">Procedencia</th>
-            <th class="py-3 text-right">Cantidad</th>
+            <th class="py-3 text-left">Producto/SubProducto</th>
+            <th class="py-3 text-left">Peso (Kg)</th>
+            <th class="py-3 text-left">Nombre Producto en la Autorización</th>
+            <th class="py-3 text-center">Acciones</th>
           </tr>
         </thead>
         <!--Table body-->
         <tbody>
-          <tr class="border-b border-dashed border-border hover:bg-card">
+          <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let item of subProducts">
             <td class="py-2 pr-2">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+              <span class="text-sm font-semibold">{{ item.productId }}</span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+            <td class="py-2 pl-2 text-left">
+              <span class="text-sm font-semibold">{{ item.productName }}</span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+            <td class="py-2 pl-2">
+              <span class="text-sm font-semibold">{{ item.weight }}</span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+            <td class="py-2 pl-2">
+              <span class="text-sm font-semibold">{{ item.authorizeName }}</span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
-            </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold text-muted-foreground"></span>
+            <td class="py-2 pl-2">
+              <div class="flex justify-center gap-2">
+                <svg-icon
+                  src="assets/icons/heroicons/outline/trash.svg"
+                  (click)="deleteSubProduct(item)"
+                  [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+                </svg-icon>
+                <svg-icon
+                  src="assets/icons/heroicons/outline/edit.svg"
+                  (click)="editSubProduct(item)"
+                  [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+                </svg-icon>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -93,3 +135,29 @@
     </div>
   </div>
 </form>
+
+<!-- add animal -->
+<app-product-animal-create
+  [isOpen]="isOpenCreateAnimal"
+  (eventClose)="closeCreateAnimal()"
+  (eventSave)="onAnimal($event)" />
+
+<!-- edit animal -->
+<app-product-animal-edit
+  [isOpen]="isOpenEditAnimal"
+  [product]="animal"
+  (eventClose)="closeEditAnimal()"
+  (eventSave)="onAnimal($event)" />
+
+<!-- add subproduct -->
+<app-product-subproduct-create
+  [isOpen]="isOpenCreateSubProduct"
+  (eventClose)="closeCreateSubProduct()"
+  (eventSave)="onSubProduct($event)" />
+
+<!-- edit subproduct -->
+<app-product-subproduct-edit
+  [isOpen]="isOpenEditSubProduct"
+  [product]="subProduct"
+  (eventClose)="closeEditSubProduct()"
+  (eventSave)="onSubProduct($event)" />

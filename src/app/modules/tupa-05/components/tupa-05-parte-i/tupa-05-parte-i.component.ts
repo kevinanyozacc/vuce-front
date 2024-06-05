@@ -6,6 +6,7 @@ import { PersonCreateComponent } from 'src/app/modules/shared/person/components/
 import { PersonRepresentanteSelectComponent } from 'src/app/modules/shared/person/components/person-representante-select/person-representante-select.component';
 import { PersonSearchComponent } from 'src/app/modules/shared/person/components/person-search/person-search.component';
 import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
+import { RepresentanteEntityInterface } from 'src/app/modules/shared/person/interfaces/representante-entity.interface';
 import { PersonSearchService } from 'src/app/modules/shared/person/services/person-search.service';
 import { SolicitanteAddModalComponent } from 'src/app/modules/shared/solicitante-add/components/solicitante-add-modal/solicitante-add.component';
 import { SolicitanteModalComponent } from 'src/app/modules/shared/solicitante-search/components/solicitante-modal/solicitante-modal.component';
@@ -36,8 +37,14 @@ export class Tup05ParteIComponent {
   @Input()
   public person?: PersonEntityInterface | null;
 
+  @Input()
+  public representante?: RepresentanteEntityInterface | null;
+
   @Output()
   public eventPerson = new EventEmitter<PersonEntityInterface | undefined>();
+
+  @Output()
+  public eventRepresentante = new EventEmitter<RepresentanteEntityInterface | undefined>();
 
   public personCreateModal = false;
   public personSearchModal = false;
@@ -66,6 +73,10 @@ export class Tup05ParteIComponent {
   onSelectPerson(person: PersonEntityInterface) {
     this.eventPerson.emit(person);
     this.personSearchModalClose();
+  }
+
+  onSelectRepresentante(representante?: RepresentanteEntityInterface) {
+    this.eventRepresentante.emit(representante);
   }
 
   clearPerson() {

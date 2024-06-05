@@ -3,12 +3,20 @@
   <app-tupa-05-parte-i
     *ngIf="this.currentTabKey === tabs[0].id"
     [person]="person"
-    (eventPerson)="selectPerson($event)" />
+    [representante]="representante"
+    (eventPerson)="selectPerson($event)"
+    (eventRepresentante)="selectRepresentante($event)" />
   <app-tupa-05-parte-ii
     *ngIf="this.currentTabKey === tabs[1].id"
     [establishment]="establishment"
-    (eventEstablishment)="selectEstablishment($event)" />
-  <app-tupa-05-parte-iii *ngIf="this.currentTabKey === tabs[2].id" />
-  <app-tupa-05-parte-iv *ngIf="this.currentTabKey === tabs[3].id" />
-  <app-tupa-05-parte-v *ngIf="this.currentTabKey === tabs[4].id" />
+    [technical]="technical"
+    (eventEstablishment)="selectEstablishment($event)"
+    (eventTechnical)="selectTechnical($event)" />
+  <app-tupa-05-parte-iii *ngIf="this.currentTabKey === tabs[2].id" [finalidad]="finalidad" />
+  <app-tupa-05-parte-iv *ngIf="this.currentTabKey === tabs[3].id" [animals]="animals" [subProducts]="subProducts" />
+  <app-tupa-05-parte-v
+    *ngIf="this.currentTabKey === tabs[4].id"
+    [person]="personPayment"
+    [payments]="payments"
+    (eventPerson)="selectPersonPayment($event)" />
 </div>

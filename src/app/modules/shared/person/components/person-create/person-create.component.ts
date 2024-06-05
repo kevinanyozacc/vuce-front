@@ -3,7 +3,6 @@ import { ModalComponent } from 'src/app/shared/components/modal/modal.component'
 import { DocumentTypeSelectComponent } from '../../../document-type/components/document-type-select.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PersonCreateService } from '../../services/person-create.service';
-import { HttpClientModule } from '@angular/common/http';
 import { NgIf } from '@angular/common';
 import { ButtonLoadingComponent } from 'src/app/shared/components/button-loading/button-loading.component';
 import { PersonEntityInterface } from '../../interfaces/person-entity.interface';
@@ -26,7 +25,6 @@ import { ReniecPersonEntityInterface } from '../../../reniec/interfaces/reniec-p
     ModalComponent,
     DocumentTypeSelectComponent,
     ReactiveFormsModule,
-    HttpClientModule,
     DepartamentoSelectComponent,
     ProvinciaSelectComponent,
     DistritoSelectComponent,

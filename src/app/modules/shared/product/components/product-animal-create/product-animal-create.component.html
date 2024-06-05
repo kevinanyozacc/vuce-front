@@ -1,0 +1,101 @@
+<app-modal [title]="title" [isOpen]="isOpen" (eventClose)="onClose()" [formGroup]="createForm">
+  <form [formGroup]="createForm" (submit)="onSubmit()">
+    <div class="mb-3 grid grid-cols-1 gap-4">
+      <div class="col-span-2 sm:col-span-1">
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Cod. Producto <b class="text-red-600">*</b>
+        </label>
+        <div class="flex gap-2">
+          <input
+            readonly
+            formControlName="productId"
+            type="text"
+            class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+          <button
+            (click)="openSearch()"
+            type="button"
+            class="rounded-lg bg-primary px-5 py-3 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4">
+            Buscar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!!createForm.value.productId">
+      <div class="mb-3 grid grid-cols-1 gap-4">
+        <div class="col-span-2 sm:col-span-1">
+          <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+            Descripción Producto <b class="text-red-600">*</b>
+          </label>
+          <textarea
+            readonly
+            formControlName="productName"
+            type="text"
+            class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400">
+          </textarea>
+        </div>
+      </div>
+
+      <div class="mb-3 grid grid-cols-2 gap-4">
+        <div class="col-span-2 sm:col-span-1">
+          <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+            Edad <b class="text-red-600">*</b>
+          </label>
+          <input
+            formControlName="age"
+            type="number"
+            class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+        </div>
+
+        <div class="col-span-2 sm:col-span-1">
+          <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+            Sexo <b class="text-red-600">*</b>
+          </label>
+          <select
+            formControlName="gender"
+            class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
+            <option value="M">MASCULINO</option>
+            <option value="F">FEMENINO</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3 grid grid-cols-1 gap-4">
+        <div class="col-span-2 sm:col-span-1">
+          <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+            Procedencia <b class="text-red-600">*</b>
+          </label>
+          <input
+            formControlName="origin"
+            type="text"
+            class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+        </div>
+      </div>
+
+      <div class="mb-3 grid grid-cols-1 gap-4">
+        <div class="col-span-2 sm:col-span-1">
+          <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+            Cantidad <b class="text-red-600">*</b>
+          </label>
+          <input
+            formControlName="amount"
+            type="number"
+            step="any"
+            class="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" />
+        </div>
+      </div>
+
+      <div class="text-right">
+        <button
+          [disabled]="!createForm.valid"
+          type="submit"
+          class="rounded-lg bg-primary px-5 py-3 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4">
+          Agregar
+        </button>
+      </div>
+    </div>
+  </form>
+</app-modal>
+
+<!-- search -->
+<app-product-search type="animal" [isOpen]="isSearch" (eventClose)="closeSearch()" (eventSelect)="onProduct($event)" />

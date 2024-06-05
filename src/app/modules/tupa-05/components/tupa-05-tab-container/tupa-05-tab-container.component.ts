@@ -9,6 +9,11 @@ import { Tup05ParteIVComponent } from '../tupa-05-parte-iv/tupa-05-parte-iv.comp
 import { Tup05ParteVComponent } from '../tupa-05-parte-v/tupa-05-parte-v.component';
 import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
 import { EstablishmentEntityInterface } from 'src/app/modules/shared/establishment/interfaces/establishment-entity.interface';
+import { tupaFinalidadData } from '../../data/tupa-finalidad.data';
+import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
+import { ProductAnimalEntityInterface } from 'src/app/modules/shared/product/interfaces/product-animal-entity.interface';
+import { ProductSubProductEntityInterface } from 'src/app/modules/shared/product/interfaces/product-subproduct-entity.interface';
+import { RepresentanteEntityInterface } from 'src/app/modules/shared/person/interfaces/representante-entity.interface';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -50,12 +55,19 @@ export class Tupa05TabContainerComponent {
     {
       id: Tupa05TabIdEnum.PARTE_V,
       name: 'V - Datos del pago',
-      active: false,
+      active: true,
     },
   ];
 
   public person?: PersonEntityInterface;
+  public representante?: RepresentanteEntityInterface;
   public establishment?: EstablishmentEntityInterface;
+  public technical?: PersonEntityInterface;
+  public finalidad = tupaFinalidadData;
+  public animals: ProductAnimalEntityInterface[] = [];
+  public subProducts: ProductSubProductEntityInterface[] = [];
+  public personPayment?: PersonEntityInterface;
+  public payments: PaymentEntityInterface[] = [];
 
   onSelect(item: Tupa05TabInterface) {
     this.tabs = this.tabs.map((tab) => {
@@ -68,8 +80,20 @@ export class Tupa05TabContainerComponent {
     this.person = person;
   }
 
+  selectRepresentante(representante?: RepresentanteEntityInterface) {
+    this.representante = representante;
+  }
+
   selectEstablishment(establishment?: EstablishmentEntityInterface) {
     this.establishment = establishment;
+  }
+
+  selectTechnical(technical?: PersonEntityInterface) {
+    this.technical = technical;
+  }
+
+  selectPersonPayment(person?: PersonEntityInterface) {
+    this.personPayment = person;
   }
 
   get currentTab(): Tupa05TabInterface | undefined {

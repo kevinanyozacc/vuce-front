@@ -1,4 +1,4 @@
-<form>
+<div>
   <!-- header -->
   <h6 class="mb-2 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
     Datos del solicitante
@@ -7,13 +7,14 @@
   <div class="pt-5">
     <div class="mb-6 grid gap-6 md:grid-cols-3">
       <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Tipo Documento <b class="text-red-600">*</b></label
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          Tipo Documento <b class="text-red-600">*</b></label
         >
         <input
           type="text"
-          id="first_name"
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+          readonly
+          [value]="person?.documentType?.name"
+          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm uppercase text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
@@ -21,94 +22,133 @@
         >
         <input
           type="text"
-          id="first_name"
+          readonly
+          [value]="person?.documentNumber"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
-      <div>
+      <div class="justify-end">
         <button
-          class="relative w-full rounded-lg border border-primary bg-transparent px-5 py-2.5 text-center text-sm font-medium text-primary text-white ring-primary/50 focus:outline-none focus:ring-4 hover:bg-primary hover:text-white sm:w-auto md:top-7">
+          (click)="personSearchModalOpen()"
+          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
           Buscar
         </button>
+
         <button
-          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:mt-0 md:ml-2">
+          type="button"
+          (click)="personCreateModalOpen()"
+          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
           Agregar
         </button>
       </div>
     </div>
     <!-- level 2 -->
-    <div class="mb-6">
+    <div class="mb-6" *ngIf="!!person">
       <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
         >Razón social/Nombre <b class="text-red-600">*</b></label
       >
       <input
         type="text"
-        id="first_name"
+        readonly
+        [value]="person.nombreRazonSocial"
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
     </div>
     <!-- level 3 -->
-    <div class="mb-6">
+    <div class="mb-6" *ngIf="!!person">
       <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
         >Dirección <b class="text-red-600">*</b></label
       >
       <textarea
+        readonly
+        [value]="person.address"
         class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
       </textarea>
     </div>
     <!-- level 4 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-3">
+    <div class="mb-6 grid gap-6 md:grid-cols-2" *ngIf="!!person">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Departamento</label>
         <input
           type="text"
+          readonly
+          [value]="person.ubigeo?.departamentoName"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Provincia</label>
         <input
           type="text"
+          readonly
+          [value]="person.ubigeo?.provinciaName"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Nombre Distrito</label>
         <input
           type="text"
+          readonly
+          [value]="person.ubigeo?.distritoName"
+          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+      </div>
+      <div>
+        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Centro Poblado</label>
+        <input
+          type="text"
+          readonly
+          [value]="person.poblado?.name"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
     </div>
     <!-- level 5 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-3">
+    <div class="mb-6 grid gap-6 md:grid-cols-3" *ngIf="!!person">
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
         <input
           type="text"
+          readonly
+          [value]="person.phone"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Teléfono Movil</label>
         <input
           type="text"
+          readonly
+          [value]="person.cellphone"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div>
         <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Correo Electrónico</label>
         <input
           type="text"
+          readonly
+          [value]="person.email"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
     </div>
   </div>
   <!-- level 6 -->
-  <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
-    Datos del solicitante
+  <h6
+    class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white"
+    *ngIf="!!person">
+    Datos del Representante
   </h6>
   <!-- level 7 -->
-  <div class="mb-6">
-    <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-      >Representante Legal<b class="text-red-600">*</b></label
-    >
-    <input
-      type="text"
-      id="first_name"
-      class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+  <div class="mb-6" *ngIf="!!person">
+    <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">Representante Legal</label>
+    <app-person-representante-select
+      [personId]="person.id"
+      [value]="representante?.id"
+      (eventData)="onSelectRepresentante($event)" />
   </div>
-</form>
+</div>
+
+<app-person-create
+  [isOpen]="personCreateModal"
+  (eventClose)="personCreateModalClose()"
+  (eventSave)="onSavePerson($event)" />
+
+<app-person-search
+  title="Buscar solicitante"
+  [isOpen]="personSearchModal"
+  (eventClose)="personSearchModalClose()"
+  (eventSelect)="onSelectPerson($event)" />

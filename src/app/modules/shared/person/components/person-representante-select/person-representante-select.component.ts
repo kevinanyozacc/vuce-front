@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PersonRepresentanteListService } from '../../services/person-representante-list.service';
+import { RepresentanteEntityInterface } from '../../interfaces/representante-entity.interface';
 
 @Component({
   selector: 'app-person-representante-select',
@@ -25,6 +26,9 @@ export class PersonRepresentanteSelectComponent implements OnChanges {
   @Output()
   public eventChange = new EventEmitter<string>();
 
+  @Output()
+  public eventData = new EventEmitter<RepresentanteEntityInterface | undefined>();
+
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes['personId']) {
       const value = changes['personId'].currentValue;
@@ -33,6 +37,9 @@ export class PersonRepresentanteSelectComponent implements OnChanges {
   }
 
   onChange(event: any) {
-    this.eventChange.emit(event.target.value || '');
+    const value = event.target.value || undefined;
+    this.eventChange.emit(value);
+    const data = this.service.getData().find((item) => item.id == value);
+    this.eventData.emit(data);
   }
 }
