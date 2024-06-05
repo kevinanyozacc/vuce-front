@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AreaSelectComponent } from 'src/app/modules/shared/area/components/area-select.component';
 import { PaymentCreateComponent } from 'src/app/modules/shared/method-payment/components/payment-create/payment-create.component';
@@ -9,6 +9,7 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 import { PaymentTableComponent } from '../../../shared/method-payment/components/payment-table/payment-table.component';
 import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
 import { SedeSelectComponent } from 'src/app/modules/shared/sede/components/sede-select/sede-select.component';
+import { tupaPaymentData } from '../../data/tupa-payment.data';
 
 @Component({
   selector: 'app-tupa-05-parte-v',
@@ -25,7 +26,7 @@ import { SedeSelectComponent } from 'src/app/modules/shared/sede/components/sede
     PaymentTableComponent,
   ],
 })
-export class Tup05ParteVComponent {
+export class Tup05ParteVComponent implements OnInit {
   @Input()
   public person?: PersonEntityInterface;
 
@@ -44,6 +45,10 @@ export class Tup05ParteVComponent {
 
   public isOpenPayment = false;
   public isOpenPerson = false;
+
+  ngOnInit(): void {
+    this.payments = tupaPaymentData;
+  }
 
   init() {
     this.createForm.controls.sedeId.setValue('01');

@@ -50,12 +50,12 @@ export class Tupa05TabContainerComponent {
     {
       id: Tupa05TabIdEnum.PARTE_IV,
       name: 'IV - Mercancia pecuaria',
-      active: true,
+      active: false,
     },
     {
       id: Tupa05TabIdEnum.PARTE_V,
       name: 'V - Datos del pago',
-      active: false,
+      active: true,
     },
   ];
 

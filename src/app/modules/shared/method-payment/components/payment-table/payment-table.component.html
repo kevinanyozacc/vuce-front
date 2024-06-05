@@ -9,15 +9,14 @@
         <th class="py-3 text-left text-gray-900 dark:text-white">N° Boleta Depósito</th>
         <th class="py-3 text-left text-gray-900 dark:text-white">Fecha</th>
         <th class="py-3 text-right text-gray-900 dark:text-white">Monto</th>
+        <th class="py-3 text-center text-gray-900 dark:text-white">Acciones</th>
       </tr>
     </thead>
     <!--Table body-->
     <tbody>
-      <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let item of data">
+      <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let item of data; let i = index">
         <td class="py-2 pr-2">
-          <span class="text-sm font-semibold text-muted-foreground">
-            {{ item.paymentTypeName }}
-          </span>
+          <span class="text-sm font-semibold text-muted-foreground"> {{ item.paymentTypeName }} </span>
         </td>
         <td class="py-2 pr-2">
           <span class="text-sm font-semibold text-muted-foreground">
@@ -44,7 +43,24 @@
             {{ item.paymentAmount }}
           </span>
         </td>
+        <td class="py-2 pl-2">
+          <div class="flex justify-center gap-2">
+            <svg-icon
+              (click)="deleteItem(i)"
+              src="assets/icons/heroicons/outline/trash.svg"
+              [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+            </svg-icon>
+            <svg-icon
+              (click)="editItem(i, item)"
+              src="assets/icons/heroicons/outline/edit.svg"
+              [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+            </svg-icon>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<!-- edit payment -->
+<app-payment-edit [isOpen]="isOpen" [payment]="payment" (eventClose)="closeEdit()" (eventSave)="editPayment($event)" />
