@@ -1,4 +1,4 @@
-export enum Tupa05TabIdEnum {
+export enum TupaItemIdEnum {
   PARTE_I = 'PARTE_I',
   PARTE_II = 'PARTE_II',
   PARTE_III = 'PARTE_III',
@@ -6,8 +6,8 @@ export enum Tupa05TabIdEnum {
   PARTE_V = 'PARTE_V',
 }
 
-export interface Tupa05TabInterface {
-  id: Tupa05TabIdEnum;
+export interface TupaItemTabInterface {
+  id: TupaItemIdEnum;
   name: string;
   active: boolean;
 }

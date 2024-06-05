@@ -4,7 +4,6 @@ import { DashboardComponent } from './dashboard.component';
 import { NftComponent } from './pages/nft/nft.component';
 import { PodcastComponent } from './pages/podcast/podcast.component';
 import { FormsComponent } from './pages/forms/forms.component';
-import { MockupComponent } from './pages/mockup-05/mockup.component';
 import { Tupa05Component } from './pages/tupa-05-page/tupa-05-page.component';
 import { RequisitosComponent } from './pages/requisitos-page/requisitos-page.component';
 import { DocumentoResolutivoComponent } from './pages/documento-resolutivo/documento-resolutivo.component';
@@ -19,7 +18,6 @@ const routes: Routes = [
       { path: 'nfts', component: NftComponent },
       { path: 'podcast', component: PodcastComponent },
       { path: 'forms', component: FormsComponent },
-      { path: 'mockup-05', component: MockupComponent },
       { path: 'tupa-05', component: Tupa05Component },
       { path: 'tupa-04', component: Tupa04Component },
       { path: 'requisitos', component: RequisitosComponent },

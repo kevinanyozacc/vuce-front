@@ -11,8 +11,8 @@ import { ProductAnimalEditComponent } from 'src/app/modules/shared/product/compo
 import { ProductSubProductEditComponent } from 'src/app/modules/shared/product/components/product-subproduct-edit/product-subproduct-edit.component';
 
 @Component({
-  selector: 'app-tupa-05-parte-iv',
-  templateUrl: './tupa-05-parte-iv.component.html',
+  selector: 'app-tupa-05-mercancia-pecuaria',
+  templateUrl: './tupa-05-mercancia-pecuaria.component.html',
   standalone: true,
   imports: [
     NgFor,
@@ -24,7 +24,7 @@ import { ProductSubProductEditComponent } from 'src/app/modules/shared/product/c
     ProductSubProductEditComponent,
   ],
 })
-export class Tup05ParteIVComponent implements OnInit {
+export class Tupa05MercanciaPecuariaComponent implements OnInit {
   @Input()
   public animals: ProductAnimalEntityInterface[] = [];
 

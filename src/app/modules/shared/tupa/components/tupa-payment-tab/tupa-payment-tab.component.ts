@@ -6,14 +6,13 @@ import { PersonSearchComponent } from 'src/app/modules/shared/person/components/
 import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
 import { ProcedureSelectComponent } from 'src/app/modules/shared/procedure/components/procedure-select/procedure-select.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
-import { PaymentTableComponent } from '../../../shared/method-payment/components/payment-table/payment-table.component';
 import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
 import { SedeSelectComponent } from 'src/app/modules/shared/sede/components/sede-select/sede-select.component';
-import { tupaPaymentData } from '../../data/tupa-payment.data';
+import { PaymentTableComponent } from '../../../method-payment/components/payment-table/payment-table.component';
 
 @Component({
-  selector: 'app-tupa-05-parte-v',
-  templateUrl: './tupa-05-parte-v.component.html',
+  selector: 'app-tupa-payment-tab',
+  templateUrl: './tupa-payment-tab.component.html',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -26,7 +25,7 @@ import { tupaPaymentData } from '../../data/tupa-payment.data';
     PaymentTableComponent,
   ],
 })
-export class Tup05ParteVComponent implements OnInit {
+export class TupaPaymentTabComponent {
   @Input()
   public person?: PersonEntityInterface;
 
@@ -45,10 +44,6 @@ export class Tup05ParteVComponent implements OnInit {
 
   public isOpenPayment = false;
   public isOpenPerson = false;
-
-  ngOnInit(): void {
-    this.payments = tupaPaymentData;
-  }
 
   init() {
     this.createForm.controls.sedeId.setValue('01');

@@ -15,8 +15,8 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
 
 @Component({
-  selector: 'app-tupa-05-parte-i',
-  templateUrl: './tupa-05-parte-i.component.html',
+  selector: 'app-tupa-request-tab',
+  templateUrl: './tupa-request-tab.component.html',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -33,7 +33,7 @@ import { LoadingComponent } from 'src/app/shared/components/loading/loading.comp
   ],
   providers: [PersonSearchService],
 })
-export class Tup05ParteIComponent {
+export class TupaRequestTabComponent {
   @Input()
   public person?: PersonEntityInterface | null;
 

@@ -5,12 +5,12 @@ import { TupaFinalidadInterface } from '../../interfaces/tupa-finalidad.interfac
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-tupa-05-parte-iii',
-  templateUrl: './tupa-05-parte-iii.component.html',
+  selector: 'app-tupa-05-final',
+  templateUrl: './tupa-05-final.component.html',
   standalone: true,
   imports: [NgIf, ButtonComponent, PaisSelectComponent],
 })
-export class Tup05ParteIIIComponent {
+export class Tupa05FinalComponent {
   @Input()
   public finalidad!: TupaFinalidadInterface;
 
