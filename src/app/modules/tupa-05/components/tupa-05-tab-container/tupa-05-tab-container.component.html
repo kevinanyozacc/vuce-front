@@ -3,7 +3,9 @@
   <app-tupa-05-parte-i
     *ngIf="this.currentTabKey === tabs[0].id"
     [person]="person"
-    (eventPerson)="selectPerson($event)" />
+    [representante]="representante"
+    (eventPerson)="selectPerson($event)"
+    (eventRepresentante)="selectRepresentante($event)" />
   <app-tupa-05-parte-ii
     *ngIf="this.currentTabKey === tabs[1].id"
     [establishment]="establishment"

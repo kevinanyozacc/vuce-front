@@ -13,6 +13,7 @@ import { tupaFinalidadData } from '../../data/tupa-finalidad.data';
 import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
 import { ProductAnimalEntityInterface } from 'src/app/modules/shared/product/interfaces/product-animal-entity.interface';
 import { ProductSubProductEntityInterface } from 'src/app/modules/shared/product/interfaces/product-subproduct-entity.interface';
+import { RepresentanteEntityInterface } from 'src/app/modules/shared/person/interfaces/representante-entity.interface';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -59,6 +60,7 @@ export class Tupa05TabContainerComponent {
   ];
 
   public person?: PersonEntityInterface;
+  public representante?: RepresentanteEntityInterface;
   public establishment?: EstablishmentEntityInterface;
   public technical?: PersonEntityInterface;
   public finalidad = tupaFinalidadData;
@@ -76,6 +78,10 @@ export class Tupa05TabContainerComponent {
 
   selectPerson(person?: PersonEntityInterface) {
     this.person = person;
+  }
+
+  selectRepresentante(representante?: RepresentanteEntityInterface) {
+    this.representante = representante;
   }
 
   selectEstablishment(establishment?: EstablishmentEntityInterface) {

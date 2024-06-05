@@ -58,6 +58,20 @@
                 {{ item.amount }}
               </span>
             </td>
+            <td>
+              <div class="flex justify-center gap-2">
+                <svg-icon
+                  src="assets/icons/heroicons/outline/trash.svg"
+                  (click)="deleteAnimal(item)"
+                  [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+                </svg-icon>
+                <svg-icon
+                  src="assets/icons/heroicons/outline/edit.svg"
+                  (click)="editAnimal(item)"
+                  [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+                </svg-icon>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -83,7 +97,7 @@
             <th class="py-3 text-left">Producto/SubProducto</th>
             <th class="py-3 text-left">Peso (Kg)</th>
             <th class="py-3 text-left">Nombre Producto en la Autorización</th>
-            <th class="py-3 text-left">Acciones</th>
+            <th class="py-3 text-center">Acciones</th>
           </tr>
         </thead>
         <!--Table body-->
@@ -92,17 +106,28 @@
             <td class="py-2 pr-2">
               <span class="text-sm font-semibold">{{ item.productId }}</span>
             </td>
-            <td class="py-2 pl-2 text-right">
+            <td class="py-2 pl-2 text-left">
               <span class="text-sm font-semibold">{{ item.productName }}</span>
             </td>
-            <td class="py-2 pl-2 text-right">
+            <td class="py-2 pl-2">
               <span class="text-sm font-semibold">{{ item.weight }}</span>
             </td>
-            <td class="py-2 pl-2 text-right">
+            <td class="py-2 pl-2">
               <span class="text-sm font-semibold">{{ item.authorizeName }}</span>
             </td>
-            <td class="py-2 pl-2 text-right">
-              <span class="text-sm font-semibold">{{ item.productId }}</span>
+            <td class="py-2 pl-2">
+              <div class="flex justify-center gap-2">
+                <svg-icon
+                  src="assets/icons/heroicons/outline/trash.svg"
+                  (click)="deleteSubProduct(item)"
+                  [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+                </svg-icon>
+                <svg-icon
+                  src="assets/icons/heroicons/outline/edit.svg"
+                  (click)="editSubProduct(item)"
+                  [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+                </svg-icon>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -117,8 +142,22 @@
   (eventClose)="closeCreateAnimal()"
   (eventSave)="onAnimal($event)" />
 
+<!-- edit animal -->
+<app-product-animal-edit
+  [isOpen]="isOpenEditAnimal"
+  [product]="animal"
+  (eventClose)="closeEditAnimal()"
+  (eventSave)="onAnimal($event)" />
+
 <!-- add subproduct -->
 <app-product-subproduct-create
   [isOpen]="isOpenCreateSubProduct"
   (eventClose)="closeCreateSubProduct()"
+  (eventSave)="onSubProduct($event)" />
+
+<!-- edit subproduct -->
+<app-product-subproduct-edit
+  [isOpen]="isOpenEditSubProduct"
+  [product]="subProduct"
+  (eventClose)="closeEditSubProduct()"
   (eventSave)="onSubProduct($event)" />

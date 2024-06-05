@@ -135,7 +135,10 @@
   <!-- level 7 -->
   <div class="mb-6" *ngIf="!!person">
     <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">Representante Legal</label>
-    <app-person-representante-select [personId]="person.id" />
+    <app-person-representante-select
+      [personId]="person.id"
+      [value]="representante?.id"
+      (eventData)="onSelectRepresentante($event)" />
   </div>
 </div>
 
