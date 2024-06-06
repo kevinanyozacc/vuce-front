@@ -9,6 +9,7 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
 import { SedeSelectComponent } from 'src/app/modules/shared/sede/components/sede-select/sede-select.component';
 import { PaymentTableComponent } from '../../../method-payment/components/payment-table/payment-table.component';
+import { ProcedureServiceSelectComponent } from '../../../procedure/components/procedure-service-select/procedure-service-select.component';
 
 @Component({
   selector: 'app-tupa-payment-tab',
@@ -19,6 +20,7 @@ import { PaymentTableComponent } from '../../../method-payment/components/paymen
     ButtonComponent,
     PaymentCreateComponent,
     PersonSearchComponent,
+    ProcedureServiceSelectComponent,
     ProcedureSelectComponent,
     SedeSelectComponent,
     AreaSelectComponent,
@@ -39,17 +41,17 @@ export class TupaPaymentTabComponent {
     sedeId: new FormControl('01', Validators.required),
     areaId: new FormControl('', Validators.required),
     procedureId: new FormControl('', Validators.required),
-    service: new FormControl('', Validators.required),
+    serviceId: new FormControl('', Validators.required),
   });
 
   public isOpenPayment = false;
   public isOpenPerson = false;
 
   init() {
-    this.createForm.controls.sedeId.setValue('01');
+    this.createForm.controls.sedeId.setValue('');
     this.createForm.controls.areaId.setValue('');
     this.createForm.controls.procedureId.setValue('');
-    this.createForm.controls.service.setValue('');
+    this.createForm.controls.serviceId.setValue('');
   }
 
   openPayment() {
@@ -68,22 +70,28 @@ export class TupaPaymentTabComponent {
     this.isOpenPerson = false;
   }
 
-  onSede(value: string) {
-    this.createForm.controls.sedeId.setValue(value);
-  }
-
-  onArea(value: string) {
-    this.createForm.controls.areaId.setValue(value);
-    this.createForm.controls.procedureId.setValue('');
-  }
-
   onPerson(person: PersonEntityInterface) {
     this.eventPerson.emit(person);
     this.closePerson();
   }
 
+  onSede(value: string) {
+    this.createForm.controls.sedeId.setValue(value || '');
+  }
+
+  onArea(value: string) {
+    this.createForm.controls.areaId.setValue(value || '');
+    this.createForm.controls.procedureId.setValue('');
+    this.createForm.controls.serviceId.setValue('');
+  }
+
   onProcedure(value: string) {
-    this.createForm.controls.procedureId.setValue(value);
+    this.createForm.controls.procedureId.setValue(value || '');
+    this.createForm.controls.serviceId.setValue('');
+  }
+
+  onService(value: string) {
+    this.createForm.controls.serviceId.setValue(value || '');
   }
 
   onAdd() {

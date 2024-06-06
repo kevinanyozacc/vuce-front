@@ -39,10 +39,10 @@
       <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Servicio por Procedimiento <b class="text-red-800">*</b>
       </label>
-      <input
-        type="text"
-        formControlName="service"
-        class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+      <app-procedure-service-select
+        [value]="createForm.value.serviceId"
+        [procedureId]="createForm.value.procedureId"
+        (eventChange)="onService($event)" />
     </div>
     <div>
       <button

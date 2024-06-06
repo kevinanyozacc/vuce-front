@@ -25,7 +25,7 @@ export class ProcedureSelectComponent implements OnChanges {
   @Output() eventChange = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes['areaId']) {
+    if (!!changes['areaId']?.currentValue) {
       const value = changes['areaId'].currentValue;
       this.service.getApiList(value);
     }
