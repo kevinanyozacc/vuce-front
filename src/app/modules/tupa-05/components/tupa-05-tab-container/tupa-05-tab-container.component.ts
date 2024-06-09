@@ -14,6 +14,9 @@ import { TupaRequestTabComponent } from 'src/app/modules/shared/tupa/components/
 import { TupaEstablishmentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-establishment-tab/tupa-esblishment-tab.component';
 import { TupaPaymentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-payment-tab/tupa-payment-tab.component';
 import { Tupa05FinalComponent } from '../tupa-05-final/tupa-05-final.component';
+import { PaymentDataEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-data-entity.interface';
+import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/components/tupa-expediente-tab/tupa-expediente-tab.component';
+import { Tupa05ProductTypeEnum } from '../../enums/tupa-05-product-type.enum';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -28,34 +31,40 @@ import { Tupa05FinalComponent } from '../tupa-05-final/tupa-05-final.component';
     Tupa05FinalComponent,
     Tupa05MercanciaPecuariaComponent,
     TupaPaymentTabComponent,
+    TupaExpedienteTabComponent,
   ],
 })
 export class Tupa05TabContainerComponent {
   tabs: TupaItemTabInterface[] = [
     {
       id: TupaItemIdEnum.PARTE_I,
-      name: 'I - Información  de empresa solicitante',
+      name: 'I - INFORMACIÓN DE EMPRESA SOLICITANTE',
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_II,
-      name: 'II - Establecimiento',
-      active: true,
+      name: 'II - ESTABLECIMIENTO',
+      active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_III,
-      name: 'III - Finalidad',
+      name: 'III - FINALIDAD',
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_IV,
-      name: 'IV - Mercancia pecuaria',
-      active: false,
+      name: 'IV - MERCANCIA PECUARIA',
+      active: true,
     },
     {
       id: TupaItemIdEnum.PARTE_V,
-      name: 'V - Datos del pago',
-      active: true,
+      name: 'V - DATOS DEL PAGO',
+      active: false,
+    },
+    {
+      id: TupaItemIdEnum.PARTE_VI,
+      name: 'INFORMACIÓN DEL EXPEDIENTE',
+      active: false,
     },
   ];
 
@@ -64,9 +73,11 @@ export class Tupa05TabContainerComponent {
   public establishment?: EstablishmentEntityInterface;
   public technical?: PersonEntityInterface;
   public finalidad = tupaFinalidadData;
+  public productType: Tupa05ProductTypeEnum = Tupa05ProductTypeEnum.ANIMAL;
   public animals: ProductAnimalEntityInterface[] = [];
   public subProducts: ProductSubProductEntityInterface[] = [];
   public personPayment?: PersonEntityInterface;
+  public paymentDatas: PaymentDataEntityInterface[] = [];
   public payments: PaymentEntityInterface[] = [];
 
   onSelect(item: TupaItemTabInterface) {
@@ -90,6 +101,10 @@ export class Tupa05TabContainerComponent {
 
   selectTechnical(technical?: PersonEntityInterface) {
     this.technical = technical;
+  }
+
+  selectProductType(type: Tupa05ProductTypeEnum) {
+    this.productType = type;
   }
 
   selectPersonPayment(person?: PersonEntityInterface) {

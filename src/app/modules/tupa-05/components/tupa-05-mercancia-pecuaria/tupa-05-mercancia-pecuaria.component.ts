@@ -1,14 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProductAnimalCreateComponent } from 'src/app/modules/shared/product/components/product-animal-create/product-animal-create.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { ProductAnimalEntityInterface } from 'src/app/modules/shared/product/interfaces/product-animal-entity.interface';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ProductSubProductCreateComponent } from 'src/app/modules/shared/product/components/product-subproduct-create/product-subproduct-create.component';
 import { ProductSubProductEntityInterface } from 'src/app/modules/shared/product/interfaces/product-subproduct-entity.interface';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { tupaProductAnimalData, tupaProductSubProductData } from '../../data/tupa-product.data';
 import { ProductAnimalEditComponent } from 'src/app/modules/shared/product/components/product-animal-edit/product-animal-edit.component';
 import { ProductSubProductEditComponent } from 'src/app/modules/shared/product/components/product-subproduct-edit/product-subproduct-edit.component';
+import { Tupa05ProductTypeEnum } from '../../enums/tupa-05-product-type.enum';
 
 @Component({
   selector: 'app-tupa-05-mercancia-pecuaria',
@@ -16,6 +17,7 @@ import { ProductSubProductEditComponent } from 'src/app/modules/shared/product/c
   standalone: true,
   imports: [
     NgFor,
+    NgIf,
     AngularSvgIconModule,
     ButtonComponent,
     ProductAnimalCreateComponent,
@@ -30,6 +32,12 @@ export class Tupa05MercanciaPecuariaComponent implements OnInit {
 
   @Input()
   public subProducts: ProductSubProductEntityInterface[] = [];
+
+  @Input()
+  public productType!: Tupa05ProductTypeEnum;
+
+  @Output()
+  public eventType = new EventEmitter<Tupa05ProductTypeEnum>();
 
   public isOpenCreateAnimal = false;
   public isOpenEditAnimal = false;
@@ -73,6 +81,16 @@ export class Tupa05MercanciaPecuariaComponent implements OnInit {
 
   closeEditSubProduct() {
     this.isOpenEditSubProduct = false;
+  }
+
+  handleType(type: string) {
+    if (type == Tupa05ProductTypeEnum.ANIMAL) {
+      this.subProducts = [];
+      this.eventType.emit(Tupa05ProductTypeEnum.ANIMAL);
+    } else {
+      this.animals = [];
+      this.eventType.emit(Tupa05ProductTypeEnum.PRODUCT);
+    }
   }
 
   onAnimal(animal: ProductAnimalEntityInterface) {

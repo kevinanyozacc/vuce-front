@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
 import { ProcedureServiceListService } from '../../services/procedure-service-list.service';
+import { ProcedureServiceEntityInterface } from '../../interfaces/procedure-service-entity.interface';
 
 @Component({
   selector: 'app-procedure-service-select',
@@ -24,6 +25,8 @@ export class ProcedureServiceSelectComponent implements OnChanges {
 
   @Output() eventChange = new EventEmitter<string>();
 
+  @Output() eventData = new EventEmitter<ProcedureServiceEntityInterface | undefined>();
+
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes['procedureId']?.currentValue) {
       const value = changes['procedureId'].currentValue;
@@ -32,6 +35,9 @@ export class ProcedureServiceSelectComponent implements OnChanges {
   }
 
   onChange(event: any) {
-    this.eventChange.emit(event.target.value || '');
+    const value = event.target.value || '';
+    const obj = this.service.getData().find((item) => item.id == value);
+    this.eventChange.emit(value);
+    this.eventData.emit(obj);
   }
 }

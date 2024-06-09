@@ -15,11 +15,15 @@
   <app-tupa-05-final *ngIf="this.currentTabKey === tabs[2].id" [finalidad]="finalidad" />
   <app-tupa-05-mercancia-pecuaria
     *ngIf="this.currentTabKey === tabs[3].id"
+    [productType]="productType"
     [animals]="animals"
-    [subProducts]="subProducts" />
+    [subProducts]="subProducts"
+    (eventType)="selectProductType($event)" />
   <app-tupa-payment-tab
     *ngIf="this.currentTabKey === tabs[4].id"
     [person]="personPayment"
+    [paymentDatas]="paymentDatas"
     [payments]="payments"
     (eventPerson)="selectPersonPayment($event)" />
+  <app-tupa-expediente-tab *ngIf="currentTabKey === tabs[5].id" />
 </div>

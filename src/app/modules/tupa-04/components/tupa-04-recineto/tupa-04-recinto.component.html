@@ -1,0 +1,28 @@
+<form>
+  <!-- importación -->
+  <div class="mt-2">
+    <h6 class="mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+      Del Recinto
+    </h6>
+
+    <div class="mb-6 grid gap-6 md:grid-cols-2">
+      <div>
+        <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          N° PSI <b class="text-red-600">*</b>
+        </label>
+        <input
+          type="text"
+          name="numberPSI"
+          (keyup)="onChange($event.target)"
+          [value]="recinto.numberPSI || ''"
+          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+      </div>
+      <div>
+        <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          País Destino <b class="text-red-600">*</b>
+        </label>
+        <app-pais-select [value]="recinto.countryTargetId" (eventChange)="onCountryTarget($event)" />
+      </div>
+    </div>
+  </div>
+</form>

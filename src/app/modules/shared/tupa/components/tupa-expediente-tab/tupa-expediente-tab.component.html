@@ -1,0 +1,56 @@
+<h6 class="mb-2 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+  Información del Expediente
+</h6>
+
+<div class="pt-5">
+  <table class="w-full table-auto">
+    <tbody>
+      <tr class="border-b border-dashed border-border">
+        <td class="py-2 pr-2" width="150">
+          <span class="text-sm">Expediente Nro:</span>
+        </td>
+        <td class="py-2 pl-2 text-left">
+          <span class="text-sm font-semibold">{{ expediente?.id }}</span>
+        </td>
+        <td class="py-2 pr-2" width="150">
+          <span class="text-sm">Fecha de reg.:</span>
+        </td>
+        <td class="py-2 pl-2 text-left">
+          <span class="text-sm font-semibold">{{ expediente?.date }}</span>
+        </td>
+      </tr>
+      <tr class="border-b border-dashed border-border">
+        <td class="py-2 pr-2">
+          <span class="text-sm">Oficina:</span>
+        </td>
+        <td class="py-2 pl-2 text-left" colspan="3">
+          <span class="text-sm font-semibold">{{ expediente?.sedeName }}</span>
+        </td>
+      </tr>
+      <tr class="border-b border-dashed border-border">
+        <td class="py-2 pr-2">
+          <span class="text-sm">Proceso:</span>
+        </td>
+        <td class="py-2 pl-2 text-left" colspan="3">
+          <span class="text-sm font-semibold">{{ expediente?.procedureName }}</span>
+        </td>
+      </tr>
+      <tr class="border-b border-dashed border-border">
+        <td class="py-2 pr-2">
+          <span class="text-sm">Servicio TUPA:</span>
+        </td>
+        <td class="py-2 pl-2 text-left" colspan="3">
+          <span class="text-sm font-semibold">{{ expediente?.serviceName }}</span>
+        </td>
+      </tr>
+      <tr class="border-b border-dashed border-border">
+        <td class="py-2 pr-2">
+          <span class="text-sm">Usuario:</span>
+        </td>
+        <td class="py-2 pl-2 text-left" colspan="3">
+          <span class="text-sm font-semibold">{{ expediente?.personName }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

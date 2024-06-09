@@ -8,8 +8,6 @@ import { PersonSearchComponent } from 'src/app/modules/shared/person/components/
 import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
 import { RepresentanteEntityInterface } from 'src/app/modules/shared/person/interfaces/representante-entity.interface';
 import { PersonSearchService } from 'src/app/modules/shared/person/services/person-search.service';
-import { SolicitanteAddModalComponent } from 'src/app/modules/shared/solicitante-add/components/solicitante-add-modal/solicitante-add.component';
-import { SolicitanteModalComponent } from 'src/app/modules/shared/solicitante-search/components/solicitante-modal/solicitante-modal.component';
 import { ButtonLoadingComponent } from 'src/app/shared/components/button-loading/button-loading.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
@@ -24,8 +22,6 @@ import { LoadingComponent } from 'src/app/shared/components/loading/loading.comp
     ButtonComponent,
     LoadingComponent,
     ButtonLoadingComponent,
-    SolicitanteModalComponent,
-    SolicitanteAddModalComponent,
     DocumentTypeSelectComponent,
     PersonCreateComponent,
     PersonSearchComponent,

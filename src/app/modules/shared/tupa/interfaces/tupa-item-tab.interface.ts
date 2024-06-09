@@ -4,6 +4,7 @@ export enum TupaItemIdEnum {
   PARTE_III = 'PARTE_III',
   PARTE_IV = 'PARTE_IV',
   PARTE_V = 'PARTE_V',
+  PARTE_VI = 'PARTE_VI',
 }
 
 export interface TupaItemTabInterface {

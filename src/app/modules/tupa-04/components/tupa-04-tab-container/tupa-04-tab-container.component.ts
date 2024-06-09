@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { tupaFinalidadData } from '../../data/tupa-finalidad.data';
+import { tupaRecintoData } from '../../data/tupa-recinto.data';
 import { PersonEntityInterface } from '../../../shared/person/interfaces/person-entity.interface';
 import { RepresentanteEntityInterface } from '../../../shared/person/interfaces/representante-entity.interface';
 import { EstablishmentEntityInterface } from '../../../shared/establishment/interfaces/establishment-entity.interface';
@@ -12,6 +12,8 @@ import { TupaItemIdEnum, TupaItemTabInterface } from 'src/app/modules/shared/tup
 import { TupaEstablishmentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-establishment-tab/tupa-esblishment-tab.component';
 import { TupaPaymentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-payment-tab/tupa-payment-tab.component';
 import { TupaRequestTabComponent } from 'src/app/modules/shared/tupa/components/tupa-request-tab/tupa-request-tab.component';
+import { Tupa04InfoAnimalComponent } from '../tupa-04-info-animal/tupa-04-info-animal.component';
+import { Tupa04RecintoComponent } from '../tupa-04-recineto/tupa-04-recinto.component';
 
 @Component({
   selector: 'app-tupa-04-tab-container',
@@ -23,6 +25,8 @@ import { TupaRequestTabComponent } from 'src/app/modules/shared/tupa/components/
     TupaHeaderTabComponent,
     TupaRequestTabComponent,
     TupaEstablishmentTabComponent,
+    Tupa04RecintoComponent,
+    Tupa04InfoAnimalComponent,
     TupaPaymentTabComponent,
   ],
 })
@@ -59,9 +63,8 @@ export class Tupa04TabContainerComponent {
   public representante?: RepresentanteEntityInterface;
   public establishment?: EstablishmentEntityInterface;
   public technical?: PersonEntityInterface;
-  public finalidad = tupaFinalidadData;
+  public recinto = tupaRecintoData;
   public animals: ProductAnimalEntityInterface[] = [];
-  public subProducts: ProductSubProductEntityInterface[] = [];
   public personPayment?: PersonEntityInterface;
   public payments: PaymentEntityInterface[] = [];
 

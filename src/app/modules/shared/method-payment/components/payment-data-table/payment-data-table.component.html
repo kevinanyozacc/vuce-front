@@ -1,0 +1,42 @@
+<div class="relative overflow-x-auto">
+  <table class="w-full table-auto">
+    <!--Table head-->
+    <thead class="text-xs uppercase text-muted-foreground">
+      <tr>
+        <th class="py-3 text-left">Conceptos de pago</th>
+        <th class="py-3 text-right">Cantidad</th>
+        <th class="py-3 text-right">Costo</th>
+      </tr>
+    </thead>
+    <!--Table body-->
+    <tbody>
+      <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let item of data">
+        <td class="py-2 pr-2">
+          <span class="text-sm font-semibold text-muted-foreground">
+            {{ item.serviceName }}
+          </span>
+        </td>
+        <td class="py-2 pl-2 text-right">
+          <span class="text-sm font-semibold text-muted-foreground">
+            {{ item.amount }}
+          </span>
+        </td>
+        <td class="py-2 pl-2 text-right">
+          <span class="text-sm font-semibold text-muted-foreground">
+            {{ item.price }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr class="border-b border-dashed border-border hover:bg-card">
+        <td class="py-2 pr-2" colspan="2">
+          <span class="text-sm font-semibold text-muted-foreground">Total</span>
+        </td>
+        <td class="py-2 pl-2 text-right">
+          <span class="text-sm font-semibold text-muted-foreground">{{ total }}</span>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

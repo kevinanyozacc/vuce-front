@@ -1,5 +1,4 @@
 import { ProductAnimalEntityInterface } from '../../shared/product/interfaces/product-animal-entity.interface';
-import { ProductSubProductEntityInterface } from '../../shared/product/interfaces/product-subproduct-entity.interface';
 
 export const tupaProductAnimalData: ProductAnimalEntityInterface[] = [
   {
@@ -9,14 +8,5 @@ export const tupaProductAnimalData: ProductAnimalEntityInterface[] = [
     age: '20',
     origin: 'A',
     amount: 12,
-  },
-];
-
-export const tupaProductSubProductData: ProductSubProductEntityInterface[] = [
-  {
-    productId: '00044',
-    productName: 'Prueba 2',
-    weight: '100',
-    authorizeName: 'Hans',
   },
 ];
