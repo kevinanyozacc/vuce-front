@@ -20,7 +20,7 @@ import { ProductAnimalEditComponent } from 'src/app/modules/shared/product/compo
     ProductAnimalEditComponent,
   ],
 })
-export class Tupa04InfoAnimalComponent implements OnInit {
+export class Tupa04InfoAnimalComponent {
   @Input()
   public animals: ProductAnimalEntityInterface[] = [];
 
@@ -29,10 +29,6 @@ export class Tupa04InfoAnimalComponent implements OnInit {
   public isOpenCreateSubProduct = false;
   public isOpenEditSubProduct = false;
   public animal?: ProductAnimalEntityInterface;
-
-  ngOnInit(): void {
-    this.animals = tupaProductAnimalData;
-  }
 
   openCreateAnimal() {
     this.isOpenCreateAnimal = true;

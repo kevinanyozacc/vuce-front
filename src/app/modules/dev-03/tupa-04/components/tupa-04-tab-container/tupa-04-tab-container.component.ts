@@ -12,7 +12,7 @@ import { TupaEstablishmentTabComponent } from 'src/app/modules/shared/tupa/compo
 import { TupaPaymentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-payment-tab/tupa-payment-tab.component';
 import { TupaRequestTabComponent } from 'src/app/modules/shared/tupa/components/tupa-request-tab/tupa-request-tab.component';
 import { Tupa04InfoAnimalComponent } from '../tupa-04-info-animal/tupa-04-info-animal.component';
-import { Tupa04RecintoComponent } from '../tupa-04-recineto/tupa-04-recinto.component';
+import { Tupa04RecintoComponent } from '../tupa-04-recinto/tupa-04-recinto.component';
 
 @Component({
   selector: 'app-tupa-04-tab-container',
@@ -33,27 +33,27 @@ export class Tupa04TabContainerComponent {
   tabs: TupaItemTabInterface[] = [
     {
       id: TupaItemIdEnum.PARTE_I,
-      name: 'I - Información  de empresa solicitante',
-      active: false,
-    },
-    {
-      id: TupaItemIdEnum.PARTE_II,
-      name: 'II - Establecimiento',
+      name: 'I - INFORMACIÓN DE EMPRESA SOLICITANTE',
       active: true,
     },
     {
+      id: TupaItemIdEnum.PARTE_II,
+      name: 'II - ESTABLECIMIENTO',
+      active: false,
+    },
+    {
       id: TupaItemIdEnum.PARTE_III,
-      name: 'III - Del Recinto',
+      name: 'III - DEL RECINTO',
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_IV,
-      name: 'IV - Información animales',
+      name: 'IV - INFORMACIPON ANIMALES',
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_V,
-      name: 'V - Datos del pago',
+      name: 'V - DATOS DEL PAGO',
       active: false,
     },
   ];

@@ -116,29 +116,40 @@ export class TupaPaymentTabComponent {
     const { procedureId, serviceId } = this.createForm.value;
     if (!procedureId) return;
     if (!serviceId) return;
-    this.service
-      .getApiList({
-        id: procedureId,
-        serviceId,
-        amount: 1,
-      })
-      .then((price) => {
-        this.paymentDatas.push(
-          Object.assign(this.createForm.value, {
-            amount: 1,
-            price,
-          } as any),
-        );
-        this.createForm.controls.serviceId.setValue('');
-        this.total = this.calcTotal();
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: 'Alerta',
-          icon: 'warning',
-          text: err?.response?.data?.message || 'Algo salió mal!!!',
-        });
+    // validar servicio
+    const exists = this.paymentDatas.find((item) => item.serviceId == serviceId);
+    if (exists) {
+      Swal.fire({
+        title: 'Alerta',
+        icon: 'warning',
+        text: 'El servicio ya está agregado',
       });
+    } else {
+      // obtner tarifa
+      this.service
+        .getApiList({
+          id: procedureId,
+          serviceId,
+          amount: 1,
+        })
+        .then((price) => {
+          this.paymentDatas.push(
+            Object.assign(this.createForm.value, {
+              amount: 1,
+              price,
+            } as any),
+          );
+          this.createForm.controls.serviceId.setValue('');
+          this.total = this.calcTotal();
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: 'Alerta',
+            icon: 'warning',
+            text: err?.response?.data?.message || 'Algo salió mal!!!',
+          });
+        });
+    }
   }
 
   calcTotal() {

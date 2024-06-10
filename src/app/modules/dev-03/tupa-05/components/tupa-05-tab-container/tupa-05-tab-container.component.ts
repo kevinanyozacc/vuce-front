@@ -39,7 +39,7 @@ export class Tupa05TabContainerComponent {
     {
       id: TupaItemIdEnum.PARTE_I,
       name: 'I - INFORMACIÓN DE EMPRESA SOLICITANTE',
-      active: false,
+      active: true,
     },
     {
       id: TupaItemIdEnum.PARTE_II,
@@ -54,7 +54,7 @@ export class Tupa05TabContainerComponent {
     {
       id: TupaItemIdEnum.PARTE_IV,
       name: 'IV - MERCANCIA PECUARIA',
-      active: true,
+      active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_V,

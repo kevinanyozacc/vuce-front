@@ -26,7 +26,7 @@ import { Tupa05ProductTypeEnum } from '../../enums/tupa-05-product-type.enum';
     ProductSubProductEditComponent,
   ],
 })
-export class Tupa05MercanciaPecuariaComponent implements OnInit {
+export class Tupa05MercanciaPecuariaComponent {
   @Input()
   public animals: ProductAnimalEntityInterface[] = [];
 
@@ -45,11 +45,6 @@ export class Tupa05MercanciaPecuariaComponent implements OnInit {
   public isOpenEditSubProduct = false;
   public animal?: ProductAnimalEntityInterface;
   public subProduct?: ProductSubProductEntityInterface;
-
-  ngOnInit(): void {
-    this.animals = tupaProductAnimalData;
-    this.subProducts = tupaProductSubProductData;
-  }
 
   openCreateAnimal() {
     this.isOpenCreateAnimal = true;
