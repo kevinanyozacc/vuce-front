@@ -1,4 +1,4 @@
-import { PaymentEntityInterface } from '../../shared/method-payment/interfaces/payment-entity.interface';
+import { PaymentEntityInterface } from '../../../shared/method-payment/interfaces/payment-entity.interface';
 
 export const tupaPaymentData: PaymentEntityInterface[] = [
   {

@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { tupaRecintoData } from '../../data/tupa-recinto.data';
-import { PersonEntityInterface } from '../../../shared/person/interfaces/person-entity.interface';
-import { RepresentanteEntityInterface } from '../../../shared/person/interfaces/representante-entity.interface';
-import { EstablishmentEntityInterface } from '../../../shared/establishment/interfaces/establishment-entity.interface';
-import { ProductAnimalEntityInterface } from '../../../shared/product/interfaces/product-animal-entity.interface';
+import { PersonEntityInterface } from '../../../../shared/person/interfaces/person-entity.interface';
+import { RepresentanteEntityInterface } from '../../../../shared/person/interfaces/representante-entity.interface';
+import { EstablishmentEntityInterface } from '../../../../shared/establishment/interfaces/establishment-entity.interface';
+import { ProductAnimalEntityInterface } from '../../../../shared/product/interfaces/product-animal-entity.interface';
 import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
-import { ProductSubProductEntityInterface } from 'src/app/modules/shared/product/interfaces/product-subproduct-entity.interface';
 import { TupaHeaderTabComponent } from 'src/app/modules/shared/tupa/components/tupa-header-tab/tupa-header-tab.component';
 import { TupaItemIdEnum, TupaItemTabInterface } from 'src/app/modules/shared/tupa/interfaces/tupa-item-tab.interface';
 import { TupaEstablishmentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-establishment-tab/tupa-esblishment-tab.component';

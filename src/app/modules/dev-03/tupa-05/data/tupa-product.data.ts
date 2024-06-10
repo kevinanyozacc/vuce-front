@@ -1,5 +1,5 @@
-import { ProductAnimalEntityInterface } from '../../shared/product/interfaces/product-animal-entity.interface';
-import { ProductSubProductEntityInterface } from '../../shared/product/interfaces/product-subproduct-entity.interface';
+import { ProductAnimalEntityInterface } from '../../../shared/product/interfaces/product-animal-entity.interface';
+import { ProductSubProductEntityInterface } from '../../../shared/product/interfaces/product-subproduct-entity.interface';
 
 export const tupaProductAnimalData: ProductAnimalEntityInterface[] = [
   {

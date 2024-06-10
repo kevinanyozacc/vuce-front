@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DashboardHeaderComponent } from '../../components/dashboard-header/dashboard-header.component';
-import { Tupa04TabContainerComponent } from 'src/app/modules/tupa-04/components/tupa-04-tab-container/tupa-04-tab-container.component';
+import { Tupa04TabContainerComponent } from 'src/app/modules/dev-03/tupa-04/components/tupa-04-tab-container/tupa-04-tab-container.component';
 
 @Component({
   selector: 'app-tupa-04',
