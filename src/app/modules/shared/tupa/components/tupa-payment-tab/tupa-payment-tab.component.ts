@@ -13,6 +13,8 @@ import { ProcedureServiceSelectComponent } from '../../../procedure/components/p
 import { PaymentDataTableComponent } from '../../../method-payment/components/payment-data-table/payment-data-table.component';
 import { PaymentDataEntityInterface } from '../../../method-payment/interfaces/payment-data-entity.interface';
 import { ProcedureServiceEntityInterface } from '../../../procedure/interfaces/procedure-service-entity.interface';
+import { ProcedureCalcTarifaService } from '../../../procedure/services/procedure-calc-tarifa.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tupa-payment-tab',
@@ -30,8 +32,11 @@ import { ProcedureServiceEntityInterface } from '../../../procedure/interfaces/p
     PaymentDataTableComponent,
     PaymentTableComponent,
   ],
+  providers: [ProcedureCalcTarifaService],
 })
 export class TupaPaymentTabComponent {
+  constructor(public service: ProcedureCalcTarifaService) {}
+
   @Input()
   public person?: PersonEntityInterface;
 
@@ -108,14 +113,32 @@ export class TupaPaymentTabComponent {
   }
 
   onAdd() {
-    this.paymentDatas.push(
-      Object.assign(this.createForm.value, {
+    const { procedureId, serviceId } = this.createForm.value;
+    if (!procedureId) return;
+    if (!serviceId) return;
+    this.service
+      .getApiList({
+        id: procedureId,
+        serviceId,
         amount: 1,
-        price: 10,
-      } as any),
-    );
-    this.total = this.calcTotal();
-    this.init();
+      })
+      .then((price) => {
+        this.paymentDatas.push(
+          Object.assign(this.createForm.value, {
+            amount: 1,
+            price,
+          } as any),
+        );
+        this.createForm.controls.serviceId.setValue('');
+        this.total = this.calcTotal();
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: 'Alerta',
+          icon: 'warning',
+          text: err?.response?.data?.message || 'Algo salió mal!!!',
+        });
+      });
   }
 
   calcTotal() {
