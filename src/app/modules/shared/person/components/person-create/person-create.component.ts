@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
 import { DocumentTypeSelectComponent } from '../../../document-type/components/document-type-select.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PersonCreateService } from '../../services/person-create.service';
-import { NgIf } from '@angular/common';
+import { JsonPipe, NgIf } from '@angular/common';
 import { ButtonLoadingComponent } from 'src/app/shared/components/button-loading/button-loading.component';
 import { PersonEntityInterface } from '../../interfaces/person-entity.interface';
 import Swal from 'sweetalert2';
@@ -29,6 +29,7 @@ import { ReniecPersonEntityInterface } from '../../../reniec/interfaces/reniec-p
     ProvinciaSelectComponent,
     DistritoSelectComponent,
     PobladoSelectComponent,
+    JsonPipe,
   ],
   providers: [PersonCreateService, ReniecFindPersonByDniService, ReniecFindPersonByRucService],
 })
@@ -48,7 +49,8 @@ export class PersonCreateComponent implements OnInit {
   @Output()
   public eventSave = new EventEmitter<PersonEntityInterface>();
 
-  public validateType!: string;
+  public validateType = 'DNI';
+  public checkSearch = signal(false);
 
   public createForm = new FormGroup({
     type: new FormControl('NATURAL', Validators.required),
@@ -65,7 +67,7 @@ export class PersonCreateComponent implements OnInit {
     centroPobladoId: new FormControl(''),
     address: new FormControl(''),
     referen: new FormControl(''),
-    email: new FormControl('', Validators.email),
+    email: new FormControl(''),
     phone: new FormControl(''),
     cellphone: new FormControl(''),
     gender: new FormControl('1'),
@@ -157,6 +159,11 @@ export class PersonCreateComponent implements OnInit {
     this.createForm.controls.departamentoId.setValue(data.departamentoId);
     this.createForm.controls.provinciaId.setValue(data.provinciaId);
     this.createForm.controls.distritoId.setValue(data.distritoId);
+    this.checkSearch.set(true);
+  }
+
+  handleError() {
+    this.checkSearch.set(false);
   }
 
   onClose() {
@@ -168,9 +175,15 @@ export class PersonCreateComponent implements OnInit {
     if (!this.createForm.value.documentNumber) return;
     // validar type
     if (this.validateType === 'DNI') {
-      this.reniecDniService.execute(this.createForm.value.documentNumber).then((data) => this.settingPerson(data));
+      this.reniecDniService
+        .execute(this.createForm.value.documentNumber)
+        .then((data) => this.settingPerson(data))
+        .catch(this.handleError);
     } else if (this.validateType === 'RUC') {
-      this.reniecRucService.execute(this.createForm.value.documentNumber).then((data) => this.settingPerson(data));
+      this.reniecRucService
+        .execute(this.createForm.value.documentNumber)
+        .then((data) => this.settingPerson(data))
+        .catch(this.handleError);
     }
   }
 
