@@ -3,6 +3,7 @@ import { PaisSelectComponent } from 'src/app/modules/shared/ubigeo/components/pa
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { TupaFinalidadInterface } from '../../interfaces/tupa-finalidad.interface';
 import { NgIf } from '@angular/common';
+import { DetalleCreateInterface } from 'src/app/modules/shared/detalle/interfaces/detalle-create.interface';
 
 @Component({
   selector: 'app-tupa-05-final',
@@ -12,7 +13,7 @@ import { NgIf } from '@angular/common';
 })
 export class Tupa05FinalComponent {
   @Input()
-  public finalidad!: TupaFinalidadInterface;
+  public finalidad!: DetalleCreateInterface;
 
   handleType(type: string) {
     if (type == 'IMP') {

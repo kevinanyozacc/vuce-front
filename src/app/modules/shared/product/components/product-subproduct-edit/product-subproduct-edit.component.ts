@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
-import { ProductSubProductEntityInterface } from '../../interfaces/product-subproduct-entity.interface';
+import { ProductCuarentenaEntityInterface } from '../../interfaces/product-cuarentena-entity.interface';
 
 @Component({
   selector: 'app-product-subproduct-edit',
@@ -18,13 +18,13 @@ export class ProductSubProductEditComponent implements OnChanges {
   public isOpen: boolean = false;
 
   @Input()
-  public product?: ProductSubProductEntityInterface;
+  public product?: ProductCuarentenaEntityInterface;
 
   @Output()
   public eventClose = new EventEmitter();
 
   @Output()
-  public eventSave = new EventEmitter<ProductSubProductEntityInterface>();
+  public eventSave = new EventEmitter<ProductCuarentenaEntityInterface>();
 
   public editForm = new FormGroup({
     productId: new FormControl('', Validators.required),
@@ -43,8 +43,8 @@ export class ProductSubProductEditComponent implements OnChanges {
     if (!this.product) return;
     this.editForm.controls.productId.setValue(this.product.productId);
     this.editForm.controls.productName.setValue(this.product.productName);
-    this.editForm.controls.weight.setValue(this.product.weight);
-    this.editForm.controls.authorizeName.setValue(this.product.authorizeName);
+    this.editForm.controls.weight.setValue(this.product?.weight || '');
+    this.editForm.controls.authorizeName.setValue(this.product?.authorizeName || '');
   }
 
   onClose() {

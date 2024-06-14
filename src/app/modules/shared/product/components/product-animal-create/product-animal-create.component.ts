@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
 import { ProductSearchComponent } from '../product-search/product-search.component';
-import { ProductAnimalEntityInterface } from '../../interfaces/product-animal-entity.interface';
 import { ProductEntityInterface } from '../../interfaces/product-entity.interface';
+import { ProductCuarentenaEntityInterface } from '../../interfaces/product-cuarentena-entity.interface';
 
 @Component({
   selector: 'app-product-animal-create',
@@ -23,7 +23,7 @@ export class ProductAnimalCreateComponent {
   public eventClose = new EventEmitter();
 
   @Output()
-  public eventSave = new EventEmitter<ProductAnimalEntityInterface>();
+  public eventSave = new EventEmitter<ProductCuarentenaEntityInterface>();
 
   public createForm = new FormGroup({
     productId: new FormControl('', Validators.required),

@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProductAnimalCreateComponent } from 'src/app/modules/shared/product/components/product-animal-create/product-animal-create.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
-import { ProductAnimalEntityInterface } from 'src/app/modules/shared/product/interfaces/product-animal-entity.interface';
 import { NgFor, NgIf } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { tupaProductAnimalData } from '../../data/tupa-product.data';
 import { ProductAnimalEditComponent } from 'src/app/modules/shared/product/components/product-animal-edit/product-animal-edit.component';
+import { ProductCuarentenaEntityInterface } from 'src/app/modules/shared/product/interfaces/product-cuarentena-entity.interface';
+import { ProductTypeEnum } from 'src/app/modules/shared/product/enums/product-type.enum';
 
 @Component({
   selector: 'app-tupa-04-info-animal',
@@ -22,13 +22,16 @@ import { ProductAnimalEditComponent } from 'src/app/modules/shared/product/compo
 })
 export class Tupa04InfoAnimalComponent {
   @Input()
-  public animals: ProductAnimalEntityInterface[] = [];
+  public cuarentenas: ProductCuarentenaEntityInterface[] = [];
+
+  @Output()
+  public eventDelete = new EventEmitter<ProductCuarentenaEntityInterface>();
 
   public isOpenCreateAnimal = false;
   public isOpenEditAnimal = false;
   public isOpenCreateSubProduct = false;
   public isOpenEditSubProduct = false;
-  public animal?: ProductAnimalEntityInterface;
+  public cuarentena?: ProductCuarentenaEntityInterface;
 
   openCreateAnimal() {
     this.isOpenCreateAnimal = true;
@@ -46,21 +49,22 @@ export class Tupa04InfoAnimalComponent {
     this.isOpenEditAnimal = false;
   }
 
-  onAnimal(animal: ProductAnimalEntityInterface) {
-    const currentAnimal = this.animals.findIndex((item) => item.productId == animal.productId);
+  onAdd(animal: ProductCuarentenaEntityInterface) {
+    const type = ProductTypeEnum.ANIMAL;
+    const currentAnimal = this.cuarentenas.findIndex((item) => item.productId == animal.productId);
     if (currentAnimal >= 0) {
-      this.animals[currentAnimal] = animal;
+      this.cuarentenas[currentAnimal] = { ...animal, type };
     } else {
-      this.animals.push(animal);
+      this.cuarentenas.push({ ...animal, type });
     }
   }
 
-  editAnimal(animal: ProductAnimalEntityInterface) {
-    this.animal = animal;
+  onEdit(cuarentena: ProductCuarentenaEntityInterface) {
+    this.cuarentena = cuarentena;
     this.openEditAnimal();
   }
 
-  deleteAnimal(animal: ProductAnimalEntityInterface) {
-    this.animals = this.animals.filter((item) => item.productId !== animal.productId);
+  onDelete(cuarentena: ProductCuarentenaEntityInterface) {
+    this.eventDelete.emit(cuarentena);
   }
 }

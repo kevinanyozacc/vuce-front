@@ -58,15 +58,15 @@ export class PaymentCreateComponent implements OnInit {
 
   onSubmit() {
     this.eventSave.emit({
-      paymentTypeId: this.createForm.value.paymentTypeId || '',
-      paymentTypeName: this.createForm.value.paymentTypeName || '',
-      paymentBankId: this.createForm.value.paymentBankId || '',
-      paymentBankName: this.createForm.value.paymentBankName || '',
-      paymentAccountId: this.createForm.value.paymentAccountId || '',
-      paymentAccountName: this.createForm.value.paymentAccountName || '',
-      paymentNumber: this.createForm.value.paymentNumber || '',
-      paymentDate: this.createForm.value.paymentDate || '',
-      paymentAmount: parseFloat(this.createForm.value.paymentAmount || '0'),
+      typeId: this.createForm.value.paymentTypeId || '',
+      typeName: this.createForm.value.paymentTypeName || '',
+      bankId: this.createForm.value.paymentBankId || '',
+      bankName: this.createForm.value.paymentBankName || '',
+      accountId: this.createForm.value.paymentAccountId || '',
+      accountName: this.createForm.value.paymentAccountName || '',
+      number: this.createForm.value.paymentNumber || '',
+      date: this.createForm.value.paymentDate || '',
+      amount: parseFloat(this.createForm.value.paymentAmount || '0'),
     });
     this.createForm.reset();
   }

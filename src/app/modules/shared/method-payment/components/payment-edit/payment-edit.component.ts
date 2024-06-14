@@ -58,28 +58,28 @@ export class PaymentEditComponent implements OnChanges {
 
   init() {
     if (!this.payment) return;
-    this.editForm.controls.paymentTypeId.setValue(this.payment.paymentTypeId);
-    this.editForm.controls.paymentTypeName.setValue(this.payment.paymentTypeName);
-    this.editForm.controls.paymentBankId.setValue(this.payment.paymentBankId);
-    this.editForm.controls.paymentBankName.setValue(this.payment.paymentBankName);
-    this.editForm.controls.paymentAccountId.setValue(this.payment.paymentAccountId);
-    this.editForm.controls.paymentAccountName.setValue(this.payment.paymentAccountName);
-    this.editForm.controls.paymentNumber.setValue(this.payment.paymentNumber);
-    this.editForm.controls.paymentDate.setValue(this.payment.paymentDate);
-    this.editForm.controls.paymentAmount.setValue(this.payment.paymentAmount.toString());
+    this.editForm.controls.paymentTypeId.setValue(this.payment.typeId);
+    this.editForm.controls.paymentTypeName.setValue(this.payment.typeName);
+    this.editForm.controls.paymentBankId.setValue(this.payment.bankId);
+    this.editForm.controls.paymentBankName.setValue(this.payment.bankName);
+    this.editForm.controls.paymentAccountId.setValue(this.payment.accountId);
+    this.editForm.controls.paymentAccountName.setValue(this.payment.accountName);
+    this.editForm.controls.paymentNumber.setValue(this.payment.number);
+    this.editForm.controls.paymentDate.setValue(this.payment.date);
+    this.editForm.controls.paymentAmount.setValue(this.payment.amount.toString());
   }
 
   onSubmit() {
     this.eventSave.emit({
-      paymentTypeId: this.editForm.value.paymentTypeId || '',
-      paymentTypeName: this.editForm.value.paymentTypeName || '',
-      paymentBankId: this.editForm.value.paymentBankId || '',
-      paymentBankName: this.editForm.value.paymentBankName || '',
-      paymentAccountId: this.editForm.value.paymentAccountId || '',
-      paymentAccountName: this.editForm.value.paymentAccountName || '',
-      paymentNumber: this.editForm.value.paymentNumber || '',
-      paymentDate: this.editForm.value.paymentDate || '',
-      paymentAmount: parseFloat(this.editForm.value.paymentAmount || '0'),
+      typeId: this.editForm.value.paymentTypeId || '',
+      typeName: this.editForm.value.paymentTypeName || '',
+      bankId: this.editForm.value.paymentBankId || '',
+      bankName: this.editForm.value.paymentBankName || '',
+      accountId: this.editForm.value.paymentAccountId || '',
+      accountName: this.editForm.value.paymentAccountName || '',
+      number: this.editForm.value.paymentNumber || '',
+      date: this.editForm.value.paymentDate || '',
+      amount: parseFloat(this.editForm.value.paymentAmount || '0'),
     });
   }
 

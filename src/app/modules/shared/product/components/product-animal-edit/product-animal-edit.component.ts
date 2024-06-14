@@ -2,7 +2,7 @@ import { JsonPipe, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
-import { ProductAnimalEntityInterface } from '../../interfaces/product-animal-entity.interface';
+import { ProductCuarentenaEntityInterface } from '../../interfaces/product-cuarentena-entity.interface';
 
 @Component({
   selector: 'app-product-animal-edit',
@@ -18,13 +18,13 @@ export class ProductAnimalEditComponent implements OnChanges {
   public isOpen: boolean = false;
 
   @Input()
-  public product?: ProductAnimalEntityInterface;
+  public product?: ProductCuarentenaEntityInterface;
 
   @Output()
   public eventClose = new EventEmitter();
 
   @Output()
-  public eventSave = new EventEmitter<ProductAnimalEntityInterface>();
+  public eventSave = new EventEmitter<ProductCuarentenaEntityInterface>();
 
   public editForm = new FormGroup({
     productId: new FormControl('', Validators.required),
@@ -45,10 +45,10 @@ export class ProductAnimalEditComponent implements OnChanges {
     if (!this.product) return;
     this.editForm.controls.productId.setValue(this.product.productId);
     this.editForm.controls.productName.setValue(this.product.productName);
-    this.editForm.controls.gender.setValue(this.product.gender);
-    this.editForm.controls.age.setValue(this.product.age);
-    this.editForm.controls.origin.setValue(this.product.origin);
-    this.editForm.controls.amount.setValue(this.product.amount.toString());
+    this.editForm.controls.gender.setValue(this.product?.gender || '');
+    this.editForm.controls.age.setValue(this.product?.age || '');
+    this.editForm.controls.origin.setValue(this.product?.origin || '');
+    this.editForm.controls.amount.setValue(this.product?.amount?.toString() || '');
   }
 
   onClose() {

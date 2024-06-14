@@ -4,7 +4,6 @@ import { tupaRecintoData } from '../../data/tupa-recinto.data';
 import { PersonEntityInterface } from '../../../../shared/person/interfaces/person-entity.interface';
 import { RepresentanteEntityInterface } from '../../../../shared/person/interfaces/representante-entity.interface';
 import { EstablishmentEntityInterface } from '../../../../shared/establishment/interfaces/establishment-entity.interface';
-import { ProductAnimalEntityInterface } from '../../../../shared/product/interfaces/product-animal-entity.interface';
 import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
 import { TupaHeaderTabComponent } from 'src/app/modules/shared/tupa/components/tupa-header-tab/tupa-header-tab.component';
 import { TupaItemIdEnum, TupaItemTabInterface } from 'src/app/modules/shared/tupa/interfaces/tupa-item-tab.interface';
@@ -13,6 +12,7 @@ import { TupaPaymentTabComponent } from 'src/app/modules/shared/tupa/components/
 import { TupaRequestTabComponent } from 'src/app/modules/shared/tupa/components/tupa-request-tab/tupa-request-tab.component';
 import { Tupa04InfoAnimalComponent } from '../tupa-04-info-animal/tupa-04-info-animal.component';
 import { Tupa04RecintoComponent } from '../tupa-04-recinto/tupa-04-recinto.component';
+import { ProductCuarentenaEntityInterface } from 'src/app/modules/shared/product/interfaces/product-cuarentena-entity.interface';
 
 @Component({
   selector: 'app-tupa-04-tab-container',
@@ -63,7 +63,7 @@ export class Tupa04TabContainerComponent {
   public establishment?: EstablishmentEntityInterface;
   public technical?: PersonEntityInterface;
   public recinto = tupaRecintoData;
-  public animals: ProductAnimalEntityInterface[] = [];
+  public cuarentenas: ProductCuarentenaEntityInterface[] = [];
   public personPayment?: PersonEntityInterface;
   public payments: PaymentEntityInterface[] = [];
 

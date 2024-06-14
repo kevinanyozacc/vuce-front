@@ -54,7 +54,7 @@
 
   <!-- level 4 -->
   <div class="mb-10">
-    <app-payment-data-table [data]="paymentDatas" [total]="total" />
+    <app-payment-data-table [data]="services" [total]="total" (eventDelete)="onDelete($event)" />
   </div>
 
   <!-- level 5 -->
@@ -130,6 +130,14 @@
 
   <div class="mt-10">
     <app-payment-table [data]="payments" />
+  </div>
+
+  <div class="mb-5 mt-5 text-right">
+    <button
+      (click)="onSave()"
+      class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
+      Guardar Expediente
+    </button>
   </div>
 </div>
 

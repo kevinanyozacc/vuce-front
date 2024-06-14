@@ -5,8 +5,6 @@ import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/
 import { EstablishmentEntityInterface } from 'src/app/modules/shared/establishment/interfaces/establishment-entity.interface';
 import { tupaFinalidadData } from '../../data/tupa-finalidad.data';
 import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
-import { ProductAnimalEntityInterface } from 'src/app/modules/shared/product/interfaces/product-animal-entity.interface';
-import { ProductSubProductEntityInterface } from 'src/app/modules/shared/product/interfaces/product-subproduct-entity.interface';
 import { RepresentanteEntityInterface } from 'src/app/modules/shared/person/interfaces/representante-entity.interface';
 import { TupaHeaderTabComponent } from 'src/app/modules/shared/tupa/components/tupa-header-tab/tupa-header-tab.component';
 import { TupaItemIdEnum, TupaItemTabInterface } from 'src/app/modules/shared/tupa/interfaces/tupa-item-tab.interface';
@@ -16,7 +14,9 @@ import { TupaPaymentTabComponent } from 'src/app/modules/shared/tupa/components/
 import { Tupa05FinalComponent } from '../tupa-05-final/tupa-05-final.component';
 import { PaymentDataEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-data-entity.interface';
 import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/components/tupa-expediente-tab/tupa-expediente-tab.component';
-import { Tupa05ProductTypeEnum } from '../../enums/tupa-05-product-type.enum';
+import { ProductCuarentenaEntityInterface } from 'src/app/modules/shared/product/interfaces/product-cuarentena-entity.interface';
+import { ProductTypeEnum } from 'src/app/modules/shared/product/enums/product-type.enum';
+import { ExpedienteCreateService } from 'src/app/modules/shared/expediente/services/expediente-create.service';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -33,8 +33,11 @@ import { Tupa05ProductTypeEnum } from '../../enums/tupa-05-product-type.enum';
     TupaPaymentTabComponent,
     TupaExpedienteTabComponent,
   ],
+  providers: [ExpedienteCreateService],
 })
 export class Tupa05TabContainerComponent {
+  constructor(public service: ExpedienteCreateService) {}
+
   tabs: TupaItemTabInterface[] = [
     {
       id: TupaItemIdEnum.PARTE_I,
@@ -73,11 +76,10 @@ export class Tupa05TabContainerComponent {
   public establishment?: EstablishmentEntityInterface;
   public technical?: PersonEntityInterface;
   public finalidad = tupaFinalidadData;
-  public productType: Tupa05ProductTypeEnum = Tupa05ProductTypeEnum.ANIMAL;
-  public animals: ProductAnimalEntityInterface[] = [];
-  public subProducts: ProductSubProductEntityInterface[] = [];
+  public productType: ProductTypeEnum = ProductTypeEnum.ANIMAL;
+  public cuarentenas: ProductCuarentenaEntityInterface[] = [];
   public personPayment?: PersonEntityInterface;
-  public paymentDatas: PaymentDataEntityInterface[] = [];
+  public services: PaymentDataEntityInterface[] = [];
   public payments: PaymentEntityInterface[] = [];
 
   onSelect(item: TupaItemTabInterface) {
@@ -85,6 +87,33 @@ export class Tupa05TabContainerComponent {
       tab.active = item.id === tab.id;
       return tab;
     });
+  }
+
+  onDeleteCuarentena(cuarentena: ProductCuarentenaEntityInterface) {
+    this.cuarentenas = this.cuarentenas.filter((item) => item.productId != cuarentena.productId);
+  }
+
+  onClearCuarentena() {
+    this.cuarentenas = [];
+  }
+
+  onSave() {
+    this.service.fetch(
+      {
+        sedeId: '01',
+        tupaId: '001',
+        personId: this.person?.id || '',
+        userId: 'SENASA',
+        requestPersonId: this.person?.id || '',
+        representanteId: this.representante?.id,
+        otherPersonId: this.personPayment?.id,
+        detalle: this.finalidad,
+        cuarentenas: this.cuarentenas,
+        services: this.services,
+        payments: this.payments,
+      },
+      'tupa-05',
+    );
   }
 
   selectPerson(person?: PersonEntityInterface) {
@@ -97,13 +126,15 @@ export class Tupa05TabContainerComponent {
 
   selectEstablishment(establishment?: EstablishmentEntityInterface) {
     this.establishment = establishment;
+    this.finalidad.establishmentId = establishment?.id;
   }
 
   selectTechnical(technical?: PersonEntityInterface) {
     this.technical = technical;
+    this.finalidad.technicalId = technical?.id;
   }
 
-  selectProductType(type: Tupa05ProductTypeEnum) {
+  selectProductType(type: ProductTypeEnum) {
     this.productType = type;
   }
 

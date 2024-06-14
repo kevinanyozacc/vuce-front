@@ -44,10 +44,13 @@ export class TupaPaymentTabComponent {
   public payments: PaymentEntityInterface[] = [];
 
   @Input()
-  public paymentDatas: PaymentDataEntityInterface[] = [];
+  public services: PaymentDataEntityInterface[] = [];
 
   @Output()
   public eventPerson = new EventEmitter<PersonEntityInterface>();
+
+  @Output()
+  public eventSave = new EventEmitter();
 
   public total = 0;
   public createForm = new FormGroup({
@@ -117,7 +120,7 @@ export class TupaPaymentTabComponent {
     if (!procedureId) return;
     if (!serviceId) return;
     // validar servicio
-    const exists = this.paymentDatas.find((item) => item.serviceId == serviceId);
+    const exists = this.services.find((item) => item.serviceId == serviceId);
     if (exists) {
       Swal.fire({
         title: 'Alerta',
@@ -133,7 +136,7 @@ export class TupaPaymentTabComponent {
           amount: 1,
         })
         .then((price) => {
-          this.paymentDatas.push(
+          this.services.push(
             Object.assign(this.createForm.value, {
               amount: 1,
               price,
@@ -152,9 +155,18 @@ export class TupaPaymentTabComponent {
     }
   }
 
+  onDelete(item: PaymentDataEntityInterface) {
+    this.services = this.services.filter((i) => i.serviceId != item.serviceId);
+    this.total = this.calcTotal();
+  }
+
+  onSave() {
+    this.eventSave.emit();
+  }
+
   calcTotal() {
-    if (!this.paymentDatas.length) return 0;
-    const arraySubTotal: number[] = this.paymentDatas.map((item) => item.amount * item.price);
+    if (!this.services.length) return 0;
+    const arraySubTotal: number[] = this.services.map((item) => item.amount * item.price);
     return arraySubTotal.reduce((prev, current) => prev + current);
   }
 

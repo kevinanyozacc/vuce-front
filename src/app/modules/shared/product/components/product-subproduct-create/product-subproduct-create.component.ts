@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
 import { ProductSearchComponent } from '../product-search/product-search.component';
 import { ProductEntityInterface } from '../../interfaces/product-entity.interface';
-import { ProductSubProductEntityInterface } from '../../interfaces/product-subproduct-entity.interface';
+import { ProductCuarentenaEntityInterface } from '../../interfaces/product-cuarentena-entity.interface';
 
 @Component({
   selector: 'app-product-subproduct-create',
@@ -23,7 +23,7 @@ export class ProductSubProductCreateComponent {
   public eventClose = new EventEmitter();
 
   @Output()
-  public eventSave = new EventEmitter<ProductSubProductEntityInterface>();
+  public eventSave = new EventEmitter<ProductCuarentenaEntityInterface>();
 
   public createForm = new FormGroup({
     productId: new FormControl('', Validators.required),

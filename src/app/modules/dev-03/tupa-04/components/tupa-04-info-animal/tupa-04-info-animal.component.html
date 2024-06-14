@@ -25,7 +25,7 @@
         </thead>
         <!--Table body-->
         <tbody>
-          <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let item of animals">
+          <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let item of cuarentenas">
             <td class="py-2 pr-2">
               <span class="text-sm font-semibold">
                 {{ item.productId }}
@@ -60,12 +60,12 @@
               <div class="flex justify-center gap-2">
                 <svg-icon
                   src="assets/icons/heroicons/outline/trash.svg"
-                  (click)="deleteAnimal(item)"
+                  (click)="onDelete(item)"
                   [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
                 </svg-icon>
                 <svg-icon
                   src="assets/icons/heroicons/outline/edit.svg"
-                  (click)="editAnimal(item)"
+                  (click)="onEdit(item)"
                   [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
                 </svg-icon>
               </div>
@@ -81,12 +81,12 @@
 <app-product-animal-create
   [isOpen]="isOpenCreateAnimal"
   (eventClose)="closeCreateAnimal()"
-  (eventSave)="onAnimal($event)" />
+  (eventSave)="onAdd($event)" />
 
 <!-- edit animal -->
 <app-product-animal-edit
   [isOpen]="isOpenEditAnimal"
-  [product]="animal"
+  [product]="cuarentena"
   (eventClose)="closeEditAnimal()"
-  (eventSave)="onAnimal($event)" />
+  (eventSave)="onAdd($event)" />
 >

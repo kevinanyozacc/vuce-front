@@ -6,6 +6,7 @@
         <th class="py-3 text-left">Conceptos de pago</th>
         <th class="py-3 text-right">Cantidad</th>
         <th class="py-3 text-right">Costo</th>
+        <th class="py-3 text-center">Acciones</th>
       </tr>
     </thead>
     <!--Table body-->
@@ -25,6 +26,15 @@
           <span class="text-sm font-semibold text-muted-foreground">
             {{ item.price }}
           </span>
+        </td>
+        <td class="py-2 pl-2">
+          <div class="flex justify-center gap-2">
+            <svg-icon
+              (click)="onDelete(item)"
+              src="assets/icons/heroicons/outline/trash.svg"
+              [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+            </svg-icon>
+          </div>
         </td>
       </tr>
     </tbody>
