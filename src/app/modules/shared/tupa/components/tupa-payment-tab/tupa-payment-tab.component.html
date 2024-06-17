@@ -129,10 +129,10 @@
   </h6>
 
   <div class="mt-10">
-    <app-payment-table [data]="payments" />
+    <app-payment-table [data]="payments" (eventDelete)="deletePaymen($event)" />
   </div>
 
-  <div class="mb-5 mt-5 text-right">
+  <div class="mb-5 mt-5 text-right" *ngIf="canSave">
     <button
       (click)="onSave()"
       class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">

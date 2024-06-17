@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { TupaItemTabComponent } from '../tupa-item-tab/tupa-item-tab.component';
 import { TupaItemTabInterface } from '../../interfaces/tupa-item-tab.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tupa-header-tab',
@@ -15,6 +16,14 @@ export class TupaHeaderTabComponent {
   @Output() eventSelected = new EventEmitter<TupaItemTabInterface>();
 
   onSelected(item: TupaItemTabInterface) {
-    this.eventSelected.emit(item);
+    if (item.disabled) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Aviso',
+        text: 'La acción está deshabilitada',
+      });
+    } else {
+      this.eventSelected.emit(item);
+    }
   }
 }

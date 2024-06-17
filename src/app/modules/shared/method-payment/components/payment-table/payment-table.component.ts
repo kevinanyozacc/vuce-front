@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaymentEntityInterface } from '../../interfaces/payment-entity.interface';
 import { NgFor } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -14,6 +14,9 @@ export class PaymentTableComponent {
   @Input()
   public data: PaymentEntityInterface[] = [];
 
+  @Output()
+  public eventDelete = new EventEmitter<number>();
+
   public isOpen = false;
   public payment?: PaymentEntityInterface;
   public index = 0;
@@ -26,8 +29,9 @@ export class PaymentTableComponent {
     this.isOpen = false;
   }
 
-  deleteItem(index: number) {
+  deleteItem(item: PaymentEntityInterface, index: number) {
     this.data = this.data.filter((_, iter) => iter !== index);
+    this.eventDelete.emit(index);
   }
 
   editItem(index: number, payment: PaymentEntityInterface) {

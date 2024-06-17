@@ -34,26 +34,31 @@ export class Tupa04TabContainerComponent {
     {
       id: TupaItemIdEnum.PARTE_I,
       name: 'I - INFORMACIÓN DE EMPRESA SOLICITANTE',
+      disabled: false,
       active: true,
     },
     {
       id: TupaItemIdEnum.PARTE_II,
       name: 'II - ESTABLECIMIENTO',
+      disabled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_III,
       name: 'III - DEL RECINTO',
+      disabled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_IV,
       name: 'IV - INFORMACIPON ANIMALES',
+      disabled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_V,
       name: 'V - DATOS DEL PAGO',
+      disabled: true,
       active: false,
     },
   ];

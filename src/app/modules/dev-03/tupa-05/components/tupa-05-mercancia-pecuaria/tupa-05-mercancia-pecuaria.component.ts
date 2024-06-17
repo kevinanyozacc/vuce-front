@@ -40,6 +40,9 @@ export class Tupa05MercanciaPecuariaComponent {
   @Output()
   public eventClear = new EventEmitter();
 
+  @Output()
+  public eventValidate = new EventEmitter<boolean>();
+
   public isOpenCreateAnimal = false;
   public isOpenEditAnimal = false;
   public isOpenCreateSubProduct = false;
@@ -86,6 +89,8 @@ export class Tupa05MercanciaPecuariaComponent {
       this.eventType.emit(ProductTypeEnum.PRODUCT);
       this.eventClear.emit();
     }
+    // validar
+    this.eventValidate.emit(false);
   }
 
   onAdd(animal: ProductCuarentenaEntityInterface) {
@@ -97,6 +102,8 @@ export class Tupa05MercanciaPecuariaComponent {
       const secuencial = this.cuarentenas.length;
       this.cuarentenas.push({ ...animal, secuencial, type });
     }
+    // validar
+    this.eventValidate.emit(this.cuarentenas.length > 0);
   }
 
   onEdit(cuarentena: ProductCuarentenaEntityInterface) {
@@ -106,5 +113,7 @@ export class Tupa05MercanciaPecuariaComponent {
 
   onDelete(cuarentena: ProductCuarentenaEntityInterface) {
     this.eventDelete.emit(cuarentena);
+    const currentData = this.cuarentenas.filter((item) => item.productId != cuarentena.productId);
+    this.eventValidate.emit(currentData.length > 0);
   }
 }

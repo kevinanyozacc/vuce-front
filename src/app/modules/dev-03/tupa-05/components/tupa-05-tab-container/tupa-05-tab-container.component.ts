@@ -17,6 +17,9 @@ import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/componen
 import { ProductCuarentenaEntityInterface } from 'src/app/modules/shared/product/interfaces/product-cuarentena-entity.interface';
 import { ProductTypeEnum } from 'src/app/modules/shared/product/enums/product-type.enum';
 import { ExpedienteCreateService } from 'src/app/modules/shared/expediente/services/expediente-create.service';
+import { DetalleCreateInterface } from 'src/app/modules/shared/detalle/interfaces/detalle-create.interface';
+import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
+import { ContentLoadingComponent } from 'src/app/shared/components/content-loading/content-loading.component';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -25,6 +28,7 @@ import { ExpedienteCreateService } from 'src/app/modules/shared/expediente/servi
   imports: [
     NgFor,
     NgIf,
+    ContentLoadingComponent,
     TupaHeaderTabComponent,
     TupaRequestTabComponent,
     TupaEstablishmentTabComponent,
@@ -42,35 +46,36 @@ export class Tupa05TabContainerComponent {
     {
       id: TupaItemIdEnum.PARTE_I,
       name: 'I - INFORMACIÓN DE EMPRESA SOLICITANTE',
+      disabled: false,
       active: true,
     },
     {
       id: TupaItemIdEnum.PARTE_II,
       name: 'II - ESTABLECIMIENTO',
+      disabled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_III,
       name: 'III - FINALIDAD',
+      disabled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_IV,
       name: 'IV - MERCANCIA PECUARIA',
+      disabled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_V,
       name: 'V - DATOS DEL PAGO',
-      active: false,
-    },
-    {
-      id: TupaItemIdEnum.PARTE_VI,
-      name: 'INFORMACIÓN DEL EXPEDIENTE',
+      disabled: true,
       active: false,
     },
   ];
 
+  public canSave = false;
   public person?: PersonEntityInterface;
   public representante?: RepresentanteEntityInterface;
   public establishment?: EstablishmentEntityInterface;
@@ -97,9 +102,25 @@ export class Tupa05TabContainerComponent {
     this.cuarentenas = [];
   }
 
+  onValidateCuarentena(value: boolean) {
+    this.tabs[4].disabled = !value;
+  }
+
+  onServiceDelete(service: PaymentDataEntityInterface) {
+    this.services = this.services.filter((item) => item.serviceId != service.serviceId);
+  }
+
+  onPaymentDelete(index: number) {
+    this.payments = this.payments.filter((_, iter) => iter != index);
+  }
+
+  onValidatePayment(value: boolean) {
+    this.canSave = value;
+  }
+
   onSave() {
-    this.service.fetch(
-      {
+    this.service
+      .fetch({
         sedeId: '01',
         tupaId: '001',
         personId: this.person?.id || '',
@@ -111,13 +132,16 @@ export class Tupa05TabContainerComponent {
         cuarentenas: this.cuarentenas,
         services: this.services,
         payments: this.payments,
-      },
-      'tupa-05',
-    );
+      })
+      .then((data) => {
+        location.href = `/dashboard/tupa-05/${data.id}`;
+      })
+      .catch(() => null);
   }
 
   selectPerson(person?: PersonEntityInterface) {
     this.person = person;
+    this.tabs[1].disabled = !this.person;
   }
 
   selectRepresentante(representante?: RepresentanteEntityInterface) {
@@ -127,11 +151,19 @@ export class Tupa05TabContainerComponent {
   selectEstablishment(establishment?: EstablishmentEntityInterface) {
     this.establishment = establishment;
     this.finalidad.establishmentId = establishment?.id;
+    this.tabs[2].disabled = !this.establishment || !this.technical;
   }
 
   selectTechnical(technical?: PersonEntityInterface) {
     this.technical = technical;
     this.finalidad.technicalId = technical?.id;
+    this.tabs[2].disabled = !this.establishment || !this.technical;
+  }
+
+  selectDetalle(detalle: DetalleCreateInterface) {
+    this.finalidad = Object.assign(this.finalidad, { ...detalle });
+    this.tabs[3].disabled = false;
+    this.onSelect(this.tabs[3]);
   }
 
   selectProductType(type: ProductTypeEnum) {

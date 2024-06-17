@@ -9,19 +9,30 @@ import { ExpedienteCreateResponseInterface } from '../interfaces/expediente-crea
 export class ExpedienteCreateService {
   constructor(public client: HttpClient) {}
 
-  fetch(payload: ExpedienteCreateInterface, pathTupa: string) {
-    this.client.post<ExpedienteCreateResponseInterface>(`${environment.api}/expedientes/generic`, payload).subscribe({
-      next: (data) => {
-        location.href = `/dashboard/${pathTupa}/${data.id}`;
-      },
-      error: (err) => {
-        console.log(err);
-        Swal.fire({
-          title: 'Error',
-          icon: 'error',
-          text: 'No se pudo guardar el expediente!!!',
-        });
-      },
+  private loading = false;
+
+  fetch(payload: ExpedienteCreateInterface) {
+    return new Promise<ExpedienteCreateResponseInterface>((resolve, reject) => {
+      this.loading = true;
+      this.client.post<ExpedienteCreateResponseInterface>(`${environment.api}/expedientes/generic`, payload).subscribe({
+        next: (data) => {
+          this.loading = false;
+          resolve(data);
+        },
+        error: (err) => {
+          this.loading = false;
+          Swal.fire({
+            title: 'Error',
+            icon: 'error',
+            text: 'No se pudo guardar el expediente!!!',
+          });
+          reject(err);
+        },
+      });
     });
+  }
+
+  getLoading() {
+    return this.loading;
   }
 }

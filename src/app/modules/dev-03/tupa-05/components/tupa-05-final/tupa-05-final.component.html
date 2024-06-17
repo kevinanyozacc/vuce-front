@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="createForm" (submit)="onSave()">
   <!-- header -->
   <h6 class="mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
     Finalidad
@@ -7,17 +7,17 @@
   <!-- level 2 -->
   <div class="mb-6 flex">
     <div class="ml-4">
-      <input type="radio" id="imp" class="mr-2" [checked]="finalidad.type == 'IMP'" (change)="onType('IMP')" />
+      <input type="radio" id="imp" class="mr-2" [checked]="createForm.value.type == 'IMP'" (change)="onType('IMP')" />
       <label for="imp" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Importación</label>
     </div>
 
     <div class="ml-4">
-      <input type="radio" id="exp" class="mr-2" [checked]="finalidad.type == 'EXP'" (change)="onType('EXP')" />
+      <input type="radio" id="exp" class="mr-2" [checked]="createForm.value.type == 'EXP'" (change)="onType('EXP')" />
       <label for="exp" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Exportación</label>
     </div>
 
     <div class="ml-4">
-      <input type="radio" id="tin" class="mr-2" [checked]="finalidad.type == 'TIN'" (change)="onType('TIN')" />
+      <input type="radio" id="tin" class="mr-2" [checked]="createForm.value.type == 'TIN'" (change)="onType('TIN')" />
       <label for="tin" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >Tránsito Interno</label
       >
@@ -25,7 +25,7 @@
   </div>
 
   <!-- importación -->
-  <div class="mt-2" *ngIf="finalidad.type == 'IMP'">
+  <div class="mt-2" *ngIf="createForm.value.type == 'IMP'">
     <h6 class="mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
       Importación
     </h6>
@@ -37,9 +37,7 @@
         </label>
         <input
           type="text"
-          name="numberPSI"
-          (keyup)="onChange($event.target)"
-          [value]="finalidad.numberPSI || ''"
+          formControlName="numberPSI"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
       </div>
       <div></div>
@@ -49,20 +47,20 @@
         <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">
           País Origen <b class="text-red-600">*</b>
         </label>
-        <app-pais-select [value]="finalidad.countrySourceId" (eventChange)="onCountrySource($event)" />
+        <app-pais-select [value]="createForm.value.countrySourceId" (eventChange)="onCountrySource($event)" />
       </div>
 
       <div>
         <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">
           País Procedencia <b class="text-red-600">*</b>
         </label>
-        <app-pais-select [value]="finalidad.countryTargetId" (eventChange)="onCountryTarget($event)" />
+        <app-pais-select [value]="createForm.value.countryTargetId" (eventChange)="onCountryTarget($event)" />
       </div>
     </div>
   </div>
 
   <!-- exportación -->
-  <div class="mb-2" *ngIf="finalidad.type == 'EXP'">
+  <div class="mb-2" *ngIf="createForm.value.type == 'EXP'">
     <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
       Exportación
     </h6>
@@ -73,13 +71,13 @@
         <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
           País de Destino <b class="text-red-600">*</b>
         </label>
-        <app-pais-select [value]="finalidad.countryTargetId" (eventChange)="onCountryTarget($event)" />
+        <app-pais-select [value]="createForm.value.countryTargetId" (eventChange)="onCountryTarget($event)" />
       </div>
     </div>
   </div>
 
   <!-- Trásito interno -->
-  <div class="mb-2" *ngIf="finalidad.type == 'TIN'">
+  <div class="mb-2" *ngIf="createForm.value.type == 'TIN'">
     <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
       Tránsito Interno
     </h6>
@@ -92,11 +90,19 @@
         </label>
         <textarea
           name="place"
-          (keyup)="onChange($event.target)"
-          [value]="finalidad.place || ''"
+          formControlName="place"
           class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
         </textarea>
       </div>
     </div>
+  </div>
+
+  <div class="mt-5 text-right">
+    <button
+      [disabled]="!createForm.valid"
+      type="submit"
+      class="rounded-lg bg-primary px-5 py-3 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4">
+      Continuar
+    </button>
   </div>
 </form>

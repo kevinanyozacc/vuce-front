@@ -10,5 +10,6 @@ export enum TupaItemIdEnum {
 export interface TupaItemTabInterface {
   id: TupaItemIdEnum;
   name: string;
+  disabled: boolean;
   active: boolean;
 }

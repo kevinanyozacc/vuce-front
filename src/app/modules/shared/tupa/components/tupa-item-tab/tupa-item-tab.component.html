@@ -6,6 +6,6 @@
         ? 'group inline-flex items-center justify-center rounded-t-lg border-b-2  p-4 border-primary text-primary'
         : 'group inline-flex items-center justify-center rounded-t-lg border-b-2  p-4 border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
     ">
-    {{ item.name }}
+    <span [className]="item.disabled ? 'text-muted' : ''">{{ item.name }}</span>
   </button>
 </li>

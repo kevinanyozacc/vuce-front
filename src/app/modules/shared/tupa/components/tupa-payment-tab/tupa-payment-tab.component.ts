@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AreaSelectComponent } from 'src/app/modules/shared/area/components/area-select.component';
 import { PaymentCreateComponent } from 'src/app/modules/shared/method-payment/components/payment-create/payment-create.component';
@@ -15,12 +15,14 @@ import { PaymentDataEntityInterface } from '../../../method-payment/interfaces/p
 import { ProcedureServiceEntityInterface } from '../../../procedure/interfaces/procedure-service-entity.interface';
 import { ProcedureCalcTarifaService } from '../../../procedure/services/procedure-calc-tarifa.service';
 import Swal from 'sweetalert2';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-tupa-payment-tab',
   templateUrl: './tupa-payment-tab.component.html',
   standalone: true,
   imports: [
+    NgIf,
     ReactiveFormsModule,
     ButtonComponent,
     PaymentCreateComponent,
@@ -38,6 +40,9 @@ export class TupaPaymentTabComponent {
   constructor(public service: ProcedureCalcTarifaService) {}
 
   @Input()
+  public canSave = false;
+
+  @Input()
   public person?: PersonEntityInterface;
 
   @Input()
@@ -48,6 +53,15 @@ export class TupaPaymentTabComponent {
 
   @Output()
   public eventPerson = new EventEmitter<PersonEntityInterface>();
+
+  @Output()
+  public eventPaymentDelete = new EventEmitter<number>();
+
+  @Output()
+  public eventServiceDelete = new EventEmitter<PaymentDataEntityInterface>();
+
+  @Output()
+  public eventValidate = new EventEmitter<boolean>();
 
   @Output()
   public eventSave = new EventEmitter();
@@ -153,11 +167,15 @@ export class TupaPaymentTabComponent {
           });
         });
     }
+    // validate
+    this.onValidate();
   }
 
   onDelete(item: PaymentDataEntityInterface) {
     this.services = this.services.filter((i) => i.serviceId != item.serviceId);
     this.total = this.calcTotal();
+    this.eventServiceDelete.emit(item);
+    this.onValidate();
   }
 
   onSave() {
@@ -173,5 +191,19 @@ export class TupaPaymentTabComponent {
   addPayment(payment: PaymentEntityInterface) {
     this.payments.push(payment);
     this.closePayment();
+    this.onValidate();
+  }
+
+  deletePaymen(index: number) {
+    this.payments = this.payments.filter((_, iter) => iter != index);
+    this.eventPaymentDelete.emit(index);
+    this.onValidate();
+  }
+
+  onValidate() {
+    const isPayment = this.payments.length > 0;
+    const isService = this.services.length > 0;
+    const isCan = isPayment && isService;
+    this.eventValidate.emit(isCan);
   }
 }

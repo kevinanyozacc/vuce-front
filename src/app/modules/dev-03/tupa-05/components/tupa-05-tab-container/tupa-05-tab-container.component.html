@@ -12,20 +12,29 @@
     [technical]="technical"
     (eventEstablishment)="selectEstablishment($event)"
     (eventTechnical)="selectTechnical($event)" />
-  <app-tupa-05-final *ngIf="this.currentTabKey === tabs[2].id" [finalidad]="finalidad" />
+  <app-tupa-05-final
+    *ngIf="this.currentTabKey === tabs[2].id"
+    [finalidad]="finalidad"
+    (eventSave)="selectDetalle($event)" />
   <app-tupa-05-mercancia-pecuaria
     *ngIf="this.currentTabKey === tabs[3].id"
     [productType]="productType"
     [cuarentenas]="cuarentenas"
     (eventType)="selectProductType($event)"
     (eventDelete)="onDeleteCuarentena($event)"
-    (eventClear)="onClearCuarentena()" />
+    (eventClear)="onClearCuarentena()"
+    (eventValidate)="onValidateCuarentena($event)" />
   <app-tupa-payment-tab
     *ngIf="this.currentTabKey === tabs[4].id"
+    [canSave]="canSave"
     [person]="personPayment"
     [services]="services"
+    (eventServiceDelete)="onServiceDelete($event)"
     [payments]="payments"
+    (eventPaymentDelete)="onPaymentDelete($event)"
     (eventPerson)="selectPersonPayment($event)"
-    (eventSave)="onSave()" />
-  <app-tupa-expediente-tab *ngIf="currentTabKey === tabs[5].id" />
+    (eventSave)="onSave()"
+    (eventValidate)="onValidatePayment($event)" />
 </div>
+<!-- loading -->
+<app-content-loading *ngIf="service.getLoading()" />
