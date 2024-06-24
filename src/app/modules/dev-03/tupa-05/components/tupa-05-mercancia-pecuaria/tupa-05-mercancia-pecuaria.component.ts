@@ -82,10 +82,11 @@ export class Tupa05MercanciaPecuariaComponent {
   }
 
   handleType(type: string) {
-    if (type == ProductTypeEnum.ANIMAL) {
+    if (type === ProductTypeEnum.ANIMAL) {
       this.eventType.emit(ProductTypeEnum.ANIMAL);
       this.eventClear.emit();
     } else {
+      console.log('product => ' + ProductTypeEnum.PRODUCT);
       this.eventType.emit(ProductTypeEnum.PRODUCT);
       this.eventClear.emit();
     }

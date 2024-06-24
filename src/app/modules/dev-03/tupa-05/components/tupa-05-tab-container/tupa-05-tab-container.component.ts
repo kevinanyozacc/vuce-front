@@ -58,13 +58,13 @@ export class Tupa05TabContainerComponent {
     {
       id: TupaItemIdEnum.PARTE_III,
       name: 'III - FINALIDAD',
-      disabled: true,
+      disabled: false,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_IV,
       name: 'IV - MERCANCIA PECUARIA',
-      disabled: true,
+      disabled: false,
       active: false,
     },
     {

@@ -7,14 +7,14 @@
   <!-- level 2 -->
   <div class="mb-6 flex">
     <div class="ml-4">
-      <input type="radio" id="animal" class="mr-2" [checked]="productType == 'A'" (change)="handleType('ANIMAL')" />
+      <input type="radio" id="animal" class="mr-2" [checked]="productType == 'A'" (change)="handleType('A')" />
       <label for="animal" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Animales Vivos
       </label>
     </div>
 
     <div class="ml-4">
-      <input type="radio" id="product" class="mr-2" [checked]="productType == 'P'" (change)="handleType('PRODUCT')" />
+      <input type="radio" id="product" class="mr-2" [checked]="productType == 'P'" (change)="handleType('P')" />
       <label for="product" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Producto</label>
     </div>
   </div>
