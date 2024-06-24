@@ -13,6 +13,7 @@ import { TupaRequestTabComponent } from 'src/app/modules/shared/tupa/components/
 import { Tupa04InfoAnimalComponent } from '../tupa-04-info-animal/tupa-04-info-animal.component';
 import { Tupa04RecintoComponent } from '../tupa-04-recinto/tupa-04-recinto.component';
 import { ProductCuarentenaEntityInterface } from 'src/app/modules/shared/product/interfaces/product-cuarentena-entity.interface';
+import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/components/tupa-expediente-tab/tupa-expediente-tab.component';
 
 @Component({
   selector: 'app-tupa-04-tab-container',
@@ -27,6 +28,7 @@ import { ProductCuarentenaEntityInterface } from 'src/app/modules/shared/product
     Tupa04RecintoComponent,
     Tupa04InfoAnimalComponent,
     TupaPaymentTabComponent,
+    TupaExpedienteTabComponent,
   ],
 })
 export class Tupa04TabContainerComponent {
@@ -35,30 +37,35 @@ export class Tupa04TabContainerComponent {
       id: TupaItemIdEnum.PARTE_I,
       name: 'I - INFORMACIÓN DE EMPRESA SOLICITANTE',
       disabled: false,
+      visibled: true,
       active: true,
     },
     {
       id: TupaItemIdEnum.PARTE_II,
       name: 'II - ESTABLECIMIENTO',
       disabled: true,
+      visibled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_III,
       name: 'III - DEL RECINTO',
       disabled: true,
+      visibled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_IV,
       name: 'IV - INFORMACIPON ANIMALES',
       disabled: true,
+      visibled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_V,
       name: 'V - DATOS DEL PAGO',
       disabled: true,
+      visibled: true,
       active: false,
     },
   ];

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { Tupa05MercanciaPecuariaComponent } from '../tupa-05-mercancia-pecuaria/tupa-05-mercancia-pecuaria.component';
 import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
@@ -18,6 +18,8 @@ import { ProductTypeEnum } from 'src/app/modules/shared/product/enums/product-ty
 import { ExpedienteCreateService } from 'src/app/modules/shared/expediente/services/expediente-create.service';
 import { DetalleCreateInterface } from 'src/app/modules/shared/detalle/interfaces/detalle-create.interface';
 import { ContentLoadingComponent } from 'src/app/shared/components/content-loading/content-loading.component';
+import { ExpedienteEntityInterface } from 'src/app/modules/shared/expediente/interfaces/expediente-entity.interface';
+import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/components/tupa-expediente-tab/tupa-expediente-tab.component';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -30,44 +32,60 @@ import { ContentLoadingComponent } from 'src/app/shared/components/content-loadi
     TupaHeaderTabComponent,
     TupaRequestTabComponent,
     TupaEstablishmentTabComponent,
+    TupaPaymentTabComponent,
+    TupaExpedienteTabComponent,
     Tupa05FinalComponent,
     Tupa05MercanciaPecuariaComponent,
-    TupaPaymentTabComponent,
   ],
   providers: [ExpedienteCreateService],
 })
-export class Tupa05TabContainerComponent {
+export class Tupa05TabContainerComponent implements OnChanges {
   constructor(public service: ExpedienteCreateService) {}
+
+  @Input()
+  public expediente?: ExpedienteEntityInterface;
 
   tabs: TupaItemTabInterface[] = [
     {
       id: TupaItemIdEnum.PARTE_I,
       name: 'I - INFORMACIÓN DE EMPRESA SOLICITANTE',
       disabled: false,
+      visibled: true,
       active: true,
     },
     {
       id: TupaItemIdEnum.PARTE_II,
       name: 'II - ESTABLECIMIENTO',
       disabled: true,
+      visibled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_III,
       name: 'III - FINALIDAD',
       disabled: true,
+      visibled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_IV,
       name: 'IV - MERCANCIA PECUARIA',
       disabled: true,
+      visibled: true,
       active: false,
     },
     {
       id: TupaItemIdEnum.PARTE_V,
       name: 'V - DATOS DEL PAGO',
       disabled: true,
+      visibled: true,
+      active: false,
+    },
+    {
+      id: TupaItemIdEnum.PARTE_VI,
+      name: 'INFORMACIÓN DEL EXPEDIENTE',
+      disabled: true,
+      visibled: false,
       active: false,
     },
   ];
@@ -83,6 +101,19 @@ export class Tupa05TabContainerComponent {
   public personPayment?: PersonEntityInterface;
   public services: PaymentDataEntityInterface[] = [];
   public payments: PaymentEntityInterface[] = [];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes['expediente']?.currentValue) {
+      this.tabs[0].active = false;
+      this.tabs[1].disabled = false;
+      this.tabs[2].disabled = false;
+      this.tabs[3].disabled = false;
+      this.tabs[4].disabled = false;
+      this.tabs[5].disabled = false;
+      this.tabs[5].visibled = true;
+      this.tabs[5].active = true;
+    }
+  }
 
   onSelect(item: TupaItemTabInterface) {
     this.tabs = this.tabs.map((tab) => {

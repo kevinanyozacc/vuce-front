@@ -35,6 +35,7 @@
     (eventPerson)="selectPersonPayment($event)"
     (eventSave)="onSave()"
     (eventValidate)="onValidatePayment($event)" />
+  <app-tupa-expediente-tab *ngIf="this.currentTabKey === tabs[5].id" [expediente]="expediente" />
 </div>
 <!-- loading -->
 <app-content-loading *ngIf="service.getLoading()" />

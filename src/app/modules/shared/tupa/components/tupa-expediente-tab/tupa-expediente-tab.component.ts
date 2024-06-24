@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ExpedienteFindService } from '../../../expediente/services/expediente-find.service';
 import { ExpedienteEntityInterface } from '../../../expediente/interfaces/expediente-entity.interface';
 
@@ -8,19 +8,7 @@ import { ExpedienteEntityInterface } from '../../../expediente/interfaces/expedi
   templateUrl: './tupa-expediente-tab.component.html',
   providers: [ExpedienteFindService],
 })
-export class TupaExpedienteTabComponent implements OnInit {
-  constructor(public service: ExpedienteFindService) {}
-
+export class TupaExpedienteTabComponent {
+  @Input()
   public expediente?: ExpedienteEntityInterface;
-
-  ngOnInit(): void {
-    this.service
-      .fetch('220010000676')
-      .then((data) => {
-        this.expediente = data;
-      })
-      .catch(() => {
-        this.expediente = undefined;
-      });
-  }
 }

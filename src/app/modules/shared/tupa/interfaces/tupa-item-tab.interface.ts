@@ -11,5 +11,6 @@ export interface TupaItemTabInterface {
   id: TupaItemIdEnum;
   name: string;
   disabled: boolean;
+  visibled: boolean;
   active: boolean;
 }
