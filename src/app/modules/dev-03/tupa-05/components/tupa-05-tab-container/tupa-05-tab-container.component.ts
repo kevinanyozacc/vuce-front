@@ -13,12 +13,10 @@ import { TupaEstablishmentTabComponent } from 'src/app/modules/shared/tupa/compo
 import { TupaPaymentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-payment-tab/tupa-payment-tab.component';
 import { Tupa05FinalComponent } from '../tupa-05-final/tupa-05-final.component';
 import { PaymentDataEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-data-entity.interface';
-import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/components/tupa-expediente-tab/tupa-expediente-tab.component';
 import { ProductCuarentenaEntityInterface } from 'src/app/modules/shared/product/interfaces/product-cuarentena-entity.interface';
 import { ProductTypeEnum } from 'src/app/modules/shared/product/enums/product-type.enum';
 import { ExpedienteCreateService } from 'src/app/modules/shared/expediente/services/expediente-create.service';
 import { DetalleCreateInterface } from 'src/app/modules/shared/detalle/interfaces/detalle-create.interface';
-import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
 import { ContentLoadingComponent } from 'src/app/shared/components/content-loading/content-loading.component';
 
 @Component({
@@ -35,7 +33,6 @@ import { ContentLoadingComponent } from 'src/app/shared/components/content-loadi
     Tupa05FinalComponent,
     Tupa05MercanciaPecuariaComponent,
     TupaPaymentTabComponent,
-    TupaExpedienteTabComponent,
   ],
   providers: [ExpedienteCreateService],
 })
@@ -70,7 +67,7 @@ export class Tupa05TabContainerComponent {
     {
       id: TupaItemIdEnum.PARTE_V,
       name: 'V - DATOS DEL PAGO',
-      disabled: false,
+      disabled: true,
       active: false,
     },
   ];
