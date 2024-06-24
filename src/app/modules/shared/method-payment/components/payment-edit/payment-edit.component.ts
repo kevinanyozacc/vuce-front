@@ -7,6 +7,7 @@ import { ButtonLoadingComponent } from 'src/app/shared/components/button-loading
 import { NgIf } from '@angular/common';
 import { PaymentEntityInterface } from '../../interfaces/payment-entity.interface';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-payment-edit',
@@ -31,6 +32,9 @@ export class PaymentEditComponent implements OnChanges {
 
   @Input()
   public isOpen: boolean = false;
+
+  @Input()
+  public total: number = 0;
 
   @Output()
   public eventClose = new EventEmitter();
@@ -70,17 +74,26 @@ export class PaymentEditComponent implements OnChanges {
   }
 
   onSubmit() {
-    this.eventSave.emit({
-      typeId: this.editForm.value.paymentTypeId || '',
-      typeName: this.editForm.value.paymentTypeName || '',
-      bankId: this.editForm.value.paymentBankId || '',
-      bankName: this.editForm.value.paymentBankName || '',
-      accountId: this.editForm.value.paymentAccountId || '',
-      accountName: this.editForm.value.paymentAccountName || '',
-      number: this.editForm.value.paymentNumber || '',
-      date: this.editForm.value.paymentDate || '',
-      amount: parseFloat(this.editForm.value.paymentAmount || '0'),
-    });
+    const currentAmount = parseFloat(this.editForm.value.paymentAmount || '0');
+    if (currentAmount < this.total) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Alerta!!!',
+        text: `El monto ingresado \ndebe ser mayor/igual a ${this.total.toFixed(2)}`,
+      });
+    } else {
+      this.eventSave.emit({
+        typeId: this.editForm.value.paymentTypeId || '',
+        typeName: this.editForm.value.paymentTypeName || '',
+        bankId: this.editForm.value.paymentBankId || '',
+        bankName: this.editForm.value.paymentBankName || '',
+        accountId: this.editForm.value.paymentAccountId || '',
+        accountName: this.editForm.value.paymentAccountName || '',
+        number: this.editForm.value.paymentNumber || '',
+        date: this.editForm.value.paymentDate || '',
+        amount: currentAmount,
+      });
+    }
   }
 
   onClose() {

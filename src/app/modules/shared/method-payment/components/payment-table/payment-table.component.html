@@ -63,4 +63,9 @@
 </div>
 
 <!-- edit payment -->
-<app-payment-edit [isOpen]="isOpen" [payment]="payment" (eventClose)="closeEdit()" (eventSave)="editPayment($event)" />
+<app-payment-edit
+  [total]="total"
+  [isOpen]="isOpen"
+  [payment]="payment"
+  (eventClose)="closeEdit()"
+  (eventSave)="editPayment($event)" />

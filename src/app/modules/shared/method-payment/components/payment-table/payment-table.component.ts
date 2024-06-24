@@ -14,6 +14,9 @@ export class PaymentTableComponent {
   @Input()
   public data: PaymentEntityInterface[] = [];
 
+  @Input()
+  public total: number = 0;
+
   @Output()
   public eventDelete = new EventEmitter<number>();
 
