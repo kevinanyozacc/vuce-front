@@ -4,6 +4,4 @@ export interface DetalleCreateInterface {
   countrySourceId?: string;
   countryTargetId?: string;
   place?: string;
-  establishmentId?: string;
-  technicalId?: string;
 }

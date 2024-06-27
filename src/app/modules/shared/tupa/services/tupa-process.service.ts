@@ -2,20 +2,19 @@ import { Injectable } from '@angular/core';
 import { TupaItemIdEnum, TupaItemTabInterface } from '../interfaces/tupa-item-tab.interface';
 import Swal from 'sweetalert2';
 import { BehaviorSubject } from 'rxjs';
+import { TupaProcessStatusEnum } from '../enum/tupa-process.enum';
 
 @Injectable()
 export class TupaProcessService {
   private tabs = new BehaviorSubject<TupaItemTabInterface[]>([]);
-  private isContinue = new BehaviorSubject<boolean>(false);
-  private isFinished = new BehaviorSubject<boolean>(false);
-  private isCancel = new BehaviorSubject<boolean>(false);
+  private status = new BehaviorSubject<TupaProcessStatusEnum>(TupaProcessStatusEnum.PROCESS);
+  private canAction = new BehaviorSubject<boolean>(false);
 
   constructor() {
     this.$getTabs().subscribe((data) => {
       const countIsComplete = data.filter((item) => item.isComplete && item.visibled).length;
       const countTabs = data.filter((item) => item.visibled).length;
-      this.setIsContinue(countTabs === countIsComplete);
-      console.log(data);
+      this.setCanAction(countTabs === countIsComplete);
     });
   }
 
@@ -125,6 +124,16 @@ export class TupaProcessService {
     }
   }
 
+  public activeAllTabs() {
+    const tmpTabs = this.getTabs().map((item) => {
+      item.visibled = true;
+      item.isComplete = true;
+      item.disabled = false;
+      return item;
+    });
+    this.setTabs(tmpTabs);
+  }
+
   public messageErrorSelectTab(tab: TupaItemTabInterface) {
     Swal.fire({
       icon: 'info',
@@ -140,40 +149,28 @@ export class TupaProcessService {
     });
   }
 
-  public setIsContinue(value: boolean) {
-    this.isContinue.next(value);
+  public setStatus(value: TupaProcessStatusEnum) {
+    this.status.next(value);
   }
 
-  public getIsContinue() {
-    return this.isContinue.getValue();
+  public getStatus() {
+    return this.status.getValue();
   }
 
-  public $getIsContinue() {
-    return this.isContinue.asObservable();
+  public $getStatus() {
+    return this.status.asObservable();
   }
 
-  public setIsFinished(value: boolean) {
-    this.isFinished.next(value);
+  public setCanAction(value: boolean) {
+    this.canAction.next(value);
   }
 
-  public getIsFinished() {
-    return this.isContinue.getValue();
+  public getCanAction() {
+    return this.canAction.getValue();
   }
 
-  public $getIsFinished() {
-    return this.isContinue.asObservable();
-  }
-
-  public setIsCancel(value: boolean) {
-    this.isCancel.next(value);
-  }
-
-  public getIsCancel() {
-    return this.isCancel.getValue();
-  }
-
-  public $getIsCancel() {
-    return this.isCancel.asObservable();
+  public $getCanAction() {
+    return this.canAction.asObservable();
   }
 
   public get currentTabKey(): TupaItemIdEnum {

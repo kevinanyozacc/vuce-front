@@ -1,0 +1,37 @@
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+  <div class="relative mx-auto my-6 w-[600px]">
+    <!--content-->
+    <div
+      class="relative flex w-full flex-col rounded-lg border-0 bg-slate-100 px-4 shadow-lg outline-none focus:outline-none dark:bg-neutral-900">
+      <!--header-->
+      <h6
+        class="mb-2 border-b border-dashed border-b-gray-600 px-2 pb-2 pt-4 text-lg font-bold text-gray-900 dark:text-white">
+        {{ title }}
+      </h6>
+      <!--body-->
+      <p class="my-4 px-4 text-center">
+        <span class="text-lg uppercase text-gray-900 dark:text-white">
+          {{ text }}
+        </span>
+      </p>
+      <!--footer-->
+      <div class="flex items-center justify-end rounded-b pb-4">
+        <button
+          class="w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 hover:bg-primary hover:text-white sm:w-auto md:top-7"
+          type="button"
+          (click)="eventSuccess.emit()">
+          Confirmar
+        </button>
+        <button
+          class="ml-1 w-full rounded-lg border border-red-600 bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-primary text-white ring-red-800/50 focus:outline-none focus:ring-4 hover:bg-red-600 hover:text-white sm:w-auto md:top-7"
+          type="button"
+          (click)="onClose()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isOpen" class="fixed inset-0 z-40 bg-black opacity-25"></div>

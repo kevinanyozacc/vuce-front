@@ -1,34 +1,48 @@
-import { Injectable } from '@angular/core';
-import { ExpedienteCreateInterface } from '../interfaces/expediente-create.interface';
+import { inject, Injectable } from '@angular/core';
+import { ExpedienteSaveInterface } from '../interfaces/expediente-save.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { ExpedienteSaveResponseInterface } from '../interfaces/expediente-save-response.interface';
 import Swal from 'sweetalert2';
-import { ExpedienteCreateResponseInterface } from '../interfaces/expediente-create-response.interface';
 
 @Injectable()
 export class ExpedienteCreateService {
-  constructor(public client: HttpClient) {}
-
+  private clientService = inject(HttpClient);
   private loading = false;
 
-  fetch(payload: ExpedienteCreateInterface) {
-    return new Promise<ExpedienteCreateResponseInterface>((resolve, reject) => {
+  fetch(payload: ExpedienteSaveInterface) {
+    return new Promise<ExpedienteSaveResponseInterface>((resolve, reject) => {
       this.loading = true;
-      this.client.post<ExpedienteCreateResponseInterface>(`${environment.api}/expedientes/generic`, payload).subscribe({
-        next: (data) => {
-          this.loading = false;
-          resolve(data);
-        },
-        error: (err) => {
-          this.loading = false;
-          Swal.fire({
-            title: 'Error',
-            icon: 'error',
-            text: 'No se pudo guardar el expediente!!!',
-          });
-          reject(err);
-        },
-      });
+      this.clientService
+        .post<ExpedienteSaveResponseInterface>(`${environment.api}/expedientes/generic`, payload)
+        .subscribe({
+          next: (tmpExpediente) => {
+            this.messageSuccess();
+            this.loading = false;
+            resolve(tmpExpediente);
+          },
+          error: (err) => {
+            this.messageError();
+            this.loading = false;
+            reject(err);
+          },
+        });
+    });
+  }
+
+  messageSuccess() {
+    Swal.fire({
+      icon: 'success',
+      title: 'Registro Exitoso',
+      text: `El expediente se generó correctamente`,
+    });
+  }
+
+  messageError() {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: `No se pudo guardar el expediente!!!`,
     });
   }
 

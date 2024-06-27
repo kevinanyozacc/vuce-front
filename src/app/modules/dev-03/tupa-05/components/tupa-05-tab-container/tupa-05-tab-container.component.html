@@ -1,4 +1,11 @@
-<app-tupa-process-tab [title]="title" [showProcess]="showProcess" [enabledContinue]="processService.getIsContinue()" />
+<app-tupa-process-tab
+  [title]="title"
+  [expediente]="expediente"
+  [canAction]="processService.getCanAction()"
+  [status]="processService.getStatus()"
+  (eventSave)="onSave()"
+  (eventFinished)="onFinished()"
+  (eventCancel)="onCancel()" />
 <app-tupa-header-tab [tabs]="processService.getTabs()" (eventSelected)="processService.selectTab($event)" />
 <div class="w-full rounded-lg bg-background p-6">
   <app-tupa-request-tab *ngIf="processService.isActiveCurrentTab(0)" [requestService]="requestService" />
@@ -8,7 +15,7 @@
   <app-tupa-05-final *ngIf="processService.isActiveCurrentTab(2)" [detailService]="detailService" />
   <app-tupa-05-mercancia-pecuaria *ngIf="processService.isActiveCurrentTab(3)" [productService]="productService" />
   <app-tupa-payment-tab *ngIf="processService.isActiveCurrentTab(4)" [paymentService]="paymentService" />
-  <!-- <app-tupa-expediente-tab *ngIf="this.currentTabKey === tabs[5].id" [expediente]="expediente" /> -->
+  <app-tupa-expediente-tab *ngIf="processService.isActiveCurrentTab(5)" [expediente]="expediente" />
 </div>
 <!-- loading -->
-<app-content-loading *ngIf="service.getLoading()" />
+<app-content-loading *ngIf="expedienteCreate.getLoading() || expedienteFind.getLoading()" />

@@ -21,10 +21,18 @@
       </tr>
       <tr class="border-b border-dashed border-border">
         <td class="py-2 pr-2">
-          <span class="text-sm">Oficina:</span>
+          <span class="text-sm">Oficina (Sede):</span>
         </td>
         <td class="py-2 pl-2 text-left" colspan="3">
           <span class="text-sm font-semibold">{{ expediente?.sedeName }}</span>
+        </td>
+      </tr>
+      <tr class="border-b border-dashed border-border">
+        <td class="py-2 pr-2">
+          <span class="text-sm">Area:</span>
+        </td>
+        <td class="py-2 pl-2 text-left" colspan="3">
+          <span class="text-sm font-semibold uppercase">{{ expediente?.areaName }}</span>
         </td>
       </tr>
       <tr class="border-b border-dashed border-border">
@@ -53,4 +61,10 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<div class="mt-5 flex justify-center">
+  <button class="rounded-md bg-red-600 px-4 py-2.5 text-xs font-semibold text-primary-foreground hover:bg-red-700">
+    Ver Recibo
+  </button>
 </div>

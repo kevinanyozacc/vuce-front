@@ -19,6 +19,11 @@ import { TupaRequestService } from 'src/app/modules/shared/tupa/services/tupa-re
 import { TupaEstablishmentService } from 'src/app/modules/shared/tupa/services/tupa-establishment.service';
 import { TupaDetailService } from 'src/app/modules/shared/tupa/services/tupa-detail.service';
 import { TupaProductService } from 'src/app/modules/shared/tupa/services/tupa-product.service';
+import { ProcedureInfoInterface } from 'src/app/modules/shared/procedure/interfaces/procedure-info.interface';
+import Swal from 'sweetalert2';
+import { ExpedienteStorageService } from 'src/app/modules/shared/expediente/services/expediente-storage.service';
+import { ExpedienteFindService } from 'src/app/modules/shared/expediente/services/expediente-find.service';
+import { TupaProcessStatusEnum } from 'src/app/modules/shared/tupa/enum/tupa-process.enum';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -45,20 +50,12 @@ import { TupaProductService } from 'src/app/modules/shared/tupa/services/tupa-pr
     TupaProductService,
     TupaPaymentService,
     ProcedureInfoService,
+    ExpedienteFindService,
     ExpedienteCreateService,
+    ExpedienteStorageService,
   ],
 })
 export class Tupa05TabContainerComponent implements OnInit {
-  constructor(public service: ExpedienteCreateService) {}
-
-  public processService = inject(TupaProcessService);
-  public requestService = inject(TupaRequestService);
-  public establishmentService = inject(TupaEstablishmentService);
-  public detailService = inject(TupaDetailService);
-  public productService = inject(TupaProductService);
-  public paymentService = inject(TupaPaymentService);
-  public procedureService = inject(ProcedureInfoService);
-
   @Input()
   public title!: string;
 
@@ -68,12 +65,35 @@ export class Tupa05TabContainerComponent implements OnInit {
   @Input()
   public expediente?: ExpedienteEntityInterface;
 
+  public procedureInfo!: ProcedureInfoInterface;
+  public processService = inject(TupaProcessService);
+  public requestService = inject(TupaRequestService);
+  public establishmentService = inject(TupaEstablishmentService);
+  public detailService = inject(TupaDetailService);
+  public productService = inject(TupaProductService);
+  public paymentService = inject(TupaPaymentService);
+  public procedureService = inject(ProcedureInfoService);
+  public expedienteCreate = inject(ExpedienteCreateService);
+  public expedienteFind = inject(ExpedienteFindService);
+  public storageService!: ExpedienteStorageService;
+
   ngOnInit(): void {
     // add tabs
     this.processService.setTabs(tupaTabData);
+    // storage
+    this.storageService = new ExpedienteStorageService(
+      this.requestService,
+      this.establishmentService,
+      this.detailService,
+      this.productService,
+      this.paymentService,
+      this.procedureService,
+    );
     // add procedure
     this.procedureService.getApi('105', '035').then((data) => {
       this.paymentService.setProcedureInfo(data);
+      this.procedureInfo = data;
+      this.initCache();
     });
     // add person
     this.listenPerson();
@@ -85,27 +105,80 @@ export class Tupa05TabContainerComponent implements OnInit {
     this.listenProduct();
     // add payment
     this.listenPayment();
+    this.processService.$getStatus().subscribe((data) => {
+      console.log(data);
+    });
   }
 
-  onSave() {
-    // this.service
-    //   .fetch({
-    //     sedeId: '01',
-    //     tupaId: '001',
-    //     personId: this.person?.id || '',
-    //     userId: 'SENASA',
-    //     requestPersonId: this.person?.id || '',
-    //     representanteId: this.representante?.id,
-    //     otherPersonId: this.personPayment?.id,
-    //     detalle: this.finalidad,
-    //     cuarentenas: this.cuarentenas,
-    //     services: this.services,
-    //     payments: this.payments,
-    //   })
-    //   .then((data) => {
-    //     location.href = `/dashboard/tupa-05/${data.id}`;
-    //   })
-    //   .catch(() => null);
+  public initCache() {
+    this.storageService
+      .settingCache(this.procedureInfo.procedureId)
+      .then(({ tmpExpediente }) => {
+        this.expedienteFind
+          .fetch(tmpExpediente.id)
+          .then((expediente) => {
+            this.expediente = expediente;
+            this.processService.activeAllTabs();
+            this.processService.activeTab(tupaTabData[5]);
+            this.processService.setStatus(TupaProcessStatusEnum.FINISHED);
+          })
+          .catch(() => this.messageErrorExpediente(tmpExpediente.id));
+      })
+      .catch(() => {
+        this.processService.activeTab(tupaTabData[0]);
+      });
+  }
+
+  public onSave() {
+    const person = this.requestService.getPerson();
+    const representante = this.requestService.getRepresentante();
+    const establishment = this.establishmentService.getEstablishment();
+    const technical = this.establishmentService.getTechnical();
+    const personPayment = this.paymentService.getPersonPayment();
+    const detalle = this.detailService.getDetail();
+    const productType = this.productService.getProductType();
+    const products = this.productService.getProducts();
+    const services = this.paymentService.getServices();
+    const payments = this.paymentService.getPayments();
+    // send tupa
+    this.expedienteCreate
+      .fetch({
+        sedeId: '01',
+        procedureId: this.procedureInfo.procedureId,
+        personId: person?.id || '',
+        userId: 'SENASA',
+        establishmentId: establishment?.id,
+        technicalId: technical?.id,
+        requestPersonId: person?.id,
+        representanteId: representante?.id,
+        otherPersonId: personPayment?.id,
+        detalle,
+        productType,
+        products,
+        services,
+        payments,
+      })
+      .then((tmpExpediente) => {
+        this.storageService.set(this.procedureInfo.procedureId, tmpExpediente);
+        this.initCache();
+      })
+      .catch(() => null);
+  }
+
+  public onFinished() {
+    console.log('finished');
+  }
+
+  public onCancel() {
+    console.log('cancel');
+  }
+
+  public messageErrorExpediente(expedienteId: string) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Alerta',
+      html: `No se encontró el expediente: <br /> <b>${expedienteId}</b>`,
+    });
   }
 
   public listenPerson() {
@@ -158,8 +231,9 @@ export class Tupa05TabContainerComponent implements OnInit {
   public listenPayment() {
     this.paymentService.$getIsValid().subscribe((data) => {
       if (!this.processService.isActiveCurrentTab(4)) return;
-      if (data) this.processService.completeTab(tupaTabData[4]);
-      else this.processService.inCompleteTab(tupaTabData[4]);
+      if (data) {
+        this.processService.completeTab(tupaTabData[4]);
+      } else this.processService.inCompleteTab(tupaTabData[4]);
     });
   }
 }

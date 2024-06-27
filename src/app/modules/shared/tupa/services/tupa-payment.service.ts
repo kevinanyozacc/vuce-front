@@ -21,8 +21,12 @@ export class TupaPaymentService {
   constructor() {
     this.$getServices().subscribe((data) => {
       const isService = data.length > 0;
-      const isPayment = this.getPayments().length > 0;
-      this.setIsValid(isService && isPayment);
+      if (!isService) {
+        this.clearPayments();
+      } else {
+        const isPayment = this.getPayments().length > 0;
+        this.setIsValid(isService && isPayment);
+      }
     });
 
     this.$getPayments().subscribe((data) => {
@@ -97,12 +101,7 @@ export class TupaPaymentService {
         tmpServices.push({ ...value, price, amount: 1 });
         this.setServices(tmpServices);
       })
-      .catch(() => {
-        Swal.fire({
-          icon: 'warning',
-          text: 'No se pudo obtener la tarifa',
-        });
-      });
+      .catch(() => this.messageErrorService());
   }
 
   public getServices() {
@@ -124,6 +123,13 @@ export class TupaPaymentService {
   public deleteService({ row }: TupaPayloadInterface<PaymentServiceEntityInterface>) {
     const tmpServices = this.getServices().filter((_, index) => row !== index);
     this.setServices(tmpServices);
+  }
+
+  public messageErrorService() {
+    Swal.fire({
+      icon: 'warning',
+      text: 'No se pudo obtener la tarifa',
+    });
   }
 
   public clearServices() {

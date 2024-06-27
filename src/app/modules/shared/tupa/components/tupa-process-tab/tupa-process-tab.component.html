@@ -6,33 +6,44 @@
       <span></span>
     </div>
   </div>
-  <div class="inline-block space-x-4" *ngIf="showProcess">
+  <div class="inline-block space-x-4">
     <button
-      [disabled]="!enabledContinue"
+      [disabled]="!canAction"
+      (click)="eventSave.emit()"
       [className]="
-        enabledContinue
+        canAction
           ? 'flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground'
           : 'flex-none rounded-md bg-muted px-4 py-2.5 text-xs font-semibold text-muted-foreground'
       ">
       Guardar
     </button>
     <button
-      [disabled]="!enabledFinished"
+      *ngIf="status === 'FINISHED'"
+      [disabled]="!canAction"
+      (click)="eventFinished.emit()"
       [className]="
-        enabledFinished
+        canAction
           ? 'flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground'
           : 'flex-none rounded-md bg-muted px-4 py-2.5 text-xs font-semibold text-muted-foreground'
       ">
       Finalizar Proceso
     </button>
     <button
-      [disabled]="!enabledCancel"
+      [disabled]="!canAction"
+      (click)="onCancel()"
       [className]="
-        enabledCancel
-          ? 'flex-none rounded-md bg-primary px-4 py-2.5 text-xs font-semibold text-primary-foreground'
+        canAction
+          ? 'flex-none rounded-md bg-red-700 px-4 py-2.5 text-xs font-semibold text-primary-foreground'
           : 'flex-none rounded-md bg-muted px-4 py-2.5 text-xs font-semibold text-muted-foreground'
       ">
       Cancelar Proceso
     </button>
   </div>
 </div>
+<!-- validate cancel process -->
+<app-confirm
+  title="Cancelar Proceso"
+  [text]="contentMessageConfirm()"
+  [isOpen]="isOpen"
+  (eventClose)="onClose()"
+  (eventSuccess)="onConfirm()" />
