@@ -1,4 +1,4 @@
-<app-tupa-process-tab [title]="title" [showProcess]="showProcess" />
+<app-tupa-process-tab [title]="title" [showProcess]="showProcess" [enabledContinue]="processService.getIsContinue()" />
 <app-tupa-header-tab [tabs]="processService.getTabs()" (eventSelected)="processService.selectTab($event)" />
 <div class="w-full rounded-lg bg-background p-6">
   <app-tupa-request-tab *ngIf="processService.isActiveCurrentTab(0)" [requestService]="requestService" />

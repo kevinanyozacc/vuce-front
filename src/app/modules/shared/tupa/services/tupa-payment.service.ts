@@ -16,8 +16,21 @@ export class TupaPaymentService {
   private services = new BehaviorSubject<PaymentServiceEntityInterface[]>([]);
   private payments = new BehaviorSubject<PaymentEntityInterface[]>([]);
   private isValid = new BehaviorSubject<boolean>(false);
-
   public calcTarifaService = inject(ProcedureCalcTarifaService);
+
+  constructor() {
+    this.$getServices().subscribe((data) => {
+      const isService = data.length > 0;
+      const isPayment = this.getPayments().length > 0;
+      this.setIsValid(isService && isPayment);
+    });
+
+    this.$getPayments().subscribe((data) => {
+      const isPayment = data.length > 0;
+      const isService = this.getServices().length > 0;
+      this.setIsValid(isService && isPayment);
+    });
+  }
 
   public setTotal(value: number) {
     this.total.next(value);
@@ -129,6 +142,10 @@ export class TupaPaymentService {
 
   public getPayments() {
     return this.payments.getValue();
+  }
+
+  public $getPayments() {
+    return this.payments.asObservable();
   }
 
   public editPayment({ row, payload }: TupaPayloadInterface<PaymentEntityInterface>) {

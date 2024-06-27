@@ -76,13 +76,15 @@ export class Tupa05TabContainerComponent implements OnInit {
       this.paymentService.setProcedureInfo(data);
     });
     // add person
-    // this.listenPerson();
+    this.listenPerson();
     // add establishent
-    // this.listenEstablishment();
+    this.listenEstablishment();
     // add detail
-    // this.listenDetail();
+    this.listenDetail();
     // add product
-    // this.listenProduct();
+    this.listenProduct();
+    // add payment
+    this.listenPayment();
   }
 
   onSave() {
@@ -108,20 +110,29 @@ export class Tupa05TabContainerComponent implements OnInit {
 
   public listenPerson() {
     this.requestService.$getPerson().subscribe((data) => {
-      if (!!data) this.processService.enabledTab(tupaTabData[1]);
-      else this.processService.disabledTab(tupaTabData[1]);
+      if (!this.processService.isActiveCurrentTab(0)) return;
+      if (!!data) {
+        this.processService.completeTab(tupaTabData[0]);
+        this.processService.enabledTab(tupaTabData[1]);
+      }
     });
   }
 
   public listenEstablishment() {
     this.establishmentService.$getIsValid().subscribe((data) => {
-      if (data) this.processService.activeTab(tupaTabData[2]);
-      else this.processService.activeTab(tupaTabData[3]);
+      if (!this.processService.isActiveCurrentTab(1)) return;
+      if (data) {
+        this.processService.activeTab(tupaTabData[2]);
+      } else {
+        this.processService.activeTab(tupaTabData[1]);
+        this.processService.disabledTab(tupaTabData[2]);
+      }
     });
   }
 
   public listenDetail() {
     this.detailService.$getIsValid().subscribe((data) => {
+      if (!this.processService.isActiveCurrentTab(2)) return;
       if (data) {
         this.processService.activeTab(tupaTabData[3]);
       } else {
@@ -133,12 +144,22 @@ export class Tupa05TabContainerComponent implements OnInit {
 
   public listenProduct() {
     this.productService.$getIsValid().subscribe((data) => {
+      if (!this.processService.isActiveCurrentTab(3)) return;
       if (data) {
+        this.processService.completeTab(tupaTabData[3]);
         this.processService.enabledTab(tupaTabData[4]);
       } else {
         this.processService.activeTab(tupaTabData[3]);
         this.processService.disabledTab(tupaTabData[4]);
       }
+    });
+  }
+
+  public listenPayment() {
+    this.paymentService.$getIsValid().subscribe((data) => {
+      if (!this.processService.isActiveCurrentTab(4)) return;
+      if (data) this.processService.completeTab(tupaTabData[4]);
+      else this.processService.inCompleteTab(tupaTabData[4]);
     });
   }
 }

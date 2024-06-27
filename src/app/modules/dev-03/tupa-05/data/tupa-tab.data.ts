@@ -4,9 +4,9 @@ export const tupaTabData: TupaItemTabInterface[] = [
   {
     id: TupaItemIdEnum.PARTE_I,
     name: 'I - INFORMACIÓN DE EMPRESA SOLICITANTE',
-    disabled: true,
+    disabled: false,
     visibled: true,
-    active: false,
+    active: true,
     isComplete: false,
   },
   {
@@ -36,9 +36,9 @@ export const tupaTabData: TupaItemTabInterface[] = [
   {
     id: TupaItemIdEnum.PARTE_V,
     name: 'V - DATOS DEL PAGO',
-    disabled: false,
+    disabled: true,
     visibled: true,
-    active: true,
+    active: false,
     isComplete: false,
   },
   {

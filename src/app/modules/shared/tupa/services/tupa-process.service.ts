@@ -1,27 +1,68 @@
 import { Injectable } from '@angular/core';
 import { TupaItemIdEnum, TupaItemTabInterface } from '../interfaces/tupa-item-tab.interface';
 import Swal from 'sweetalert2';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class TupaProcessService {
-  private tabs: TupaItemTabInterface[] = [];
-  private canSave: boolean = false;
-  // private establishment?: EstablishmentEntityInterface;
-  // private technical?: PersonEntityInterface;
-  // private detail!: DetalleCreateInterface;
-  // private productType!: ProductTypeEnum;
-  // private products: ProductCuarentenaEntityInterface[] = [];
+  private tabs = new BehaviorSubject<TupaItemTabInterface[]>([]);
+  private isContinue = new BehaviorSubject<boolean>(false);
+  private isFinished = new BehaviorSubject<boolean>(false);
+  private isCancel = new BehaviorSubject<boolean>(false);
+
+  constructor() {
+    this.$getTabs().subscribe((data) => {
+      const countIsComplete = data.filter((item) => item.isComplete && item.visibled).length;
+      const countTabs = data.filter((item) => item.visibled).length;
+      this.setIsContinue(countTabs === countIsComplete);
+      console.log(data);
+    });
+  }
 
   public setTabs(value: TupaItemTabInterface[]) {
-    this.tabs = value;
+    this.tabs.next(value);
   }
 
   public getTabs() {
-    return this.tabs;
+    return this.tabs.getValue();
+  }
+
+  public $getTabs() {
+    return this.tabs.asObservable();
   }
 
   public findTab(row: number) {
-    return this.tabs.find((_, index) => index === row);
+    return this.getTabs().find((_, index) => index === row);
+  }
+
+  public currentTab() {
+    return this.getTabs().find((item) => item.active);
+  }
+
+  public activeTab(currentTab: TupaItemTabInterface) {
+    let tmpTabs = this.getTabs().map((item) => {
+      item.active = false;
+      return item;
+    });
+    // obtener index
+    const currentIndex = tmpTabs.findIndex((item) => item.id === currentTab.id);
+    // disabled tab
+    tmpTabs = tmpTabs.map((item, index) => {
+      if (currentIndex > index) {
+        item.disabled = false;
+        item.isComplete = true;
+      } else if (currentIndex + 1 == index) {
+        item.disabled = !currentTab.isComplete;
+      } else if (currentIndex + 1 > index) {
+        item.disabled = true;
+      }
+      return item;
+    });
+    // disabled active
+    currentTab.active = true;
+    currentTab.disabled = false;
+    tmpTabs[currentIndex] = currentTab;
+    this.setTabs(tmpTabs);
   }
 
   public isActiveCurrentTab(row: number) {
@@ -30,53 +71,53 @@ export class TupaProcessService {
     return this.currentTabKey === tab.id;
   }
 
-  public activeTab(currentTab: TupaItemTabInterface) {
-    this.tabs = this.tabs.map((tab) => {
-      if (tab.id === currentTab.id) {
-        tab.active = true;
-        tab.visibled = true;
-        tab.disabled = false;
-        return tab;
-      } else {
-        tab.active = false;
-        return tab;
-      }
-    });
-  }
-
   public enabledTab(currentTab: TupaItemTabInterface) {
-    this.tabs = this.tabs.map((tab) => {
-      if (tab.id === currentTab.id) {
-        tab.visibled = true;
-        tab.disabled = false;
-      }
-      return tab;
-    });
+    const tmpTabs = this.getTabs();
+    const currentIndex = tmpTabs.findIndex((item) => item.id === currentTab.id);
+    currentTab.visibled = true;
+    currentTab.disabled = false;
+    tmpTabs[currentIndex] = currentTab;
+    this.setTabs(tmpTabs);
   }
 
   public disabledTab(currentTab: TupaItemTabInterface) {
-    this.tabs = this.tabs.map((tab) => {
-      if (tab.id === currentTab.id) {
-        tab.disabled = true;
-      }
-      return tab;
-    });
+    const tmpTabs = this.getTabs();
+    const currentIndex = tmpTabs.findIndex((item) => item.id === currentTab.id);
+    currentTab.isComplete = false;
+    currentTab.disabled = true;
+    tmpTabs[currentIndex] = currentTab;
+    this.setTabs(tmpTabs);
+  }
+
+  public completeTab(currentTab: TupaItemTabInterface) {
+    const tmpTabs = this.getTabs();
+    const currentIndex = tmpTabs.findIndex((item) => item.id === currentTab.id);
+    currentTab.isComplete = true;
+    tmpTabs[currentIndex] = currentTab;
+    this.setTabs(tmpTabs);
+  }
+
+  public inCompleteTab(currentTab: TupaItemTabInterface) {
+    const tmpTabs = this.getTabs();
+    const currentIndex = tmpTabs.findIndex((item) => item.id === currentTab.id);
+    currentTab.isComplete = false;
+    tmpTabs[currentIndex] = currentTab;
+    this.setTabs(tmpTabs);
   }
 
   public hiddenTab(currentTab: TupaItemTabInterface) {
-    this.tabs = this.tabs.map((tab) => {
-      if (tab.id === currentTab.id) {
-        tab.visibled = false;
-        tab.disabled = true;
-      }
-      return tab;
-    });
+    const tmpTabs = this.getTabs();
+    const currentIndex = tmpTabs.findIndex((item) => item.id === currentTab.id);
+    currentTab.visibled = true;
+    currentTab.disabled = true;
+    tmpTabs[currentIndex] = currentTab;
+    this.setTabs(tmpTabs);
   }
 
   public selectTab(item: TupaItemTabInterface) {
     if (item.disabled) {
-      const prevIndex = this.tabs.findIndex((i) => i.id === item.id) - 1;
-      const prevTab = this.tabs[prevIndex];
+      const prevIndex = this.getTabs().findIndex((i) => i.id === item.id) - 1;
+      const prevTab = this.getTabs()[prevIndex];
       if (!prevTab) return;
       this.messageErrorSelectTab(prevTab);
     } else {
@@ -99,20 +140,44 @@ export class TupaProcessService {
     });
   }
 
-  public setCanSave(value: boolean) {
-    this.canSave = value;
+  public setIsContinue(value: boolean) {
+    this.isContinue.next(value);
   }
 
-  public getCanSave() {
-    return this.canSave;
+  public getIsContinue() {
+    return this.isContinue.getValue();
   }
 
-  public get currentTab(): TupaItemTabInterface | undefined {
-    return this.tabs.find((item) => item.active);
+  public $getIsContinue() {
+    return this.isContinue.asObservable();
+  }
+
+  public setIsFinished(value: boolean) {
+    this.isFinished.next(value);
+  }
+
+  public getIsFinished() {
+    return this.isContinue.getValue();
+  }
+
+  public $getIsFinished() {
+    return this.isContinue.asObservable();
+  }
+
+  public setIsCancel(value: boolean) {
+    this.isCancel.next(value);
+  }
+
+  public getIsCancel() {
+    return this.isCancel.getValue();
+  }
+
+  public $getIsCancel() {
+    return this.isCancel.asObservable();
   }
 
   public get currentTabKey(): TupaItemIdEnum {
-    const tab = this.tabs.find((item) => item.active);
+    const tab = this.getTabs().find((item) => item.active);
     return tab?.id || TupaItemIdEnum.PARTE_I;
   }
 }
