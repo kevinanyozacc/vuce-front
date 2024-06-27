@@ -1,22 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { PaisSelectComponent } from 'src/app/modules/shared/ubigeo/components/pais-select/pais-select.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { JsonPipe, NgIf } from '@angular/common';
 import { DetalleCreateInterface } from 'src/app/modules/shared/detalle/interfaces/detalle-create.interface';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TupaDetailService } from 'src/app/modules/shared/tupa/services/tupa-detail.service';
 
 @Component({
   selector: 'app-tupa-05-final',
   templateUrl: './tupa-05-final.component.html',
   standalone: true,
   imports: [NgIf, ButtonComponent, PaisSelectComponent, ReactiveFormsModule, JsonPipe],
+  providers: [TupaDetailService],
 })
 export class Tupa05FinalComponent implements OnInit {
   @Input()
-  public finalidad!: DetalleCreateInterface;
-
-  @Output()
-  public eventSave = new EventEmitter<DetalleCreateInterface>();
+  public detailService: TupaDetailService = inject(TupaDetailService);
 
   public createForm = new FormGroup({
     type: new FormControl('IMP', Validators.required),
@@ -27,30 +26,36 @@ export class Tupa05FinalComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.init();
-  }
-
-  init() {
-    if (!this.finalidad) return;
-    this.createForm.controls.type.setValue(this.finalidad?.type);
-    this.createForm.controls.numberPSI.setValue(this.finalidad.numberPSI || '');
-    this.createForm.controls.countrySourceId.setValue(this.finalidad?.countrySourceId || '');
-    this.createForm.controls.countryTargetId.setValue(this.finalidad?.countryTargetId || '');
-    this.createForm.controls.place.setValue(this.finalidad?.place || '');
+    // add detail
+    this.detailService.$getDetail().subscribe((data) => {
+      if (!data) return;
+      this.createForm.controls.type.setValue(data?.type || 'IMP');
+      this.createForm.controls.numberPSI.setValue(data.numberPSI || '');
+      this.createForm.controls.countrySourceId.setValue(data?.countrySourceId || '');
+      this.createForm.controls.countryTargetId.setValue(data?.countryTargetId || '');
+      this.createForm.controls.place.setValue(data?.place || '');
+    });
+    // add form
+    this.createForm.statusChanges.subscribe((data) => {
+      if (data === 'INVALID') this.detailService.setIsValid(false);
+    });
   }
 
   handleType(type: string) {
     if (type == 'IMP') {
-      this.createForm.setControl('countryTargetId', new FormControl('4028', Validators.required));
-      this.createForm.setControl('countrySourceId', new FormControl('4028', Validators.required));
+      this.detailService.setIsValid(false);
+      this.createForm.setControl('countryTargetId', new FormControl('', Validators.required));
+      this.createForm.setControl('countrySourceId', new FormControl('', Validators.required));
       this.createForm.setControl('numberPSI', new FormControl('', Validators.required));
       this.createForm.setControl('place', new FormControl(null));
     } else if (type == 'EXP') {
-      this.createForm.setControl('countryTargetId', new FormControl('4028', Validators.required));
+      this.detailService.setIsValid(false);
+      this.createForm.setControl('countryTargetId', new FormControl('', Validators.required));
       this.createForm.setControl('countrySourceId', new FormControl(null));
       this.createForm.setControl('numberPSI', new FormControl(null));
       this.createForm.setControl('place', new FormControl(null));
     } else {
+      this.detailService.setIsValid(false);
       this.createForm.setControl('place', new FormControl('', Validators.required));
       this.createForm.setControl('countryTargetId', new FormControl(null));
       this.createForm.setControl('countrySourceId', new FormControl(null));
@@ -72,6 +77,7 @@ export class Tupa05FinalComponent implements OnInit {
   }
 
   onSave() {
-    this.eventSave.emit(this.createForm.value as any);
+    this.detailService.setDetail(this.createForm.value as DetalleCreateInterface);
+    this.detailService.setIsValid(true);
   }
 }

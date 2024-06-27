@@ -14,44 +14,44 @@
     </thead>
     <!--Table body-->
     <tbody>
-      <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let item of data; let i = index">
+      <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let payload of data; index as row">
         <td class="py-2 pr-2">
-          <span class="text-sm font-semibold text-muted-foreground"> {{ item.typeName }} </span>
+          <span class="text-sm font-semibold text-muted-foreground"> {{ payload.typeName }} </span>
         </td>
         <td class="py-2 pr-2">
           <span class="text-sm font-semibold text-muted-foreground">
-            {{ item.bankName }}
+            {{ payload.bankName }}
           </span>
         </td>
         <td class="py-2 pr-2">
           <span class="text-sm font-semibold text-muted-foreground">
-            {{ item.accountName }}
+            {{ payload.accountName }}
           </span>
         </td>
         <td class="py-2 pr-2">
           <span class="text-sm font-semibold text-muted-foreground">
-            {{ item.number }}
+            {{ payload.number }}
           </span>
         </td>
         <td class="py-2 pr-2">
           <span class="text-sm font-semibold text-muted-foreground">
-            {{ item.date }}
+            {{ payload.date }}
           </span>
         </td>
         <td class="py-2 pr-2 text-right">
           <span class="text-sm font-semibold text-muted-foreground">
-            {{ item.amount }}
+            {{ payload.amount }}
           </span>
         </td>
         <td class="py-2 pl-2">
           <div class="flex justify-center gap-2">
             <svg-icon
-              (click)="deleteItem(item, i)"
+              (click)="deleteItem({ payload, row })"
               src="assets/icons/heroicons/outline/trash.svg"
               [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
             </svg-icon>
             <svg-icon
-              (click)="editItem(i, item)"
+              (click)="openEdit({ payload, row })"
               src="assets/icons/heroicons/outline/edit.svg"
               [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
             </svg-icon>
@@ -68,4 +68,4 @@
   [isOpen]="isOpen"
   [payment]="payment"
   (eventClose)="closeEdit()"
-  (eventSave)="editPayment($event)" />
+  (eventSave)="editItem($event)" />

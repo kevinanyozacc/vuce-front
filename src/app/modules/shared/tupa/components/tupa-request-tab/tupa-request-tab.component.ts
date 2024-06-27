@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DocumentTypeSelectComponent } from 'src/app/modules/shared/document-type/components/document-type-select.component';
 import { PersonCreateComponent } from 'src/app/modules/shared/person/components/person-create/person-create.component';
@@ -11,6 +11,7 @@ import { PersonSearchService } from 'src/app/modules/shared/person/services/pers
 import { ButtonLoadingComponent } from 'src/app/shared/components/button-loading/button-loading.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
+import { TupaRequestService } from '../../services/tupa-request.service';
 
 @Component({
   selector: 'app-tupa-request-tab',
@@ -27,23 +28,25 @@ import { LoadingComponent } from 'src/app/shared/components/loading/loading.comp
     PersonSearchComponent,
     PersonRepresentanteSelectComponent,
   ],
-  providers: [PersonSearchService],
+  providers: [PersonSearchService, TupaRequestService],
 })
-export class TupaRequestTabComponent {
+export class TupaRequestTabComponent implements OnInit {
   @Input()
-  public person?: PersonEntityInterface | null;
+  public requestService = inject(TupaRequestService);
 
-  @Input()
-  public representante?: RepresentanteEntityInterface | null;
-
-  @Output()
-  public eventPerson = new EventEmitter<PersonEntityInterface | undefined>();
-
-  @Output()
-  public eventRepresentante = new EventEmitter<RepresentanteEntityInterface | undefined>();
-
+  public person?: PersonEntityInterface;
+  public representante?: RepresentanteEntityInterface;
   public personCreateModal = false;
   public personSearchModal = false;
+
+  ngOnInit(): void {
+    this.requestService.$getPerson().subscribe((data) => {
+      this.person = data;
+    });
+    this.requestService.$getRepresentante().subscribe((data) => {
+      this.representante = data;
+    });
+  }
 
   personCreateModalOpen() {
     this.personCreateModal = true;
@@ -62,20 +65,12 @@ export class TupaRequestTabComponent {
   }
 
   onSavePerson(person: PersonEntityInterface) {
-    this.eventPerson.emit(person);
+    this.requestService.setPerson(person);
     this.personCreateModalClose();
   }
 
   onSelectPerson(person: PersonEntityInterface) {
-    this.eventPerson.emit(person);
+    this.requestService.setPerson(person);
     this.personSearchModalClose();
-  }
-
-  onSelectRepresentante(representante?: RepresentanteEntityInterface) {
-    this.eventRepresentante.emit(representante);
-  }
-
-  clearPerson() {
-    this.eventPerson.emit(undefined);
   }
 }

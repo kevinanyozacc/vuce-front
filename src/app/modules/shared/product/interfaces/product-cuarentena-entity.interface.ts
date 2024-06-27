@@ -2,6 +2,7 @@ import { ProductTypeEnum } from '../enums/product-type.enum';
 
 export interface ProductCuarentenaEntityInterface {
   productId: string;
+  type: ProductTypeEnum;
   secuencial: number;
   productName: string;
   gender?: string;
@@ -10,5 +11,4 @@ export interface ProductCuarentenaEntityInterface {
   amount?: number;
   weight?: string;
   authorizeName?: string;
-  type: ProductTypeEnum;
 }

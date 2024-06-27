@@ -1,25 +1,24 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { Tupa05MercanciaPecuariaComponent } from '../tupa-05-mercancia-pecuaria/tupa-05-mercancia-pecuaria.component';
-import { PersonEntityInterface } from 'src/app/modules/shared/person/interfaces/person-entity.interface';
-import { EstablishmentEntityInterface } from 'src/app/modules/shared/establishment/interfaces/establishment-entity.interface';
-import { tupaFinalidadData } from '../../data/tupa-finalidad.data';
-import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
-import { RepresentanteEntityInterface } from 'src/app/modules/shared/person/interfaces/representante-entity.interface';
 import { TupaHeaderTabComponent } from 'src/app/modules/shared/tupa/components/tupa-header-tab/tupa-header-tab.component';
-import { TupaItemIdEnum, TupaItemTabInterface } from 'src/app/modules/shared/tupa/interfaces/tupa-item-tab.interface';
 import { TupaRequestTabComponent } from 'src/app/modules/shared/tupa/components/tupa-request-tab/tupa-request-tab.component';
 import { TupaEstablishmentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-establishment-tab/tupa-esblishment-tab.component';
 import { TupaPaymentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-payment-tab/tupa-payment-tab.component';
 import { Tupa05FinalComponent } from '../tupa-05-final/tupa-05-final.component';
-import { PaymentDataEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-data-entity.interface';
-import { ProductCuarentenaEntityInterface } from 'src/app/modules/shared/product/interfaces/product-cuarentena-entity.interface';
-import { ProductTypeEnum } from 'src/app/modules/shared/product/enums/product-type.enum';
 import { ExpedienteCreateService } from 'src/app/modules/shared/expediente/services/expediente-create.service';
-import { DetalleCreateInterface } from 'src/app/modules/shared/detalle/interfaces/detalle-create.interface';
 import { ContentLoadingComponent } from 'src/app/shared/components/content-loading/content-loading.component';
 import { ExpedienteEntityInterface } from 'src/app/modules/shared/expediente/interfaces/expediente-entity.interface';
 import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/components/tupa-expediente-tab/tupa-expediente-tab.component';
+import { TupaProcessTabComponent } from 'src/app/modules/shared/tupa/components/tupa-process-tab/tupa-process-tab.component';
+import { TupaProcessService } from 'src/app/modules/shared/tupa/services/tupa-process.service';
+import { tupaTabData } from '../../data/tupa-tab.data';
+import { TupaPaymentService } from 'src/app/modules/shared/tupa/services/tupa-payment.service';
+import { ProcedureInfoService } from 'src/app/modules/shared/procedure/services/procedure-info.service';
+import { TupaRequestService } from 'src/app/modules/shared/tupa/services/tupa-request.service';
+import { TupaEstablishmentService } from 'src/app/modules/shared/tupa/services/tupa-establishment.service';
+import { TupaDetailService } from 'src/app/modules/shared/tupa/services/tupa-detail.service';
+import { TupaProductService } from 'src/app/modules/shared/tupa/services/tupa-product.service';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -29,6 +28,7 @@ import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/componen
     NgFor,
     NgIf,
     ContentLoadingComponent,
+    TupaProcessTabComponent,
     TupaHeaderTabComponent,
     TupaRequestTabComponent,
     TupaEstablishmentTabComponent,
@@ -37,177 +37,108 @@ import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/componen
     Tupa05FinalComponent,
     Tupa05MercanciaPecuariaComponent,
   ],
-  providers: [ExpedienteCreateService],
+  providers: [
+    TupaProcessService,
+    TupaRequestService,
+    TupaEstablishmentService,
+    TupaDetailService,
+    TupaProductService,
+    TupaPaymentService,
+    ProcedureInfoService,
+    ExpedienteCreateService,
+  ],
 })
-export class Tupa05TabContainerComponent implements OnChanges {
+export class Tupa05TabContainerComponent implements OnInit {
   constructor(public service: ExpedienteCreateService) {}
+
+  public processService = inject(TupaProcessService);
+  public requestService = inject(TupaRequestService);
+  public establishmentService = inject(TupaEstablishmentService);
+  public detailService = inject(TupaDetailService);
+  public productService = inject(TupaProductService);
+  public paymentService = inject(TupaPaymentService);
+  public procedureService = inject(ProcedureInfoService);
+
+  @Input()
+  public title!: string;
+
+  @Input()
+  public showProcess: boolean = true;
 
   @Input()
   public expediente?: ExpedienteEntityInterface;
 
-  tabs: TupaItemTabInterface[] = [
-    {
-      id: TupaItemIdEnum.PARTE_I,
-      name: 'I - INFORMACIÓN DE EMPRESA SOLICITANTE',
-      disabled: false,
-      visibled: true,
-      active: true,
-    },
-    {
-      id: TupaItemIdEnum.PARTE_II,
-      name: 'II - ESTABLECIMIENTO',
-      disabled: true,
-      visibled: true,
-      active: false,
-    },
-    {
-      id: TupaItemIdEnum.PARTE_III,
-      name: 'III - FINALIDAD',
-      disabled: true,
-      visibled: true,
-      active: false,
-    },
-    {
-      id: TupaItemIdEnum.PARTE_IV,
-      name: 'IV - MERCANCIA PECUARIA',
-      disabled: true,
-      visibled: true,
-      active: false,
-    },
-    {
-      id: TupaItemIdEnum.PARTE_V,
-      name: 'V - DATOS DEL PAGO',
-      disabled: true,
-      visibled: true,
-      active: false,
-    },
-    {
-      id: TupaItemIdEnum.PARTE_VI,
-      name: 'INFORMACIÓN DEL EXPEDIENTE',
-      disabled: true,
-      visibled: false,
-      active: false,
-    },
-  ];
-
-  public canSave = false;
-  public person?: PersonEntityInterface;
-  public representante?: RepresentanteEntityInterface;
-  public establishment?: EstablishmentEntityInterface;
-  public technical?: PersonEntityInterface;
-  public finalidad = tupaFinalidadData;
-  public productType: ProductTypeEnum = ProductTypeEnum.ANIMAL;
-  public cuarentenas: ProductCuarentenaEntityInterface[] = [];
-  public personPayment?: PersonEntityInterface;
-  public services: PaymentDataEntityInterface[] = [];
-  public payments: PaymentEntityInterface[] = [];
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes['expediente']?.currentValue) {
-      this.tabs[0].active = false;
-      this.tabs[1].disabled = false;
-      this.tabs[2].disabled = false;
-      this.tabs[3].disabled = false;
-      this.tabs[4].disabled = false;
-      this.tabs[5].disabled = false;
-      this.tabs[5].visibled = true;
-      this.tabs[5].active = true;
-    }
-  }
-
-  onSelect(item: TupaItemTabInterface) {
-    this.tabs = this.tabs.map((tab) => {
-      tab.active = item.id === tab.id;
-      return tab;
+  ngOnInit(): void {
+    // add tabs
+    this.processService.setTabs(tupaTabData);
+    // add procedure
+    this.procedureService.getApi('105', '035').then((data) => {
+      this.paymentService.setProcedureInfo(data);
     });
-  }
-
-  onDeleteCuarentena(cuarentena: ProductCuarentenaEntityInterface) {
-    this.cuarentenas = this.cuarentenas.filter((item) => item.productId != cuarentena.productId);
-  }
-
-  onClearCuarentena() {
-    this.cuarentenas = [];
-  }
-
-  onValidateCuarentena(value: boolean) {
-    this.tabs[4].disabled = !value;
-  }
-
-  onServiceDelete(service: PaymentDataEntityInterface) {
-    this.services = this.services.filter((item) => item.serviceId != service.serviceId);
-  }
-
-  onPaymentDelete(index: number) {
-    this.payments = this.payments.filter((_, iter) => iter != index);
-  }
-
-  onValidatePayment(value: boolean) {
-    this.canSave = value;
+    // add person
+    // this.listenPerson();
+    // add establishent
+    // this.listenEstablishment();
+    // add detail
+    // this.listenDetail();
+    // add product
+    // this.listenProduct();
   }
 
   onSave() {
-    this.service
-      .fetch({
-        sedeId: '01',
-        tupaId: '001',
-        personId: this.person?.id || '',
-        userId: 'SENASA',
-        requestPersonId: this.person?.id || '',
-        representanteId: this.representante?.id,
-        otherPersonId: this.personPayment?.id,
-        detalle: this.finalidad,
-        cuarentenas: this.cuarentenas,
-        services: this.services,
-        payments: this.payments,
-      })
-      .then((data) => {
-        location.href = `/dashboard/tupa-05/${data.id}`;
-      })
-      .catch(() => null);
+    // this.service
+    //   .fetch({
+    //     sedeId: '01',
+    //     tupaId: '001',
+    //     personId: this.person?.id || '',
+    //     userId: 'SENASA',
+    //     requestPersonId: this.person?.id || '',
+    //     representanteId: this.representante?.id,
+    //     otherPersonId: this.personPayment?.id,
+    //     detalle: this.finalidad,
+    //     cuarentenas: this.cuarentenas,
+    //     services: this.services,
+    //     payments: this.payments,
+    //   })
+    //   .then((data) => {
+    //     location.href = `/dashboard/tupa-05/${data.id}`;
+    //   })
+    //   .catch(() => null);
   }
 
-  selectPerson(person?: PersonEntityInterface) {
-    this.person = person;
-    this.tabs[1].disabled = !this.person;
+  public listenPerson() {
+    this.requestService.$getPerson().subscribe((data) => {
+      if (!!data) this.processService.enabledTab(tupaTabData[1]);
+      else this.processService.disabledTab(tupaTabData[1]);
+    });
   }
 
-  selectRepresentante(representante?: RepresentanteEntityInterface) {
-    this.representante = representante;
+  public listenEstablishment() {
+    this.establishmentService.$getIsValid().subscribe((data) => {
+      if (data) this.processService.activeTab(tupaTabData[2]);
+      else this.processService.activeTab(tupaTabData[3]);
+    });
   }
 
-  selectEstablishment(establishment?: EstablishmentEntityInterface) {
-    this.establishment = establishment;
-    this.finalidad.establishmentId = establishment?.id;
-    this.tabs[2].disabled = !this.establishment || !this.technical;
+  public listenDetail() {
+    this.detailService.$getIsValid().subscribe((data) => {
+      if (data) {
+        this.processService.activeTab(tupaTabData[3]);
+      } else {
+        this.processService.activeTab(tupaTabData[2]);
+        this.processService.disabledTab(tupaTabData[3]);
+      }
+    });
   }
 
-  selectTechnical(technical?: PersonEntityInterface) {
-    this.technical = technical;
-    this.finalidad.technicalId = technical?.id;
-    this.tabs[2].disabled = !this.establishment || !this.technical;
-  }
-
-  selectDetalle(detalle: DetalleCreateInterface) {
-    this.finalidad = Object.assign(this.finalidad, { ...detalle });
-    this.tabs[3].disabled = false;
-    this.onSelect(this.tabs[3]);
-  }
-
-  selectProductType(type: ProductTypeEnum) {
-    this.productType = type;
-  }
-
-  selectPersonPayment(person?: PersonEntityInterface) {
-    this.personPayment = person;
-  }
-
-  get currentTab(): TupaItemTabInterface | undefined {
-    return this.tabs.find((item) => item.active);
-  }
-
-  get currentTabKey(): TupaItemIdEnum {
-    const tab = this.tabs.find((item) => item.active);
-    return tab?.id || TupaItemIdEnum.PARTE_I;
+  public listenProduct() {
+    this.productService.$getIsValid().subscribe((data) => {
+      if (data) {
+        this.processService.enabledTab(tupaTabData[4]);
+      } else {
+        this.processService.activeTab(tupaTabData[3]);
+        this.processService.disabledTab(tupaTabData[4]);
+      }
+    });
   }
 }

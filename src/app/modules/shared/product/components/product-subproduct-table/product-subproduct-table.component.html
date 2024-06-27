@@ -1,0 +1,53 @@
+<div class="relative overflow-x-auto">
+  <div class="text-right"></div>
+  <table class="w-full table-auto">
+    <!--Table head-->
+    <thead class="text-xs uppercase text-slate-500">
+      <tr>
+        <th class="py-3 text-left">P.A</th>
+        <th class="py-3 text-left">Producto/SubProducto</th>
+        <th class="py-3 text-left">Peso (Kg)</th>
+        <th class="py-3 text-left">Nombre Producto en la Autorización</th>
+        <th class="py-3 text-center">Acciones</th>
+      </tr>
+    </thead>
+    <!--Table body-->
+    <tbody>
+      <tr class="border-b border-dashed border-border hover:bg-card" *ngFor="let payload of data; index as row">
+        <td class="py-2 pr-2">
+          <span class="text-sm font-semibold">{{ payload.productId }}</span>
+        </td>
+        <td class="py-2 pl-2 text-left">
+          <span class="text-sm font-semibold">{{ payload.productName }}</span>
+        </td>
+        <td class="py-2 pl-2">
+          <span class="text-sm font-semibold">{{ payload.weight }}</span>
+        </td>
+        <td class="py-2 pl-2">
+          <span class="text-sm font-semibold">{{ payload.authorizeName }}</span>
+        </td>
+        <td>
+          <div class="flex justify-center gap-2">
+            <svg-icon
+              src="assets/icons/heroicons/outline/trash.svg"
+              (click)="eventDelete.emit({ row, payload })"
+              [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+            </svg-icon>
+            <svg-icon
+              src="assets/icons/heroicons/outline/edit.svg"
+              (click)="openEdit({ row, payload })"
+              [svgClass]="'h-5 w-5 text-muted-foreground/50 cursor-pointer'">
+            </svg-icon>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- editar -->
+<app-product-subproduct-edit
+  [isOpen]="isOpen"
+  [product]="product"
+  (eventClose)="closeEdit()"
+  (eventSave)="onEdit($event)" />

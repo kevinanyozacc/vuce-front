@@ -1,6 +1,6 @@
 import { DetalleCreateInterface } from '../../detalle/interfaces/detalle-create.interface';
-import { PaymentDataEntityInterface } from '../../method-payment/interfaces/payment-data-entity.interface';
 import { PaymentEntityInterface } from '../../method-payment/interfaces/payment-entity.interface';
+import { PaymentServiceEntityInterface } from '../../method-payment/interfaces/payment-service-entity.interface';
 import { ProductCuarentenaEntityInterface } from '../../product/interfaces/product-cuarentena-entity.interface';
 
 export interface ExpedienteCreateInterface {
@@ -12,7 +12,7 @@ export interface ExpedienteCreateInterface {
   representanteId?: string;
   otherPersonId?: string;
   detalle: DetalleCreateInterface;
-  services: PaymentDataEntityInterface[];
+  services: PaymentServiceEntityInterface[];
   payments: PaymentEntityInterface[];
   cuarentenas: ProductCuarentenaEntityInterface[];
 }

@@ -9,7 +9,7 @@ export class ProcedureCalcTarifaService {
   private total: number = 0;
 
   public getApiList({ id, serviceId, amount }: ProcedureCalcTarifaRequest) {
-    return new Promise((resolve, reject) => {
+    return new Promise<number>((resolve, reject) => {
       this.http
         .get<{ total: number }>(`${environment.api}/procedures/${id}/services/${serviceId}/calcTarifa?amount=${amount}`)
         .subscribe({

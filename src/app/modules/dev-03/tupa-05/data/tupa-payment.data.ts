@@ -1,15 +1,15 @@
-import { PaymentEntityInterface } from '../../shared/method-payment/interfaces/payment-entity.interface';
+import { PaymentEntityInterface } from 'src/app/modules/shared/method-payment/interfaces/payment-entity.interface';
 
 export const tupaPaymentData: PaymentEntityInterface[] = [
   {
-    paymentTypeId: '001',
-    paymentTypeName: 'Pruba',
-    paymentBankId: '00001',
-    paymentBankName: 'Banco Prueba',
-    paymentAccountId: '0001-001',
-    paymentAccountName: '0001-001',
-    paymentNumber: '12345678',
-    paymentDate: '2024-01-01',
-    paymentAmount: 100,
+    typeId: '001',
+    typeName: 'Pruba',
+    bankId: '00001',
+    bankName: 'Banco Prueba',
+    accountId: '0001-001',
+    accountName: '0001-001',
+    number: '12345678',
+    date: '2024-01-01',
+    amount: 100,
   },
 ];

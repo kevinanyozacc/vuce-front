@@ -1,41 +1,14 @@
-<app-tupa-header-tab [tabs]="this.tabs" (eventSelected)="this.onSelect($event)" />
+<app-tupa-process-tab [title]="title" [showProcess]="showProcess" />
+<app-tupa-header-tab [tabs]="processService.getTabs()" (eventSelected)="processService.selectTab($event)" />
 <div class="w-full rounded-lg bg-background p-6">
-  <app-tupa-request-tab
-    *ngIf="this.currentTabKey === tabs[0].id"
-    [person]="person"
-    [representante]="representante"
-    (eventPerson)="selectPerson($event)"
-    (eventRepresentante)="selectRepresentante($event)" />
+  <app-tupa-request-tab *ngIf="processService.isActiveCurrentTab(0)" [requestService]="requestService" />
   <app-tupa-establishment-tab
-    *ngIf="this.currentTabKey === tabs[1].id"
-    [establishment]="establishment"
-    [technical]="technical"
-    (eventEstablishment)="selectEstablishment($event)"
-    (eventTechnical)="selectTechnical($event)" />
-  <app-tupa-05-final
-    *ngIf="this.currentTabKey === tabs[2].id"
-    [finalidad]="finalidad"
-    (eventSave)="selectDetalle($event)" />
-  <app-tupa-05-mercancia-pecuaria
-    *ngIf="this.currentTabKey === tabs[3].id"
-    [productType]="productType"
-    [cuarentenas]="cuarentenas"
-    (eventType)="selectProductType($event)"
-    (eventDelete)="onDeleteCuarentena($event)"
-    (eventClear)="onClearCuarentena()"
-    (eventValidate)="onValidateCuarentena($event)" />
-  <app-tupa-payment-tab
-    *ngIf="this.currentTabKey === tabs[4].id"
-    [canSave]="canSave"
-    [person]="personPayment"
-    [services]="services"
-    (eventServiceDelete)="onServiceDelete($event)"
-    [payments]="payments"
-    (eventPaymentDelete)="onPaymentDelete($event)"
-    (eventPerson)="selectPersonPayment($event)"
-    (eventSave)="onSave()"
-    (eventValidate)="onValidatePayment($event)" />
-  <app-tupa-expediente-tab *ngIf="this.currentTabKey === tabs[5].id" [expediente]="expediente" />
+    *ngIf="processService.isActiveCurrentTab(1)"
+    [establishmentService]="establishmentService" />
+  <app-tupa-05-final *ngIf="processService.isActiveCurrentTab(2)" [detailService]="detailService" />
+  <app-tupa-05-mercancia-pecuaria *ngIf="processService.isActiveCurrentTab(3)" [productService]="productService" />
+  <app-tupa-payment-tab *ngIf="processService.isActiveCurrentTab(4)" [paymentService]="paymentService" />
+  <!-- <app-tupa-expediente-tab *ngIf="this.currentTabKey === tabs[5].id" [expediente]="expediente" /> -->
 </div>
 <!-- loading -->
 <app-content-loading *ngIf="service.getLoading()" />

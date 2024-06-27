@@ -5,7 +5,7 @@
   </h6>
 
   <!-- level 1 -->
-  <form class="mb-10 grid gap-6 md:grid-cols-2" [formGroup]="createForm" (submit)="onAdd()">
+  <form class="mb-10 grid gap-6 md:grid-cols-2" [formGroup]="createForm" (submit)="addService()">
     <div>
       <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Oficina(Sede) <b class="text-red-800">*</b>
@@ -18,7 +18,7 @@
     <div>
       <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Area <b class="text-red-800">*</b>
-        <app-area-select [value]="createForm.value.areaId" (eventChange)="onArea($event)" />
+        <input type="text" disabled class="uppercase" [value]="procedureInfo?.areaName" />
       </label>
     </div>
     <div></div>
@@ -28,10 +28,7 @@
       <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Procedimiento <b class="text-red-800">*</b>
       </label>
-      <app-procedure-select
-        [value]="createForm.value.procedureId"
-        [areaId]="createForm.value.areaId"
-        (eventChange)="onProcedure($event)" />
+      <input type="text" disabled class="uppercase" [value]="procedureInfo?.procedureName" />
     </div>
     <div></div>
 
@@ -41,11 +38,12 @@
       </label>
       <app-procedure-service-select
         [value]="createForm.value.serviceId"
-        [procedureId]="createForm.value.procedureId"
+        [procedureId]="procedureInfo?.procedureId"
         (eventData)="onService($event)" />
     </div>
     <div>
       <button
+        [disabled]="!createForm.valid"
         class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
         Agregar
       </button>
@@ -54,70 +52,71 @@
 
   <!-- level 4 -->
   <div class="mb-10">
-    <app-payment-data-table [data]="services" [total]="total" (eventDelete)="onDelete($event)" />
+    <app-payment-service-table
+      [data]="paymentService.getServices()"
+      [total]="paymentService.getTotal()"
+      (eventDelete)="paymentService.deleteService($event)" />
   </div>
 
   <!-- comprobante de pago -->
-  <div *ngIf="services.length > 0">
+  <div *ngIf="paymentService.getServices().length > 0">
     <!-- level 5 -->
-    <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+    <h6
+      class="relative mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
       Pago a nombre de otro usuario
+      <button (click)="openPerson()" class="absolute right-0 top-0 text-primary">
+        <u>Agregar usuario</u>
+      </button>
     </h6>
-
     <!-- level 6 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-3">
-      <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-          Tipo Documento <b class="text-red-600">*</b></label
-        >
-        <input
-          type="text"
-          readonly
-          [value]="person?.documentType?.name || ''"
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm uppercase text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+    <div *ngIf="!!personPayment">
+      <div class="mb-6 grid gap-6 md:grid-cols-3">
+        <div>
+          <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+            Tipo Documento <b class="text-red-600">*</b></label
+          >
+          <input
+            type="text"
+            readonly
+            [value]="personPayment.documentType?.name"
+            class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm uppercase text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+        </div>
+        <div>
+          <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >N° Documento <b class="text-red-600">*</b></label
+          >
+          <input
+            type="text"
+            readonly
+            [value]="personPayment.documentNumber"
+            class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+        </div>
       </div>
-      <div>
-        <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >N° Documento <b class="text-red-600">*</b></label
-        >
-        <input
-          type="text"
-          readonly
-          [value]="person?.documentNumber"
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+      <!-- level 2 -->
+      <div class="mb-6 grid gap-6 md:grid-cols-2">
+        <div class="cols-span-2">
+          <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >Razón social/Nombre <b class="text-red-600">*</b></label
+          >
+          <input
+            type="text"
+            readonly
+            [value]="personPayment.nombreRazonSocial"
+            class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
+        </div>
       </div>
-      <div class="justify-end">
-        <button
-          (click)="openPerson()"
-          class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
-          Buscar
-        </button>
-      </div>
-    </div>
-    <!-- level 2 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-2">
-      <div class="cols-span-2">
-        <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Razón social/Nombre <b class="text-red-600">*</b></label
-        >
-        <input
-          type="text"
-          readonly
-          [value]="person?.nombreRazonSocial"
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary" />
-      </div>
-    </div>
-    <!-- level 3 -->
-    <div class="mb-6 grid gap-6 md:grid-cols-2">
-      <div>
-        <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-          >Dirección Legal <b class="text-red-600">*</b></label
-        >
-        <textarea
-          [value]="person?.address"
-          readonly
-          class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
-        </textarea>
+      <!-- level 3 -->
+      <div class="mb-6 grid gap-6 md:grid-cols-2">
+        <div>
+          <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >Dirección Legal <b class="text-red-600">*</b></label
+          >
+          <textarea
+            readonly
+            [value]="personPayment.address"
+            class="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-primary focus:ring-primary dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-primary">
+          </textarea>
+        </div>
       </div>
     </div>
 
@@ -131,21 +130,17 @@
     </h6>
 
     <div class="mt-10">
-      <app-payment-table [total]="total" [data]="payments" (eventDelete)="deletePaymen($event)" />
-    </div>
-
-    <div class="mb-5 mt-5 text-right" *ngIf="canSave">
-      <button
-        (click)="onSave()"
-        class="relative mt-2 w-full rounded-lg bg-primary px-5 py-2.5 text-center text-sm font-medium text-white ring-primary/50 focus:outline-none focus:ring-4 sm:w-auto md:top-7 md:ml-2 md:mt-0">
-        Guardar Expediente
-      </button>
+      <app-payment-table
+        [total]="paymentService.getTotal()"
+        [data]="paymentService.getPayments()"
+        (eventDelete)="paymentService.deletePayment($event)"
+        (eventEdit)="paymentService.editPayment($event)" />
     </div>
   </div>
 </div>
 
 <app-payment-create
-  [total]="total"
+  [total]="paymentService.getTotal()"
   [isOpen]="isOpenPayment"
   (eventClose)="closePayment()"
   (eventSave)="addPayment($event)" />

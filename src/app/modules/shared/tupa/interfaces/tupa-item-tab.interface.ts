@@ -13,4 +13,5 @@ export interface TupaItemTabInterface {
   disabled: boolean;
   visibled: boolean;
   active: boolean;
+  isComplete: boolean;
 }

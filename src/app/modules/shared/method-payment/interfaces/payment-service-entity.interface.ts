@@ -1,4 +1,4 @@
-export interface PaymentDataEntityInterface {
+export interface PaymentServiceEntityInterface {
   sedeId: string;
   areaId: string;
   procedureId: string;

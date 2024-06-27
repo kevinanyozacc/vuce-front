@@ -39,6 +39,7 @@ export class Tupa04TabContainerComponent {
       disabled: false,
       visibled: true,
       active: true,
+      isComplete: false,
     },
     {
       id: TupaItemIdEnum.PARTE_II,
@@ -46,6 +47,7 @@ export class Tupa04TabContainerComponent {
       disabled: true,
       visibled: true,
       active: false,
+      isComplete: false,
     },
     {
       id: TupaItemIdEnum.PARTE_III,
@@ -53,6 +55,7 @@ export class Tupa04TabContainerComponent {
       disabled: true,
       visibled: true,
       active: false,
+      isComplete: false,
     },
     {
       id: TupaItemIdEnum.PARTE_IV,
@@ -60,6 +63,7 @@ export class Tupa04TabContainerComponent {
       disabled: true,
       visibled: true,
       active: false,
+      isComplete: false,
     },
     {
       id: TupaItemIdEnum.PARTE_V,
@@ -67,6 +71,7 @@ export class Tupa04TabContainerComponent {
       disabled: true,
       visibled: true,
       active: false,
+      isComplete: false,
     },
   ];
 

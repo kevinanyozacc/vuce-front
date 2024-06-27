@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Inject, Input, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EstablishmentSearchService } from 'src/app/modules/shared/establishment/service/establishment-search.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
@@ -10,6 +10,7 @@ import { PersonSearchComponent } from 'src/app/modules/shared/person/components/
 import { PersonCreateComponent } from 'src/app/modules/shared/person/components/person-create/person-create.component';
 import { EstablishmentSearchComponent } from '../../../establishment/components/establishment-search/establishment-search.component';
 import { EstablishmentCreateComponent } from '../../../establishment/components/establishment-create/establishment-create.component';
+import { TupaEstablishmentService } from '../../services/tupa-establishment.service';
 
 @Component({
   selector: 'app-tupa-establishment-tab',
@@ -27,23 +28,25 @@ import { EstablishmentCreateComponent } from '../../../establishment/components/
   ],
   providers: [EstablishmentSearchService],
 })
-export class TupaEstablishmentTabComponent {
+export class TupaEstablishmentTabComponent implements OnInit {
   @Input()
-  public establishment?: EstablishmentEntityInterface | null;
+  public establishmentService: TupaEstablishmentService = inject(TupaEstablishmentService);
 
-  @Input()
-  public technical?: PersonEntityInterface | null;
-
-  @Output()
-  public eventEstablishment = new EventEmitter<EstablishmentEntityInterface | undefined>();
-
-  @Output()
-  public eventTechnical = new EventEmitter<PersonEntityInterface | undefined>();
-
+  public establishment?: EstablishmentEntityInterface;
+  public technical?: PersonEntityInterface;
   public isCreateModal = false;
   public isSearchModal = false;
   public isPersonCreateModal = false;
   public isPersonSearchModal = false;
+
+  ngOnInit(): void {
+    this.establishmentService.$getEstablishment().subscribe((data) => {
+      this.establishment = data;
+    });
+    this.establishmentService.$getTechnical().subscribe((data) => {
+      this.technical = data;
+    });
+  }
 
   createModalOpen() {
     this.isCreateModal = true;
@@ -78,30 +81,30 @@ export class TupaEstablishmentTabComponent {
   }
 
   onSaveEstablishment(establishment: EstablishmentEntityInterface) {
-    this.eventEstablishment.emit(establishment);
+    this.establishmentService.setEstablishment(establishment);
     this.createModalClose();
   }
 
   onSelectEstablishment(establishment: EstablishmentEntityInterface) {
-    this.eventEstablishment.emit(establishment);
+    this.establishmentService.setEstablishment(establishment);
     this.searchModalClose();
   }
 
   clearEstablishment() {
-    this.eventEstablishment.emit(undefined);
+    this.establishmentService.setEstablishment(undefined);
   }
 
   onSaveTechnical(technical: PersonEntityInterface) {
-    this.eventTechnical.emit(technical);
+    this.establishmentService.setTechnical(technical);
     this.createPersonModalClose();
   }
 
   onSelectTechnical(technical: PersonEntityInterface) {
-    this.eventTechnical.emit(technical);
+    this.establishmentService.setTechnical(technical);
     this.searchPersonModalClose();
   }
 
   clearTechnical() {
-    this.eventTechnical.emit(undefined);
+    this.establishmentService.setTechnical(undefined);
   }
 }

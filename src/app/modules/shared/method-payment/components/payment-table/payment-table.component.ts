@@ -3,6 +3,7 @@ import { PaymentEntityInterface } from '../../interfaces/payment-entity.interfac
 import { NgFor } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { PaymentEditComponent } from '../payment-edit/payment-edit.component';
+import { TupaPayloadInterface } from '../../../tupa/interfaces/tupa-payload.interface';
 
 @Component({
   selector: 'app-payment-table',
@@ -18,33 +19,31 @@ export class PaymentTableComponent {
   public total: number = 0;
 
   @Output()
-  public eventDelete = new EventEmitter<number>();
+  public eventDelete = new EventEmitter<TupaPayloadInterface<PaymentEntityInterface>>();
+
+  @Output()
+  public eventEdit = new EventEmitter<TupaPayloadInterface<PaymentEntityInterface>>();
 
   public isOpen = false;
-  public payment?: PaymentEntityInterface;
+  public payment!: PaymentEntityInterface;
   public index = 0;
 
-  openEdit() {
+  openEdit({ payload, row }: TupaPayloadInterface<PaymentEntityInterface>) {
     this.isOpen = true;
+    this.payment = payload;
+    this.index = row;
   }
 
   closeEdit() {
     this.isOpen = false;
   }
 
-  deleteItem(item: PaymentEntityInterface, index: number) {
-    this.data = this.data.filter((_, iter) => iter !== index);
-    this.eventDelete.emit(index);
+  deleteItem(data: TupaPayloadInterface<PaymentEntityInterface>) {
+    this.eventDelete.emit(data);
   }
 
-  editItem(index: number, payment: PaymentEntityInterface) {
-    this.index = index;
-    this.payment = payment;
-    this.openEdit();
-  }
-
-  editPayment(payment: PaymentEntityInterface) {
-    this.data[this.index] = payment;
+  editItem(payload: PaymentEntityInterface) {
+    this.eventEdit.emit({ payload, row: this.index });
     this.closeEdit();
   }
 }

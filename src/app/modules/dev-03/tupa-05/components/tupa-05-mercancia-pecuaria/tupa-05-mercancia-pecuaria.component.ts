@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ProductAnimalCreateComponent } from 'src/app/modules/shared/product/components/product-animal-create/product-animal-create.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 import { NgFor, NgIf } from '@angular/common';
@@ -7,7 +7,10 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ProductAnimalEditComponent } from 'src/app/modules/shared/product/components/product-animal-edit/product-animal-edit.component';
 import { ProductSubProductEditComponent } from 'src/app/modules/shared/product/components/product-subproduct-edit/product-subproduct-edit.component';
 import { ProductCuarentenaEntityInterface } from 'src/app/modules/shared/product/interfaces/product-cuarentena-entity.interface';
-import { ProductTypeEnum } from 'src/app/modules/shared/product/enums/product-type.enum';
+import { TupaProductService } from 'src/app/modules/shared/tupa/services/tupa-product.service';
+import { ProductAnimalTableComponent } from 'src/app/modules/shared/product/components/product-animal-table/product-animal-table.component';
+import { TupaPayloadInterface } from 'src/app/modules/shared/tupa/interfaces/tupa-payload.interface';
+import { ProductSubproductTableComponent } from 'src/app/modules/shared/product/components/product-subproduct-table/product-subproduct-table.component';
 
 @Component({
   selector: 'app-tupa-05-mercancia-pecuaria',
@@ -18,36 +21,19 @@ import { ProductTypeEnum } from 'src/app/modules/shared/product/enums/product-ty
     NgIf,
     AngularSvgIconModule,
     ButtonComponent,
+    ProductAnimalTableComponent,
     ProductAnimalCreateComponent,
-    ProductAnimalEditComponent,
+    ProductSubproductTableComponent,
     ProductSubProductCreateComponent,
-    ProductSubProductEditComponent,
   ],
+  providers: [TupaProductService],
 })
 export class Tupa05MercanciaPecuariaComponent {
   @Input()
-  public cuarentenas: ProductCuarentenaEntityInterface[] = [];
-
-  @Input()
-  public productType!: ProductTypeEnum;
-
-  @Output()
-  public eventType = new EventEmitter<ProductTypeEnum>();
-
-  @Output()
-  public eventDelete = new EventEmitter<ProductCuarentenaEntityInterface>();
-
-  @Output()
-  public eventClear = new EventEmitter();
-
-  @Output()
-  public eventValidate = new EventEmitter<boolean>();
+  public productService = inject(TupaProductService);
 
   public isOpenCreateAnimal = false;
-  public isOpenEditAnimal = false;
   public isOpenCreateSubProduct = false;
-  public isOpenEditSubProduct = false;
-  public cuarentena?: ProductCuarentenaEntityInterface;
 
   openCreateAnimal() {
     this.isOpenCreateAnimal = true;
@@ -55,14 +41,6 @@ export class Tupa05MercanciaPecuariaComponent {
 
   closeCreateAnimal() {
     this.isOpenCreateAnimal = false;
-  }
-
-  openEditAnimal() {
-    this.isOpenEditAnimal = true;
-  }
-
-  closeEditAnimal() {
-    this.isOpenEditAnimal = false;
   }
 
   openCreateSubProduct() {
@@ -73,48 +51,15 @@ export class Tupa05MercanciaPecuariaComponent {
     this.isOpenCreateSubProduct = false;
   }
 
-  openEditSubProduct() {
-    this.isOpenEditSubProduct = true;
+  onProductType(value: any) {
+    this.productService.setProductType(value);
   }
 
-  closeEditSubProduct() {
-    this.isOpenEditSubProduct = false;
+  onEdit(data: TupaPayloadInterface<ProductCuarentenaEntityInterface>) {
+    this.productService.editProduct(data);
   }
 
-  handleType(type: string) {
-    if (type === ProductTypeEnum.ANIMAL) {
-      this.eventType.emit(ProductTypeEnum.ANIMAL);
-      this.eventClear.emit();
-    } else {
-      console.log('product => ' + ProductTypeEnum.PRODUCT);
-      this.eventType.emit(ProductTypeEnum.PRODUCT);
-      this.eventClear.emit();
-    }
-    // validar
-    this.eventValidate.emit(false);
-  }
-
-  onAdd(animal: ProductCuarentenaEntityInterface) {
-    const type = this.productType;
-    const currentAnimal = this.cuarentenas.findIndex((item) => item.productId == animal.productId);
-    if (currentAnimal >= 0) {
-      this.cuarentenas[currentAnimal] = { ...animal, type };
-    } else {
-      const secuencial = this.cuarentenas.length;
-      this.cuarentenas.push({ ...animal, secuencial, type });
-    }
-    // validar
-    this.eventValidate.emit(this.cuarentenas.length > 0);
-  }
-
-  onEdit(cuarentena: ProductCuarentenaEntityInterface) {
-    this.cuarentena = cuarentena;
-    this.openEditAnimal();
-  }
-
-  onDelete(cuarentena: ProductCuarentenaEntityInterface) {
-    this.eventDelete.emit(cuarentena);
-    const currentData = this.cuarentenas.filter((item) => item.productId != cuarentena.productId);
-    this.eventValidate.emit(currentData.length > 0);
+  onDelete(data: TupaPayloadInterface<ProductCuarentenaEntityInterface>) {
+    this.productService.deleteProduct(data);
   }
 }
