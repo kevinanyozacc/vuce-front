@@ -10,7 +10,7 @@
       <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Oficina(Sede) <b class="text-red-800">*</b>
       </label>
-      <app-sede-select [value]="createForm.value.sedeId" (eventChange)="onSede($event)" />
+      <input type="text" disabled class="uppercase" [value]="sede?.name" />
     </div>
     <div></div>
 

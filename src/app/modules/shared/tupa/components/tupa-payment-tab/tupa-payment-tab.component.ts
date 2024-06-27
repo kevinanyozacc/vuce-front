@@ -16,6 +16,8 @@ import { TupaPaymentService } from '../../services/tupa-payment.service';
 import { ProcedureInfoInterface } from '../../../procedure/interfaces/procedure-info.interface';
 import { PaymentServiceEntityInterface } from '../../../method-payment/interfaces/payment-service-entity.interface';
 import { PaymentEntityInterface } from '../../../method-payment/interfaces/payment-entity.interface';
+import { AuthProfileService } from 'src/app/core/auth/services/auth-profile.service';
+import { SedeEntityInterface } from '../../../sede/interfaces/sede-entity.interface';
 
 @Component({
   selector: 'app-tupa-payment-tab',
@@ -39,6 +41,9 @@ import { PaymentEntityInterface } from '../../../method-payment/interfaces/payme
 export class TupaPaymentTabComponent implements OnInit {
   @Input()
   public paymentService: TupaPaymentService = inject(TupaPaymentService);
+
+  public profileService = inject(AuthProfileService);
+  public sede?: SedeEntityInterface;
   public procedureInfo?: ProcedureInfoInterface;
   public personPayment?: PersonEntityInterface;
   public createForm = new FormGroup({
@@ -51,9 +56,14 @@ export class TupaPaymentTabComponent implements OnInit {
   public isOpenPerson = false;
 
   ngOnInit(): void {
+    this.paymentService.$getSede().subscribe((data) => {
+      this.sede = data;
+    });
+
     this.paymentService.$getProcedureInfo().subscribe((data) => {
       this.procedureInfo = data;
     });
+
     this.paymentService.$getPersonPayment().subscribe((data) => {
       this.personPayment = data;
     });
@@ -84,10 +94,6 @@ export class TupaPaymentTabComponent implements OnInit {
   onPerson(person: PersonEntityInterface) {
     this.paymentService.setPersonPayment(person);
     this.closePerson();
-  }
-
-  onSede(value: string) {
-    this.createForm.controls.sedeId.setValue(value || '');
   }
 
   onService(value?: ProcedureServiceEntityInterface) {

@@ -9,7 +9,7 @@ export class AuthProfileService {
   public clientService = inject(HttpClient);
 
   private loading = false;
-  private data = new BehaviorSubject<any>(undefined);
+  private data = new BehaviorSubject<AuthEntityInterface | undefined>(undefined);
 
   public api(username: string) {
     return new Promise<AuthEntityInterface>((resolve, reject) => {

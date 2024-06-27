@@ -24,6 +24,9 @@ import Swal from 'sweetalert2';
 import { ExpedienteStorageService } from 'src/app/modules/shared/expediente/services/expediente-storage.service';
 import { ExpedienteFindService } from 'src/app/modules/shared/expediente/services/expediente-find.service';
 import { TupaProcessStatusEnum } from 'src/app/modules/shared/tupa/enum/tupa-process.enum';
+import { AuthProfileService } from 'src/app/core/auth/services/auth-profile.service';
+import { SedeFindService } from 'src/app/modules/shared/sede/services/sede-find.service';
+import { ExpedienteEditService } from 'src/app/modules/shared/expediente/services/expediente-edit.service';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -43,6 +46,7 @@ import { TupaProcessStatusEnum } from 'src/app/modules/shared/tupa/enum/tupa-pro
     Tupa05MercanciaPecuariaComponent,
   ],
   providers: [
+    SedeFindService,
     TupaProcessService,
     TupaRequestService,
     TupaEstablishmentService,
@@ -52,6 +56,7 @@ import { TupaProcessStatusEnum } from 'src/app/modules/shared/tupa/enum/tupa-pro
     ProcedureInfoService,
     ExpedienteFindService,
     ExpedienteCreateService,
+    ExpedienteEditService,
     ExpedienteStorageService,
   ],
 })
@@ -60,12 +65,10 @@ export class Tupa05TabContainerComponent implements OnInit {
   public title!: string;
 
   @Input()
-  public showProcess: boolean = true;
-
-  @Input()
   public expediente?: ExpedienteEntityInterface;
 
   public procedureInfo!: ProcedureInfoInterface;
+  public profileService = inject(AuthProfileService);
   public processService = inject(TupaProcessService);
   public requestService = inject(TupaRequestService);
   public establishmentService = inject(TupaEstablishmentService);
@@ -74,7 +77,9 @@ export class Tupa05TabContainerComponent implements OnInit {
   public paymentService = inject(TupaPaymentService);
   public procedureService = inject(ProcedureInfoService);
   public expedienteCreate = inject(ExpedienteCreateService);
+  public expedienteEdit = inject(ExpedienteEditService);
   public expedienteFind = inject(ExpedienteFindService);
+  public sedeFindServie = inject(SedeFindService);
   public storageService!: ExpedienteStorageService;
 
   ngOnInit(): void {
@@ -89,6 +94,14 @@ export class Tupa05TabContainerComponent implements OnInit {
       this.paymentService,
       this.procedureService,
     );
+    // add sede
+    this.profileService.$getData().subscribe((data) => {
+      if (!data) return;
+      this.sedeFindServie
+        .api(data.codigoCentroTramite)
+        .then((data) => this.paymentService.setSede(data))
+        .catch(() => this.paymentService.setSede(undefined));
+    });
     // add procedure
     this.procedureService.getApi('105', '035').then((data) => {
       this.paymentService.setProcedureInfo(data);
@@ -105,9 +118,6 @@ export class Tupa05TabContainerComponent implements OnInit {
     this.listenProduct();
     // add payment
     this.listenPayment();
-    this.processService.$getStatus().subscribe((data) => {
-      console.log(data);
-    });
   }
 
   public initCache() {
@@ -130,39 +140,24 @@ export class Tupa05TabContainerComponent implements OnInit {
   }
 
   public onSave() {
-    const person = this.requestService.getPerson();
-    const representante = this.requestService.getRepresentante();
-    const establishment = this.establishmentService.getEstablishment();
-    const technical = this.establishmentService.getTechnical();
-    const personPayment = this.paymentService.getPersonPayment();
-    const detalle = this.detailService.getDetail();
-    const productType = this.productService.getProductType();
-    const products = this.productService.getProducts();
-    const services = this.paymentService.getServices();
-    const payments = this.paymentService.getPayments();
-    // send tupa
-    this.expedienteCreate
-      .fetch({
-        sedeId: '01',
-        procedureId: this.procedureInfo.procedureId,
-        personId: person?.id || '',
-        userId: 'SENASA',
-        establishmentId: establishment?.id,
-        technicalId: technical?.id,
-        requestPersonId: person?.id,
-        representanteId: representante?.id,
-        otherPersonId: personPayment?.id,
-        detalle,
-        productType,
-        products,
-        services,
-        payments,
-      })
-      .then((tmpExpediente) => {
-        this.storageService.set(this.procedureInfo.procedureId, tmpExpediente);
-        this.initCache();
-      })
-      .catch(() => null);
+    // validar expediente
+    if (!!this.expediente) {
+      this.expedienteEdit
+        .api(this.expediente.id, this.getPayload())
+        .then((tmpExpediente) => {
+          this.storageService.set(this.procedureInfo.procedureId, tmpExpediente);
+          this.initCache();
+        })
+        .catch(() => null);
+    } else {
+      this.expedienteCreate
+        .api(this.getPayload())
+        .then((tmpExpediente) => {
+          this.storageService.set(this.procedureInfo.procedureId, tmpExpediente);
+          this.initCache();
+        })
+        .catch(() => null);
+    }
   }
 
   public onFinished() {
@@ -171,6 +166,38 @@ export class Tupa05TabContainerComponent implements OnInit {
 
   public onCancel() {
     console.log('cancel');
+  }
+
+  public getPayload() {
+    const auth = this.profileService.getData();
+    const person = this.requestService.getPerson();
+    const representante = this.requestService.getRepresentante();
+    const establishment = this.establishmentService.getEstablishment();
+    const technical = this.establishmentService.getTechnical();
+    const sede = this.paymentService.getSede();
+    const personPayment = this.paymentService.getPersonPayment();
+    const detalle = this.detailService.getDetail();
+    const productType = this.productService.getProductType();
+    const products = this.productService.getProducts();
+    const services = this.paymentService.getServices();
+    const payments = this.paymentService.getPayments();
+    // response payload
+    return {
+      sedeId: sede?.id || '',
+      procedureId: this.procedureInfo.procedureId,
+      personId: person?.id || '',
+      userId: auth?.idUser || 'SENASA',
+      establishmentId: establishment?.id,
+      technicalId: technical?.id,
+      requestPersonId: person?.id,
+      representanteId: representante?.id,
+      otherPersonId: personPayment?.id,
+      detalle,
+      productType,
+      products,
+      services,
+      payments,
+    };
   }
 
   public messageErrorExpediente(expedienteId: string) {

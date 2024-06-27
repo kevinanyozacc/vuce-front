@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { ResponsiveHelperComponent } from './shared/components/responsive-helper/responsive-helper.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ProcedureCalcTarifaService } from './modules/shared/procedure/services/procedure-calc-tarifa.service';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [NgClass, RouterOutlet, ResponsiveHelperComponent, HttpClientModule],
+  providers: [ProcedureCalcTarifaService],
 })
 export class AppComponent {
   title = 'Senasa Tupa';

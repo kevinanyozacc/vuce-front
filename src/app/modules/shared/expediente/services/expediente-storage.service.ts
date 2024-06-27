@@ -22,6 +22,7 @@ export class ExpedienteStorageService {
 
   public set(procedureId: string, tmpExpediente: ExpedienteSaveResponseInterface) {
     const payload = {
+      sede: this.paymentService.getSede(),
       person: this.requestService.getPerson(),
       representante: this.requestService.getRepresentante(),
       establishment: this.establishmentService.getEstablishment(),
@@ -54,6 +55,7 @@ export class ExpedienteStorageService {
       this.establishmentService.setEstablishment(data.establishment);
       this.establishmentService.setTechnical(data.technical);
       this.detailService.setDetail(data.detalle);
+      this.paymentService.setSede(data.sede);
       this.paymentService.setPersonPayment(data.personPayment);
       this.productService.setProductType(data.productType);
       this.productService.setProducts(data.products || []);

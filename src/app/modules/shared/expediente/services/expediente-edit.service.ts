@@ -7,16 +7,16 @@ import Swal from 'sweetalert2';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
-export class ExpedienteCreateService {
+export class ExpedienteEditService {
   private clientService = inject(HttpClient);
   private data = new BehaviorSubject<ExpedienteSaveResponseInterface | undefined>(undefined);
   private loading = new BehaviorSubject<boolean>(false);
 
-  public api(payload: ExpedienteSaveInterface) {
+  public api(id: string, payload: ExpedienteSaveInterface) {
     return new Promise<ExpedienteSaveResponseInterface>((resolve, reject) => {
       this.loading.next(true);
       this.clientService
-        .post<ExpedienteSaveResponseInterface>(`${environment.api}/expedientes/generic`, payload)
+        .put<ExpedienteSaveResponseInterface>(`${environment.api}/expedientes/${id}`, payload)
         .subscribe({
           next: (tmpExpediente) => {
             this.messageSuccess();
@@ -37,8 +37,8 @@ export class ExpedienteCreateService {
   public messageSuccess() {
     Swal.fire({
       icon: 'success',
-      title: 'Registro Exitoso',
-      text: `El expediente se generó correctamente`,
+      title: 'Actualización Exitosa',
+      text: `El expediente se actualizó correctamente`,
     });
   }
 
@@ -46,7 +46,7 @@ export class ExpedienteCreateService {
     Swal.fire({
       icon: 'error',
       title: 'Error',
-      text: `No se pudo guardar el expediente!!!`,
+      text: `No se pudo actualizar el expediente!!!`,
     });
   }
 

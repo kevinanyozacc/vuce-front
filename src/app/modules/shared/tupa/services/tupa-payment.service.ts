@@ -7,10 +7,12 @@ import { BehaviorSubject } from 'rxjs';
 import { ProcedureInfoInterface } from '../../procedure/interfaces/procedure-info.interface';
 import { ProcedureCalcTarifaService } from '../../procedure/services/procedure-calc-tarifa.service';
 import Swal from 'sweetalert2';
+import { SedeEntityInterface } from '../../sede/interfaces/sede-entity.interface';
 
 @Injectable()
 export class TupaPaymentService {
   private total = new BehaviorSubject<number>(0);
+  private sede = new BehaviorSubject<SedeEntityInterface | undefined>(undefined);
   private procedureInfo = new BehaviorSubject<ProcedureInfoInterface | undefined>(undefined);
   private personPayment = new BehaviorSubject<PersonEntityInterface | undefined>(undefined);
   private services = new BehaviorSubject<PaymentServiceEntityInterface[]>([]);
@@ -19,20 +21,26 @@ export class TupaPaymentService {
   public calcTarifaService = inject(ProcedureCalcTarifaService);
 
   constructor() {
+    this.$getSede().subscribe((data) => {
+      const isPayment = this.getPayments().length > 0;
+      const isService = this.getServices.length > 0;
+      this.setIsValid(isService && isPayment && !!data);
+    });
+
     this.$getServices().subscribe((data) => {
       const isService = data.length > 0;
       if (!isService) {
         this.clearPayments();
       } else {
         const isPayment = this.getPayments().length > 0;
-        this.setIsValid(isService && isPayment);
+        this.setIsValid(isService && isPayment && !!this.getSede());
       }
     });
 
     this.$getPayments().subscribe((data) => {
       const isPayment = data.length > 0;
       const isService = this.getServices().length > 0;
-      this.setIsValid(isService && isPayment);
+      this.setIsValid(isService && isPayment && !!this.getSede());
     });
   }
 
@@ -56,6 +64,18 @@ export class TupaPaymentService {
       const tmpTotal = arraySubTotal.reduce((prev, current) => prev + current);
       this.setTotal(tmpTotal);
     }
+  }
+
+  public setSede(value?: SedeEntityInterface) {
+    this.sede.next(value);
+  }
+
+  public getSede() {
+    return this.sede.getValue();
+  }
+
+  public $getSede() {
+    return this.sede.asObservable();
   }
 
   public setProcedureInfo(value: ProcedureInfoInterface) {

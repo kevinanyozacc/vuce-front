@@ -6,9 +6,11 @@ import { PersonEntityInterface } from '../../person/interfaces/person-entity.int
 import { RepresentanteEntityInterface } from '../../person/interfaces/representante-entity.interface';
 import { ProductTypeEnum } from '../../product/enums/product-type.enum';
 import { ProductCuarentenaEntityInterface } from '../../product/interfaces/product-cuarentena-entity.interface';
+import { SedeEntityInterface } from '../../sede/interfaces/sede-entity.interface';
 import { ExpedienteSaveResponseInterface } from './expediente-save-response.interface';
 
 export interface ExpedienteStorageTmpInterface {
+  sede: SedeEntityInterface;
   person: PersonEntityInterface;
   representante?: RepresentanteEntityInterface;
   establishment?: EstablishmentEntityInterface;
