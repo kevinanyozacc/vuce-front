@@ -43,6 +43,10 @@ export class ExpedienteStorageService {
     return JSON.parse(tmpData || 'undefined');
   }
 
+  public remove(procedureId: string) {
+    localStorage.removeItem(`expediente-${procedureId}`);
+  }
+
   public settingCache(procedureId: string) {
     return new Promise<ExpedienteStorageInterface>((resolve, reject) => {
       const data = this.get(procedureId);

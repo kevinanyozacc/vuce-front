@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { Tupa05MercanciaPecuariaComponent } from '../tupa-05-mercancia-pecuaria/tupa-05-mercancia-pecuaria.component';
 import { TupaHeaderTabComponent } from 'src/app/modules/shared/tupa/components/tupa-header-tab/tupa-header-tab.component';
@@ -27,12 +27,10 @@ import { TupaProcessStatusEnum } from 'src/app/modules/shared/tupa/enum/tupa-pro
 import { AuthProfileService } from 'src/app/core/auth/services/auth-profile.service';
 import { SedeFindService } from 'src/app/modules/shared/sede/services/sede-find.service';
 import { ExpedienteEditService } from 'src/app/modules/shared/expediente/services/expediente-edit.service';
-import { BpmModule } from 'src/app/core/bpm/bpm.module';
 import { BpmProfileService } from 'src/app/core/bpm/services/bpm-profile.service';
 import { TupaModule } from 'src/app/modules/shared/tupa/tupa.module';
 import { BpmDeleteService } from 'src/app/core/bpm/services/bpm-delete.service';
-import { BpmEntityInterface } from 'src/app/core/bpm/interfaces/bpm-entity.interface';
-import { BpmTaskInterface } from 'src/app/core/bpm/interfaces/bpm-task.interface';
+import { ExpedienteSaveResponseInterface } from 'src/app/modules/shared/expediente/interfaces/expediente-save-response.interface';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -68,8 +66,14 @@ export class Tupa05TabContainerComponent implements OnInit {
   @Input()
   public expediente?: ExpedienteEntityInterface;
 
+  @Output()
+  public eventCancel = new EventEmitter<ExpedienteEntityInterface | undefined>();
+
+  @Output()
+  public eventFinished = new EventEmitter<ExpedienteEntityInterface>();
+
+  public tmpExpediente!: ExpedienteSaveResponseInterface;
   public procedureInfo!: ProcedureInfoInterface;
-  public bpmTask!: BpmTaskInterface;
   public profileService = inject(AuthProfileService);
   public bpmProfileService = inject(BpmProfileService);
   public bpmDeleteService = inject(BpmDeleteService);
@@ -89,10 +93,6 @@ export class Tupa05TabContainerComponent implements OnInit {
   ngOnInit(): void {
     // add tabs
     this.processService.setTabs(tupaTabData);
-    // add task
-    this.bpmProfileService.$getData().subscribe((data) => {
-      if (!!data) this.bpmTask = data;
-    });
     // add sede
     this.profileService.$getData().subscribe((data) => {
       if (!data) return;
@@ -119,6 +119,7 @@ export class Tupa05TabContainerComponent implements OnInit {
     this.storageService
       .settingCache(this.procedureInfo.procedureId)
       .then(({ tmpExpediente }) => {
+        this.tmpExpediente = tmpExpediente;
         this.expedienteFind
           .fetch(tmpExpediente.id)
           .then((expediente) => {
@@ -155,17 +156,38 @@ export class Tupa05TabContainerComponent implements OnInit {
   }
 
   public onFinished() {
-    this.bpmProfileService.$getData().subscribe((data) => {
-      console.log(data);
-    });
+    if (!this.expediente) return;
+    this.processService
+      .bpmComplete({
+        numeroExpediente: this.tmpExpediente.id,
+        numeroSolicitud: this.tmpExpediente.requestId,
+        codigoRecibo: this.tmpExpediente.paymentId,
+      })
+      .subscribe({
+        next: () => this.eventFinished.emit(this.expediente),
+        error: () =>
+          Swal.fire({
+            icon: 'error',
+            title: 'BPM',
+            text: 'Ocurrió un error al finalizar el proceso',
+          }),
+      });
   }
 
   public onCancel() {
-    if (!!this.expediente) {
-      this.bpmDeleteService.api(this.bpmTask).subscribe((data) => console.log(data));
-    } else {
-      //
-    }
+    if (!this.expediente) return this.eventCancel.emit(undefined);
+    this.processService.bpmCancel().subscribe({
+      next: () => {
+        this.storageService.remove(this.procedureInfo.procedureId);
+        this.eventCancel.emit(this.expediente);
+      },
+      error: () =>
+        Swal.fire({
+          icon: 'error',
+          title: 'BPM',
+          text: 'Ocurrió un error al cancelar el proceso',
+        }),
+    });
   }
 
   public getPayload() {

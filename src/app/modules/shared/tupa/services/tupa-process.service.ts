@@ -1,16 +1,28 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { TupaItemIdEnum, TupaItemTabInterface } from '../interfaces/tupa-item-tab.interface';
 import Swal from 'sweetalert2';
 import { BehaviorSubject } from 'rxjs';
 import { TupaProcessStatusEnum } from '../enum/tupa-process.enum';
+import { BpmDeleteService } from 'src/app/core/bpm/services/bpm-delete.service';
+import { BpmFinishedRequest, BpmFinishedService } from 'src/app/core/bpm/services/bpm-finished.service';
+import { BpmProfileService } from 'src/app/core/bpm/services/bpm-profile.service';
+import { BpmTaskInterface } from 'src/app/core/bpm/interfaces/bpm-task.interface';
 
 @Injectable()
 export class TupaProcessService {
   private tabs = new BehaviorSubject<TupaItemTabInterface[]>([]);
   private status = new BehaviorSubject<TupaProcessStatusEnum>(TupaProcessStatusEnum.PROCESS);
   private canAction = new BehaviorSubject<boolean>(false);
+  public bpmTask!: BpmTaskInterface;
+  private bpmDeleteService = inject(BpmDeleteService);
+  private bpmFinishedService = inject(BpmFinishedService);
+  public bpmProfileService = inject(BpmProfileService);
 
   constructor() {
+    this.bpmProfileService.$getData().subscribe((data) => {
+      if (!!data) this.bpmTask = data;
+    });
+    // listen tabs
     this.$getTabs().subscribe((data) => {
       const countComplete = data.filter((item) => item.isComplete);
       const countTotal = data.filter((item) => item.visibled);
@@ -165,5 +177,21 @@ export class TupaProcessService {
   public get currentTabKey(): TupaItemIdEnum {
     const tab = this.getTabs().find((item) => item.active);
     return tab?.id || TupaItemIdEnum.PARTE_I;
+  }
+
+  public bpmCancel() {
+    return this.bpmDeleteService.api(this.bpmTask);
+  }
+
+  public bpmCancelLoading() {
+    return this.bpmDeleteService.getLoading();
+  }
+
+  public bpmComplete(payload: BpmFinishedRequest) {
+    return this.bpmFinishedService.api(this.bpmTask, payload);
+  }
+
+  public bpmCompleteLoading() {
+    return this.bpmFinishedService.getLoading();
   }
 }
