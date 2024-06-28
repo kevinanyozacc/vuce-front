@@ -1,24 +1,21 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ExpedienteStorageInterface } from '../interfaces/expediente-storage.interface';
-import { TupaProcessService } from '../../tupa/services/tupa-process.service';
-import { TupaEstablishmentService } from '../../tupa/services/tupa-establishment.service';
+import { ExpedienteSaveResponseInterface } from '../interfaces/expediente-save-response.interface';
 import { TupaRequestService } from '../../tupa/services/tupa-request.service';
 import { TupaDetailService } from '../../tupa/services/tupa-detail.service';
+import { TupaEstablishmentService } from '../../tupa/services/tupa-establishment.service';
 import { TupaProductService } from '../../tupa/services/tupa-product.service';
 import { TupaPaymentService } from '../../tupa/services/tupa-payment.service';
 import { ProcedureInfoService } from '../../procedure/services/procedure-info.service';
-import { ExpedienteSaveResponseInterface } from '../interfaces/expediente-save-response.interface';
 
 @Injectable()
 export class ExpedienteStorageService {
-  constructor(
-    public requestService: TupaRequestService,
-    public establishmentService: TupaEstablishmentService,
-    public detailService: TupaDetailService,
-    public productService: TupaProductService,
-    public paymentService: TupaPaymentService,
-    public procedureService: ProcedureInfoService,
-  ) {}
+  public requestService = inject(TupaRequestService);
+  public establishmentService = inject(TupaEstablishmentService);
+  public detailService = inject(TupaDetailService);
+  public productService = inject(TupaProductService);
+  public paymentService = inject(TupaPaymentService);
+  public procedureService = inject(ProcedureInfoService);
 
   public set(procedureId: string, tmpExpediente: ExpedienteSaveResponseInterface) {
     const payload = {

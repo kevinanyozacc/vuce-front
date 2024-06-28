@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ThemeService } from '../../../../../core/services/theme.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { AuthProfileService } from 'src/app/core/auth/services/auth-profile.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -36,6 +37,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ],
 })
 export class ProfileMenuComponent implements OnInit {
+  public profileService = inject(AuthProfileService);
+
   public isOpen = false;
   public profileMenu = [
     {

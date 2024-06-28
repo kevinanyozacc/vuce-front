@@ -27,6 +27,9 @@ import { TupaProcessStatusEnum } from 'src/app/modules/shared/tupa/enum/tupa-pro
 import { AuthProfileService } from 'src/app/core/auth/services/auth-profile.service';
 import { SedeFindService } from 'src/app/modules/shared/sede/services/sede-find.service';
 import { ExpedienteEditService } from 'src/app/modules/shared/expediente/services/expediente-edit.service';
+import { BpmModule } from 'src/app/core/bpm/bpm.module';
+import { BpmProfileService } from 'src/app/core/bpm/services/bpm-profile.service';
+import { TupaModule } from 'src/app/modules/shared/tupa/tupa.module';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -35,6 +38,7 @@ import { ExpedienteEditService } from 'src/app/modules/shared/expediente/service
   imports: [
     NgFor,
     NgIf,
+    TupaModule,
     ContentLoadingComponent,
     TupaProcessTabComponent,
     TupaHeaderTabComponent,
@@ -47,12 +51,6 @@ import { ExpedienteEditService } from 'src/app/modules/shared/expediente/service
   ],
   providers: [
     SedeFindService,
-    TupaProcessService,
-    TupaRequestService,
-    TupaEstablishmentService,
-    TupaDetailService,
-    TupaProductService,
-    TupaPaymentService,
     ProcedureInfoService,
     ExpedienteFindService,
     ExpedienteCreateService,
@@ -69,6 +67,7 @@ export class Tupa05TabContainerComponent implements OnInit {
 
   public procedureInfo!: ProcedureInfoInterface;
   public profileService = inject(AuthProfileService);
+  public bpmProfileService = inject(BpmProfileService);
   public processService = inject(TupaProcessService);
   public requestService = inject(TupaRequestService);
   public establishmentService = inject(TupaEstablishmentService);
@@ -80,20 +79,11 @@ export class Tupa05TabContainerComponent implements OnInit {
   public expedienteEdit = inject(ExpedienteEditService);
   public expedienteFind = inject(ExpedienteFindService);
   public sedeFindServie = inject(SedeFindService);
-  public storageService!: ExpedienteStorageService;
+  public storageService = inject(ExpedienteStorageService);
 
   ngOnInit(): void {
     // add tabs
     this.processService.setTabs(tupaTabData);
-    // storage
-    this.storageService = new ExpedienteStorageService(
-      this.requestService,
-      this.establishmentService,
-      this.detailService,
-      this.productService,
-      this.paymentService,
-      this.procedureService,
-    );
     // add sede
     this.profileService.$getData().subscribe((data) => {
       if (!data) return;
@@ -108,15 +98,11 @@ export class Tupa05TabContainerComponent implements OnInit {
       this.procedureInfo = data;
       this.initCache();
     });
-    // add person
+    // listeners
     this.listenPerson();
-    // add establishent
     this.listenEstablishment();
-    // add detail
     this.listenDetail();
-    // add product
     this.listenProduct();
-    // add payment
     this.listenPayment();
   }
 
@@ -129,13 +115,13 @@ export class Tupa05TabContainerComponent implements OnInit {
           .then((expediente) => {
             this.expediente = expediente;
             this.processService.activeAllTabs();
-            this.processService.activeTab(tupaTabData[5]);
+            this.processService.selectTab(tupaTabData[5]);
             this.processService.setStatus(TupaProcessStatusEnum.FINISHED);
           })
           .catch(() => this.messageErrorExpediente(tmpExpediente.id));
       })
       .catch(() => {
-        this.processService.activeTab(tupaTabData[0]);
+        this.processService.selectTab(tupaTabData[0]);
       });
   }
 
@@ -160,7 +146,9 @@ export class Tupa05TabContainerComponent implements OnInit {
   }
 
   public onFinished() {
-    console.log('finished');
+    this.bpmProfileService.$getData().subscribe((data) => {
+      console.log(data);
+    });
   }
 
   public onCancel() {
@@ -210,9 +198,10 @@ export class Tupa05TabContainerComponent implements OnInit {
   public listenPerson() {
     this.requestService.$getPerson().subscribe((data) => {
       if (!this.processService.isActiveCurrentTab(0)) return;
-      if (!!data) {
-        this.processService.completeTab(tupaTabData[0]);
-        this.processService.enabledTab(tupaTabData[1]);
+      if (data) {
+        this.processService.completeTab();
+      } else {
+        this.processService.inCompleteTab();
       }
     });
   }
@@ -221,10 +210,10 @@ export class Tupa05TabContainerComponent implements OnInit {
     this.establishmentService.$getIsValid().subscribe((data) => {
       if (!this.processService.isActiveCurrentTab(1)) return;
       if (data) {
-        this.processService.activeTab(tupaTabData[2]);
+        this.processService.completeTab();
+        this.processService.nextTab();
       } else {
-        this.processService.activeTab(tupaTabData[1]);
-        this.processService.disabledTab(tupaTabData[2]);
+        this.processService.inCompleteTab();
       }
     });
   }
@@ -233,10 +222,10 @@ export class Tupa05TabContainerComponent implements OnInit {
     this.detailService.$getIsValid().subscribe((data) => {
       if (!this.processService.isActiveCurrentTab(2)) return;
       if (data) {
-        this.processService.activeTab(tupaTabData[3]);
+        this.processService.completeTab();
+        this.processService.nextTab();
       } else {
-        this.processService.activeTab(tupaTabData[2]);
-        this.processService.disabledTab(tupaTabData[3]);
+        this.processService.inCompleteTab();
       }
     });
   }
@@ -245,11 +234,9 @@ export class Tupa05TabContainerComponent implements OnInit {
     this.productService.$getIsValid().subscribe((data) => {
       if (!this.processService.isActiveCurrentTab(3)) return;
       if (data) {
-        this.processService.completeTab(tupaTabData[3]);
-        this.processService.enabledTab(tupaTabData[4]);
+        this.processService.completeTab();
       } else {
-        this.processService.activeTab(tupaTabData[3]);
-        this.processService.disabledTab(tupaTabData[4]);
+        this.processService.inCompleteTab();
       }
     });
   }
@@ -258,8 +245,10 @@ export class Tupa05TabContainerComponent implements OnInit {
     this.paymentService.$getIsValid().subscribe((data) => {
       if (!this.processService.isActiveCurrentTab(4)) return;
       if (data) {
-        this.processService.completeTab(tupaTabData[4]);
-      } else this.processService.inCompleteTab(tupaTabData[4]);
+        this.processService.completeTab();
+      } else {
+        this.processService.inCompleteTab();
+      }
     });
   }
 }

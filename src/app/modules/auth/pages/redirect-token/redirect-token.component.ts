@@ -38,7 +38,7 @@ export class RedirectTokenComponent implements OnInit {
         .then((auth) => {
           this.bpmLoginService.signIn({ token, taskId });
           this.loginService.signIn(auth);
-          this.routeService.navigate(['/']);
+          this.routeService.navigate(['/dashboard']);
         })
         .catch(() => this.routeService.navigate(['/errors/403']));
     });

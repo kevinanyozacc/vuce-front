@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthProfileService } from './core/auth/services/auth-profile.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthModule } from './core/auth/auth.module';
+import { BpmModule } from './core/bpm/bpm.module';
 
 const routes: Routes = [
   {
@@ -20,7 +22,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), HttpClientModule],
+  imports: [RouterModule.forRoot(routes), HttpClientModule, AuthModule, BpmModule],
   providers: [AuthProfileService],
   exports: [RouterModule],
 })

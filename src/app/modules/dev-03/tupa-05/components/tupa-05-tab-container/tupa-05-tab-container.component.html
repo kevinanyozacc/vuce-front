@@ -18,4 +18,5 @@
   <app-tupa-expediente-tab *ngIf="processService.isActiveCurrentTab(5)" [expediente]="expediente" />
 </div>
 <!-- loading -->
-<app-content-loading *ngIf="expedienteCreate.getLoading() || expedienteFind.getLoading()" />
+<app-content-loading
+  *ngIf="expedienteCreate.getLoading() || expedienteFind.getLoading() || expedienteEdit.getLoading()" />
