@@ -1,21 +1,21 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { PaisSelectComponent } from 'src/app/modules/shared/ubigeo/components/pais-select/pais-select.component';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
-import { JsonPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { DetalleCreateInterface } from 'src/app/modules/shared/detalle/interfaces/detalle-create.interface';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TupaDetailService } from 'src/app/modules/shared/tupa/services/tupa-detail.service';
+import { TupaModule } from 'src/app/modules/shared/tupa/tupa.module';
 
 @Component({
   selector: 'app-tupa-05-final',
   templateUrl: './tupa-05-final.component.html',
   standalone: true,
-  imports: [NgIf, ButtonComponent, PaisSelectComponent, ReactiveFormsModule, JsonPipe],
-  providers: [TupaDetailService],
+  imports: [NgIf, ButtonComponent, PaisSelectComponent, ReactiveFormsModule, TupaModule],
 })
 export class Tupa05FinalComponent implements OnInit {
   @Input()
-  public detailService: TupaDetailService = inject(TupaDetailService);
+  public detailService = inject(TupaDetailService);
 
   public createForm = new FormGroup({
     type: new FormControl('IMP', Validators.required),

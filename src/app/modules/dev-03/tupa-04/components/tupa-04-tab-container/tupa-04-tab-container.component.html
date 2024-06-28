@@ -1,6 +1,6 @@
-<app-tupa-header-tab [tabs]="this.tabs" (eventSelected)="this.onSelect($event)" />
-<div class="w-full rounded-lg bg-background p-6">
-  <!-- <app-tupa-request-tab
+<!-- <app-tupa-header-tab [tabs]="this.tabs" (eventSelected)="this.onSelect($event)" />
+<div class="w-full rounded-lg bg-background p-6"> -->
+<!-- <app-tupa-request-tab
     *ngIf="this.currentTabKey === tabs[0].id"
     [person]="person"
     [representante]="representante"
@@ -19,5 +19,45 @@
     [person]="personPayment"
     [payments]="payments"
     (eventPerson)="selectPersonPayment($event)" /> -->
-  <app-tupa-expediente-tab />
+<!-- <app-tupa-expediente-tab />
+</div> -->
+
+<app-tupa-process-tab
+  [title]="title"
+  [expediente]="expediente"
+  [canAction]="processService.getCanAction()"
+  [status]="processService.getStatus()"
+  [finishedLoading]="processService.bpmCompleteLoading()"
+  [cancelLoading]="processService.bpmCancelLoading()"
+  (eventSave)="onSave()"
+  (eventFinished)="onFinished()"
+  (eventCancel)="onCancel()" />
+<app-tupa-header-tab
+  [tabs]="processService.getTabs()"
+  (eventSelected)="processService.selectTab($event)" />
+<div class="w-full rounded-lg bg-background p-6">
+  <app-tupa-request-tab
+    *ngIf="processService.isActiveCurrentTab('PARTE_I')"
+    [requestService]="requestService" />
+  <app-tupa-establishment-tab
+    *ngIf="processService.isActiveCurrentTab('PARTE_II')"
+    [establishmentService]="establishmentService" />
+  <app-tupa-04-recinto
+    *ngIf="processService.isActiveCurrentTab('PARTE_III')"
+    [detailService]="detailService" />
+  <app-tupa-04-info-animal
+    *ngIf="processService.isActiveCurrentTab('PARTE_IV')"
+    [productService]="productService" />
+  <app-tupa-payment-tab
+    *ngIf="processService.isActiveCurrentTab('PARTE_V')"
+    [paymentService]="paymentService" />
+  <app-tupa-expediente-tab
+    *ngIf="processService.isActiveCurrentTab('PARTE_VI')"
+    [expediente]="expediente" />
 </div>
+<!-- loading create -->
+<app-content-loading title="Guardando..." *ngIf="expedienteCreate.getLoading()" />
+<!-- loading edit -->
+<app-content-loading title="Actualizando..." *ngIf="expedienteEdit.getLoading()" />
+<!-- loading get expediente -->
+<app-content-loading title="Obteniendo expediente..." *ngIf="expedienteFind.getLoading()" />

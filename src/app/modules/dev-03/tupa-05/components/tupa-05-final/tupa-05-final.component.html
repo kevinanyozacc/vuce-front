@@ -1,23 +1,43 @@
 <form [formGroup]="createForm" (submit)="onSave()">
   <!-- header -->
-  <h6 class="mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+  <h6
+    class="mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
     Finalidad
   </h6>
 
   <!-- level 2 -->
   <div class="mb-6 flex">
     <div class="ml-4">
-      <input type="radio" id="imp" class="mr-2" [checked]="createForm.value.type == 'IMP'" (change)="onType('IMP')" />
-      <label for="imp" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Importación</label>
+      <input
+        type="radio"
+        id="imp"
+        class="mr-2"
+        [checked]="createForm.value.type == 'IMP'"
+        (change)="onType('IMP')" />
+      <label for="imp" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Importación</label
+      >
     </div>
 
     <div class="ml-4">
-      <input type="radio" id="exp" class="mr-2" [checked]="createForm.value.type == 'EXP'" (change)="onType('EXP')" />
-      <label for="exp" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">Exportación</label>
+      <input
+        type="radio"
+        id="exp"
+        class="mr-2"
+        [checked]="createForm.value.type == 'EXP'"
+        (change)="onType('EXP')" />
+      <label for="exp" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Exportación</label
+      >
     </div>
 
     <div class="ml-4">
-      <input type="radio" id="tin" class="mr-2" [checked]="createForm.value.type == 'TIN'" (change)="onType('TIN')" />
+      <input
+        type="radio"
+        id="tin"
+        class="mr-2"
+        [checked]="createForm.value.type == 'TIN'"
+        (change)="onType('TIN')" />
       <label for="tin" class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >Tránsito Interno</label
       >
@@ -26,7 +46,8 @@
 
   <!-- importación -->
   <div class="mt-2" *ngIf="createForm.value.type == 'IMP'">
-    <h6 class="mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+    <h6
+      class="mb-7 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
       Importación
     </h6>
 
@@ -47,21 +68,26 @@
         <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">
           País Origen <b class="text-red-600">*</b>
         </label>
-        <app-pais-select [value]="createForm.value.countrySourceId" (eventChange)="onCountrySource($event)" />
+        <app-pais-select
+          [value]="createForm.value.countrySourceId"
+          (eventChange)="onCountrySource($event)" />
       </div>
 
       <div>
         <label class="col-span-2 mb-2 block text-sm font-medium text-gray-900 dark:text-white">
           País Procedencia <b class="text-red-600">*</b>
         </label>
-        <app-pais-select [value]="createForm.value.countryTargetId" (eventChange)="onCountryTarget($event)" />
+        <app-pais-select
+          [value]="createForm.value.countryTargetId"
+          (eventChange)="onCountryTarget($event)" />
       </div>
     </div>
   </div>
 
   <!-- exportación -->
   <div class="mb-2" *ngIf="createForm.value.type == 'EXP'">
-    <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+    <h6
+      class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
       Exportación
     </h6>
 
@@ -71,14 +97,17 @@
         <label class="col-span-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">
           País de Destino <b class="text-red-600">*</b>
         </label>
-        <app-pais-select [value]="createForm.value.countryTargetId" (eventChange)="onCountryTarget($event)" />
+        <app-pais-select
+          [value]="createForm.value.countryTargetId"
+          (eventChange)="onCountryTarget($event)" />
       </div>
     </div>
   </div>
 
   <!-- Trásito interno -->
   <div class="mb-2" *ngIf="createForm.value.type == 'TIN'">
-    <h6 class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
+    <h6
+      class="mb-6 border-b border-dashed border-b-gray-600 pb-2 text-lg font-bold text-gray-900 dark:text-white">
       Tránsito Interno
     </h6>
 

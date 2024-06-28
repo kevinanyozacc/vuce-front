@@ -1,16 +1,10 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { Tupa05MercanciaPecuariaComponent } from '../tupa-05-mercancia-pecuaria/tupa-05-mercancia-pecuaria.component';
-import { TupaHeaderTabComponent } from 'src/app/modules/shared/tupa/components/tupa-header-tab/tupa-header-tab.component';
-import { TupaRequestTabComponent } from 'src/app/modules/shared/tupa/components/tupa-request-tab/tupa-request-tab.component';
-import { TupaEstablishmentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-establishment-tab/tupa-esblishment-tab.component';
-import { TupaPaymentTabComponent } from 'src/app/modules/shared/tupa/components/tupa-payment-tab/tupa-payment-tab.component';
 import { Tupa05FinalComponent } from '../tupa-05-final/tupa-05-final.component';
 import { ExpedienteCreateService } from 'src/app/modules/shared/expediente/services/expediente-create.service';
 import { ContentLoadingComponent } from 'src/app/shared/components/content-loading/content-loading.component';
 import { ExpedienteEntityInterface } from 'src/app/modules/shared/expediente/interfaces/expediente-entity.interface';
-import { TupaExpedienteTabComponent } from 'src/app/modules/shared/tupa/components/tupa-expediente-tab/tupa-expediente-tab.component';
-import { TupaProcessTabComponent } from 'src/app/modules/shared/tupa/components/tupa-process-tab/tupa-process-tab.component';
 import { TupaProcessService } from 'src/app/modules/shared/tupa/services/tupa-process.service';
 import { tupaTabData } from '../../data/tupa-tab.data';
 import { TupaPaymentService } from 'src/app/modules/shared/tupa/services/tupa-payment.service';
@@ -42,12 +36,6 @@ import { TupaItemIdEnum } from 'src/app/modules/shared/tupa/interfaces/tupa-item
     NgIf,
     TupaModule,
     ContentLoadingComponent,
-    TupaProcessTabComponent,
-    TupaHeaderTabComponent,
-    TupaRequestTabComponent,
-    TupaEstablishmentTabComponent,
-    TupaPaymentTabComponent,
-    TupaExpedienteTabComponent,
     Tupa05FinalComponent,
     Tupa05MercanciaPecuariaComponent,
   ],
