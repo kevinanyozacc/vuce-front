@@ -1,10 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { TupaItemIdEnum, TupaItemTabInterface } from '../interfaces/tupa-item-tab.interface';
 import Swal from 'sweetalert2';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TupaProcessStatusEnum } from '../enum/tupa-process.enum';
 import { BpmDeleteService } from 'src/app/core/bpm/services/bpm-delete.service';
-import { BpmFinishedRequest, BpmFinishedService } from 'src/app/core/bpm/services/bpm-finished.service';
+import {
+  BpmFinishedRequest,
+  BpmFinishedService,
+} from 'src/app/core/bpm/services/bpm-finished.service';
 import { BpmProfileService } from 'src/app/core/bpm/services/bpm-profile.service';
 import { BpmTaskInterface } from 'src/app/core/bpm/interfaces/bpm-task.interface';
 
@@ -80,10 +83,38 @@ export class TupaProcessService {
     if (nextTab) this.selectTab(nextTab);
   }
 
-  public isActiveCurrentTab(row: number) {
-    const tab = this.findTab(row);
-    if (!tab) return false;
-    return this.currentTabKey === tab.id;
+  public isActiveCurrentTab(id: TupaItemIdEnum | string) {
+    return this.currentTabKey === id;
+  }
+
+  /**
+   * Observable para validar si el tab se completó
+   *
+   * @param id
+   * @param isValid
+   * @returns TupaProcessService
+   */
+  public validateCompleteTabObservable(id: TupaItemIdEnum | string, isValid: boolean) {
+    return new Observable<TupaProcessService>((subscriber) => {
+      if (!this.isActiveCurrentTab(id)) return;
+      if (!isValid) {
+        this.inCompleteTab();
+        return subscriber.complete();
+      } else {
+        this.completeTab();
+        return subscriber.next(this);
+      }
+    });
+  }
+
+  /**
+   * Método para validar si el tab se completó
+   *
+   * @param id
+   * @param isValid
+   */
+  public validateCompleteTab(id: TupaItemIdEnum | string, isValid: boolean) {
+    this.validateCompleteTabObservable(id, isValid).subscribe(() => null);
   }
 
   public activeAllTabs() {

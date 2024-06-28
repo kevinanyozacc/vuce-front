@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ExpedienteSaveResponseInterface } from '../interfaces/expediente-save-response.interface';
 import Swal from 'sweetalert2';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class ExpedienteEditService {
@@ -13,7 +13,7 @@ export class ExpedienteEditService {
   private loading = new BehaviorSubject<boolean>(false);
 
   public api(id: string, payload: ExpedienteSaveInterface) {
-    return new Promise<ExpedienteSaveResponseInterface>((resolve, reject) => {
+    return new Observable<ExpedienteSaveResponseInterface>((subscriber) => {
       this.loading.next(true);
       this.clientService
         .put<ExpedienteSaveResponseInterface>(`${environment.api}/expedientes/${id}`, payload)
@@ -22,14 +22,15 @@ export class ExpedienteEditService {
             this.messageSuccess();
             this.loading.next(false);
             this.data.next(tmpExpediente);
-            resolve(tmpExpediente);
+            subscriber.next(tmpExpediente);
           },
           error: (err) => {
             this.messageError();
             this.loading.next(false);
             this.data.next(undefined);
-            reject(err);
+            subscriber.error(err);
           },
+          complete: () => subscriber.complete(),
         });
     });
   }

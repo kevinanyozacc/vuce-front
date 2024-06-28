@@ -31,6 +31,7 @@ import { BpmProfileService } from 'src/app/core/bpm/services/bpm-profile.service
 import { TupaModule } from 'src/app/modules/shared/tupa/tupa.module';
 import { BpmDeleteService } from 'src/app/core/bpm/services/bpm-delete.service';
 import { ExpedienteSaveResponseInterface } from 'src/app/modules/shared/expediente/interfaces/expediente-save-response.interface';
+import { TupaItemIdEnum } from 'src/app/modules/shared/tupa/interfaces/tupa-item-tab.interface';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -128,7 +129,13 @@ export class Tupa05TabContainerComponent implements OnInit {
             this.processService.selectTab(tupaTabData[5]);
             this.processService.setStatus(TupaProcessStatusEnum.FINISHED);
           })
-          .catch(() => this.messageErrorExpediente(tmpExpediente.id));
+          .catch(() =>
+            Swal.fire({
+              icon: 'warning',
+              title: 'Alerta',
+              html: `No se encontró el expediente: <br /> <b>${tmpExpediente.id}</b>`,
+            }),
+          );
       })
       .catch(() => {
         this.processService.selectTab(tupaTabData[0]);
@@ -137,21 +144,15 @@ export class Tupa05TabContainerComponent implements OnInit {
 
   public onSave() {
     if (!!this.expediente) {
-      this.expedienteEdit
-        .api(this.expediente.id, this.getPayload())
-        .then((tmpExpediente) => {
-          this.storageService.set(this.procedureInfo.procedureId, tmpExpediente);
-          this.initCache();
-        })
-        .catch(() => null);
+      this.expedienteEdit.api(this.expediente.id, this.getPayload()).subscribe((tmpExpediente) => {
+        this.storageService.set(this.procedureInfo.procedureId, tmpExpediente);
+        this.initCache();
+      });
     } else {
-      this.expedienteCreate
-        .api(this.getPayload())
-        .then((tmpExpediente) => {
-          this.storageService.set(this.procedureInfo.procedureId, tmpExpediente);
-          this.initCache();
-        })
-        .catch(() => null);
+      this.expedienteCreate.api(this.getPayload()).subscribe((tmpExpediente) => {
+        this.storageService.set(this.procedureInfo.procedureId, tmpExpediente);
+        this.initCache();
+      });
     }
   }
 
@@ -169,7 +170,7 @@ export class Tupa05TabContainerComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'BPM',
-            text: 'Ocurrió un error al finalizar el proceso',
+            text: 'Error al finalizar el proceso',
           }),
       });
   }
@@ -185,7 +186,7 @@ export class Tupa05TabContainerComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'BPM',
-          text: 'Ocurrió un error al cancelar el proceso',
+          text: 'Error al cancelar el proceso',
         }),
     });
   }
@@ -222,68 +223,37 @@ export class Tupa05TabContainerComponent implements OnInit {
     };
   }
 
-  public messageErrorExpediente(expedienteId: string) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'Alerta',
-      html: `No se encontró el expediente: <br /> <b>${expedienteId}</b>`,
-    });
-  }
-
   public listenPerson() {
     this.requestService.$getPerson().subscribe((data) => {
-      if (!this.processService.isActiveCurrentTab(0)) return;
-      if (data) {
-        this.processService.completeTab();
-      } else {
-        this.processService.inCompleteTab();
-      }
+      this.processService.validateCompleteTab(TupaItemIdEnum.PARTE_I, !!data);
     });
   }
 
   public listenEstablishment() {
-    this.establishmentService.$getIsValid().subscribe((data) => {
-      if (!this.processService.isActiveCurrentTab(1)) return;
-      if (data) {
-        this.processService.completeTab();
-        this.processService.nextTab();
-      } else {
-        this.processService.inCompleteTab();
-      }
+    this.establishmentService.$getIsValid().subscribe((isValid) => {
+      this.processService
+        .validateCompleteTabObservable(TupaItemIdEnum.PARTE_II, isValid)
+        .subscribe((helper) => helper.nextTab());
     });
   }
 
   public listenDetail() {
-    this.detailService.$getIsValid().subscribe((data) => {
-      if (!this.processService.isActiveCurrentTab(2)) return;
-      if (data) {
-        this.processService.completeTab();
-        this.processService.nextTab();
-      } else {
-        this.processService.inCompleteTab();
-      }
+    this.detailService.$getIsValid().subscribe((isValid) => {
+      this.processService
+        .validateCompleteTabObservable(TupaItemIdEnum.PARTE_III, isValid)
+        .subscribe((helper) => helper.nextTab());
     });
   }
 
   public listenProduct() {
-    this.productService.$getIsValid().subscribe((data) => {
-      if (!this.processService.isActiveCurrentTab(3)) return;
-      if (data) {
-        this.processService.completeTab();
-      } else {
-        this.processService.inCompleteTab();
-      }
+    this.productService.$getIsValid().subscribe((isValid) => {
+      this.processService.validateCompleteTab(TupaItemIdEnum.PARTE_IV, isValid);
     });
   }
 
   public listenPayment() {
-    this.paymentService.$getIsValid().subscribe((data) => {
-      if (!this.processService.isActiveCurrentTab(4)) return;
-      if (data) {
-        this.processService.completeTab();
-      } else {
-        this.processService.inCompleteTab();
-      }
+    this.paymentService.$getIsValid().subscribe((isValid) => {
+      this.processService.validateCompleteTab(TupaItemIdEnum.PARTE_V, isValid);
     });
   }
 }
