@@ -32,15 +32,18 @@ export class RedirectTokenComponent implements OnInit {
     // validar token/taskId
     if (!taskId || !token) return this.routeService.navigate(['/errors/403']);
     // obtner user bpm
-    return this.bpmProfileService.api(taskId, token).subscribe((bpmAuth) => {
-      this.profileService
-        .api(bpmAuth.usuarioResponsable.toUpperCase())
-        .then((auth) => {
-          this.bpmLoginService.signIn({ token, taskId });
-          this.loginService.signIn(auth);
-          this.routeService.navigate(['/dashboard']);
-        })
-        .catch(() => this.routeService.navigate(['/errors/403']));
+    return this.bpmProfileService.api(taskId, token).subscribe({
+      next: (bpmAuth) => {
+        this.profileService
+          .api(bpmAuth.usuarioResponsable.toUpperCase())
+          .then((auth) => {
+            this.bpmLoginService.signIn({ token, taskId });
+            this.loginService.signIn(auth);
+            this.routeService.navigate(['/dashboard']);
+          })
+          .catch(() => this.routeService.navigate(['/errors/403']));
+      },
+      error: () => this.routeService.navigate(['/errors/403']),
     });
   }
 }

@@ -4,8 +4,8 @@ import { AuthProfileService } from '../services/auth-profile.service';
 
 export const authHttpGuard: CanActivateFn = () => {
   const profileService = inject(AuthProfileService);
-  const a = inject(Router);
+  const router = inject(Router);
   const auth = profileService.getCurrent();
-  if (!auth) return a.navigate(['/errors/403']);
+  if (!auth) return router.navigate(['/errors/403']);
   return true;
 };

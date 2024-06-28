@@ -4,8 +4,8 @@ import { BpmProfileService } from '../services/bpm-profile.service';
 
 export const bpmHttpGuard: CanActivateFn = () => {
   const profileService = inject(BpmProfileService);
-  const a = inject(Router);
+  const router = inject(Router);
   const auth = profileService.getCurrent();
-  if (!auth) return a.navigate(['/errors/403']);
+  if (!auth) return router.navigate(['/errors/403']);
   return true;
 };

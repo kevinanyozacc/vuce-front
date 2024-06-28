@@ -30,6 +30,9 @@ import { ExpedienteEditService } from 'src/app/modules/shared/expediente/service
 import { BpmModule } from 'src/app/core/bpm/bpm.module';
 import { BpmProfileService } from 'src/app/core/bpm/services/bpm-profile.service';
 import { TupaModule } from 'src/app/modules/shared/tupa/tupa.module';
+import { BpmDeleteService } from 'src/app/core/bpm/services/bpm-delete.service';
+import { BpmEntityInterface } from 'src/app/core/bpm/interfaces/bpm-entity.interface';
+import { BpmTaskInterface } from 'src/app/core/bpm/interfaces/bpm-task.interface';
 
 @Component({
   selector: 'app-tupa-05-tab-container',
@@ -66,8 +69,10 @@ export class Tupa05TabContainerComponent implements OnInit {
   public expediente?: ExpedienteEntityInterface;
 
   public procedureInfo!: ProcedureInfoInterface;
+  public bpmTask!: BpmTaskInterface;
   public profileService = inject(AuthProfileService);
   public bpmProfileService = inject(BpmProfileService);
+  public bpmDeleteService = inject(BpmDeleteService);
   public processService = inject(TupaProcessService);
   public requestService = inject(TupaRequestService);
   public establishmentService = inject(TupaEstablishmentService);
@@ -84,6 +89,10 @@ export class Tupa05TabContainerComponent implements OnInit {
   ngOnInit(): void {
     // add tabs
     this.processService.setTabs(tupaTabData);
+    // add task
+    this.bpmProfileService.$getData().subscribe((data) => {
+      if (!!data) this.bpmTask = data;
+    });
     // add sede
     this.profileService.$getData().subscribe((data) => {
       if (!data) return;
@@ -152,7 +161,11 @@ export class Tupa05TabContainerComponent implements OnInit {
   }
 
   public onCancel() {
-    console.log('cancel');
+    if (!!this.expediente) {
+      this.bpmDeleteService.api(this.bpmTask).subscribe((data) => console.log(data));
+    } else {
+      //
+    }
   }
 
   public getPayload() {

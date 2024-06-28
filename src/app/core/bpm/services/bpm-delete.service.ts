@@ -14,7 +14,7 @@ export class BpmDeleteService {
     return new Observable<boolean>((subscriber) => {
       this.loading.next(true);
       this.clientService
-        .get<boolean>(`${environment.apiBpm}/archivar?taskid=${bpmTask.taskId}&token=${bpmTask.token}`)
+        .delete<boolean>(`${environment.apiBpm}/archivar?taskid=${bpmTask.taskId}&token=${bpmTask.token}`)
         .subscribe({
           next: () => {
             this.loading.next(false);
