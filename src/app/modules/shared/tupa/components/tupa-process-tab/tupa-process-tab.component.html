@@ -42,3 +42,6 @@
   [isOpen]="isOpen"
   (eventClose)="onClose()"
   (eventSuccess)="onConfirm()" />
+<!-- loading -->
+<app-content-loading *ngIf="finishedLoading" title="Finalizando proceso..." />
+<app-content-loading *ngIf="cancelLoading" title="Cancelando proceso..." />

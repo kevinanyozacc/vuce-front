@@ -3,16 +3,23 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TupaProcessStatusEnum } from '../../enum/tupa-process.enum';
 import { ConfirmComponent } from 'src/app/shared/components/confirm/confirm.component';
 import { ExpedienteEntityInterface } from '../../../expediente/interfaces/expediente-entity.interface';
+import { ContentLoadingComponent } from 'src/app/shared/components/content-loading/content-loading.component';
 
 @Component({
   selector: 'app-tupa-process-tab',
   templateUrl: './tupa-process-tab.component.html',
   standalone: true,
-  imports: [NgIf, ConfirmComponent],
+  imports: [NgIf, ConfirmComponent, ContentLoadingComponent],
 })
 export class TupaProcessTabComponent {
   @Input()
   public title: string = '';
+
+  @Input()
+  public finishedLoading = false;
+
+  @Input()
+  public cancelLoading = false;
 
   @Input()
   public expediente?: ExpedienteEntityInterface;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
@@ -7,4 +7,7 @@ import { LoadingComponent } from '../loading/loading.component';
   templateUrl: './content-loading.component.html',
   imports: [LoadingComponent],
 })
-export class ContentLoadingComponent {}
+export class ContentLoadingComponent {
+  @Input()
+  public title = 'Procesando...';
+}

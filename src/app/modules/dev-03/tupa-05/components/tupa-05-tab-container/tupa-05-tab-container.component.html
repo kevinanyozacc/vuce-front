@@ -3,22 +3,36 @@
   [expediente]="expediente"
   [canAction]="processService.getCanAction()"
   [status]="processService.getStatus()"
+  [finishedLoading]="processService.bpmCompleteLoading()"
+  [cancelLoading]="processService.bpmCancelLoading()"
   (eventSave)="onSave()"
   (eventFinished)="onFinished()"
   (eventCancel)="onCancel()" />
-<app-tupa-header-tab [tabs]="processService.getTabs()" (eventSelected)="processService.selectTab($event)" />
+<app-tupa-header-tab
+  [tabs]="processService.getTabs()"
+  (eventSelected)="processService.selectTab($event)" />
 <div class="w-full rounded-lg bg-background p-6">
-  <app-tupa-request-tab *ngIf="processService.isActiveCurrentTab('PARTE_I')" [requestService]="requestService" />
+  <app-tupa-request-tab
+    *ngIf="processService.isActiveCurrentTab('PARTE_I')"
+    [requestService]="requestService" />
   <app-tupa-establishment-tab
     *ngIf="processService.isActiveCurrentTab('PARTE_II')"
     [establishmentService]="establishmentService" />
-  <app-tupa-05-final *ngIf="processService.isActiveCurrentTab('PARTE_III')" [detailService]="detailService" />
+  <app-tupa-05-final
+    *ngIf="processService.isActiveCurrentTab('PARTE_III')"
+    [detailService]="detailService" />
   <app-tupa-05-mercancia-pecuaria
     *ngIf="processService.isActiveCurrentTab('PARTE_IV')"
     [productService]="productService" />
-  <app-tupa-payment-tab *ngIf="processService.isActiveCurrentTab('PARTE_V')" [paymentService]="paymentService" />
-  <app-tupa-expediente-tab *ngIf="processService.isActiveCurrentTab('PARTE_VI')" [expediente]="expediente" />
+  <app-tupa-payment-tab
+    *ngIf="processService.isActiveCurrentTab('PARTE_V')"
+    [paymentService]="paymentService" />
+  <app-tupa-expediente-tab
+    *ngIf="processService.isActiveCurrentTab('PARTE_VI')"
+    [expediente]="expediente" />
 </div>
 <!-- loading -->
 <app-content-loading
-  *ngIf="expedienteCreate.getLoading() || expedienteFind.getLoading() || expedienteEdit.getLoading()" />
+  *ngIf="
+    expedienteCreate.getLoading() || expedienteFind.getLoading() || expedienteEdit.getLoading()
+  " />
