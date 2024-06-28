@@ -29,6 +29,7 @@ export class RedirectTokenComponent implements OnInit {
   public validate() {
     const token = this.activeService.snapshot.queryParams['token'];
     const taskId = this.activeService.snapshot.queryParams['taskid'];
+    const redirect = this.activeService.snapshot.queryParams['redirect'];
     // validar token/taskId
     if (!taskId || !token) return this.routeService.navigate(['/errors/403']);
     // obtner user bpm
@@ -39,7 +40,7 @@ export class RedirectTokenComponent implements OnInit {
           .then((auth) => {
             this.bpmLoginService.signIn({ token, taskId });
             this.loginService.signIn(auth);
-            this.routeService.navigate(['/dashboard']);
+            this.routeService.navigate([redirect || '/dashboard']);
           })
           .catch(() => this.routeService.navigate(['/errors/403']));
       },
