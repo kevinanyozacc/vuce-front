@@ -140,7 +140,6 @@ export class Tupa05TabContainerComponent implements OnInit {
   }
 
   public onSave() {
-    // validar expediente
     if (!!this.expediente) {
       this.expedienteEdit
         .api(this.expediente.id, this.getPayload())

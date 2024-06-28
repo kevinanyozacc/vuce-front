@@ -1,0 +1,31 @@
+export interface BpmEntityInterface {
+  numeroSolicitud: string;
+  numeroExpediente: string;
+  estadoSolicitud: string;
+  estadoExpediente: string;
+  codigoSede: string;
+  codigoCentroTramite: string;
+  codigoProcedimiento: string;
+  codigoClase: string;
+  flagRequiereInspeccion: boolean;
+  flagModificacionCertificado: boolean;
+  canal: number;
+  usuarioMesaPartes: string;
+  usuarioResponsable: string;
+  codigoRecibo: string;
+  codigostddoc: string;
+  descripcionservicio: string;
+  nombreResponsable: string;
+  secuencial: number;
+  plazo: string;
+  areaRemitente: string;
+  subAreaRemitente: string;
+  usuarioDestinatario: string;
+  nombreDestinatario: string;
+  areaDestinatario: string;
+  subAreaDestinatario: string;
+  observaciones: string;
+  ucmidDerivacion: string;
+  cfeUcmId: string;
+  cfeNombre: string;
+}

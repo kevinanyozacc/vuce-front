@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout.component';
-import { authBpmGuard } from 'src/app/core/auth/guards/auth-bpm.guard';
+import { AuthModule } from '../auth/auth.module';
+import { BpmModule } from 'src/app/core/bpm/bpm.module';
+import { bpmHttpGuard } from 'src/app/core/bpm/guards/bpm-http.guard';
+import { authHttpGuard } from 'src/app/core/auth/guards/auth-http.guard';
 
 const routes: Routes = [
   {
     path: 'dashboard',
     component: LayoutComponent,
-    canActivate: [authBpmGuard],
+    canActivate: [bpmHttpGuard, authHttpGuard],
     loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -15,7 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), AuthModule, BpmModule],
   exports: [RouterModule],
 })
 export class LayoutRoutingModule {}
