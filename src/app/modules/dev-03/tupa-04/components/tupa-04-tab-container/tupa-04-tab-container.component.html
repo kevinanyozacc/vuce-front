@@ -1,27 +1,3 @@
-<!-- <app-tupa-header-tab [tabs]="this.tabs" (eventSelected)="this.onSelect($event)" />
-<div class="w-full rounded-lg bg-background p-6"> -->
-<!-- <app-tupa-request-tab
-    *ngIf="this.currentTabKey === tabs[0].id"
-    [person]="person"
-    [representante]="representante"
-    (eventPerson)="selectPerson($event)"
-    (eventRepresentante)="selectRepresentante($event)" />
-  <app-tupa-establishment-tab
-    *ngIf="this.currentTabKey === tabs[1].id"
-    [establishment]="establishment"
-    [technical]="technical"
-    (eventEstablishment)="selectEstablishment($event)"
-    (eventTechnical)="selectTechnical($event)" />
-  <app-tupa-04-recinto *ngIf="this.currentTabKey === tabs[2].id" [recinto]="recinto" />
-  <app-tupa-04-info-animal *ngIf="this.currentTabKey === tabs[3].id" [cuarentenas]="cuarentenas" />
-   <app-tupa-payment-tab
-    *ngIf="this.currentTabKey === tabs[4].id"
-    [person]="personPayment"
-    [payments]="payments"
-    (eventPerson)="selectPersonPayment($event)" /> -->
-<!-- <app-tupa-expediente-tab />
-</div> -->
-
 <app-tupa-process-tab
   [title]="title"
   [expediente]="expediente"
@@ -56,7 +32,7 @@
     [expediente]="expediente" />
 </div>
 <!-- loading create -->
-<app-content-loading title="Guardando..." *ngIf="expedienteCreate.getLoading()" />
+<app-content-loading *ngIf="expedienteCreate.getLoading()" />
 <!-- loading edit -->
 <app-content-loading title="Actualizando..." *ngIf="expedienteEdit.getLoading()" />
 <!-- loading get expediente -->

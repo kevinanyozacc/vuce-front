@@ -110,6 +110,4 @@ export class TupaPaymentTabComponent implements OnInit {
     this.paymentService.addPayment(payload);
     this.closePayment();
   }
-
-  editPayment() {}
 }
