@@ -10,12 +10,21 @@ import { ProcedureInfoService } from '../../procedure/services/procedure-info.se
 
 @Injectable()
 export class ExpedienteStorageService {
+  private prefix = 'expediente';
   public requestService = inject(TupaRequestService);
   public establishmentService = inject(TupaEstablishmentService);
   public detailService = inject(TupaDetailService);
   public productService = inject(TupaProductService);
   public paymentService = inject(TupaPaymentService);
   public procedureService = inject(ProcedureInfoService);
+
+  public setPrefix(value: string) {
+    this.prefix = value;
+  }
+
+  public getPrefix() {
+    return this.prefix;
+  }
 
   public set(procedureId: string, tmpExpediente: ExpedienteSaveResponseInterface) {
     const payload = {
@@ -34,17 +43,17 @@ export class ExpedienteStorageService {
     };
     // save localstorage
     const data = JSON.stringify(payload || null);
-    localStorage.setItem(`expediente-${procedureId}`, data);
+    localStorage.setItem(`${this.prefix}-${procedureId}`, data);
   }
 
   public get(procedureId: string): ExpedienteStorageInterface | undefined {
-    const tmpData = localStorage.getItem(`expediente-${procedureId}`);
+    const tmpData = localStorage.getItem(`${this.prefix}-${procedureId}`);
     if (!tmpData) return undefined;
     return JSON.parse(tmpData || 'undefined');
   }
 
   public remove(procedureId: string) {
-    localStorage.removeItem(`expediente-${procedureId}`);
+    localStorage.removeItem(`${this.prefix}-${procedureId}`);
   }
 
   public settingCache(procedureId: string) {

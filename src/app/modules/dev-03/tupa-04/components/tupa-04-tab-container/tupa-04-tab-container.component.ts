@@ -80,6 +80,7 @@ export class Tupa04TabContainerComponent implements OnInit {
   public storageService = inject(ExpedienteStorageService);
 
   ngOnInit(): void {
+    this.storageService.setPrefix('tupa-c4');
     // add tabs
     this.processService.setTabs(tupaTabData);
     // add sede

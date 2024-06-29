@@ -19,9 +19,7 @@ export class Tupa04RecintoComponent implements OnInit {
   public createForm = new FormGroup({
     type: new FormControl('IMP', Validators.required),
     numberPSI: new FormControl('', Validators.required),
-    countrySourceId: new FormControl('', Validators.required),
     countryTargetId: new FormControl('', Validators.required),
-    place: new FormControl(''),
   });
 
   ngOnInit(): void {
@@ -30,9 +28,7 @@ export class Tupa04RecintoComponent implements OnInit {
       if (!data) return;
       this.createForm.controls.type.setValue(data?.type || 'IMP');
       this.createForm.controls.numberPSI.setValue(data.numberPSI || '');
-      this.createForm.controls.countrySourceId.setValue(data?.countrySourceId || '');
       this.createForm.controls.countryTargetId.setValue(data?.countryTargetId || '');
-      this.createForm.controls.place.setValue(data?.place || '');
     });
     // add form
     this.createForm.statusChanges.subscribe((data) => {
